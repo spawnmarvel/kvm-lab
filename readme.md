@@ -312,3 +312,7 @@ Log out of Ubuntu and log back in (or reboot the host machine)
 ```bash
 sudo reboot
 ``` 
+
+After rebooting, launch Virtual Machine Manager from your desktop app menu or by typing virt-manager in any terminal—it will connect to qemu:///system without errors.
+
+
