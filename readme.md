@@ -7,6 +7,8 @@
   - [Kernel Virtual Machine](#kernel-virtual-machine)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
   - [Lab Setup Strategy for AZ-800 \& AZ-801](#lab-setup-strategy-for-az-800--az-801)
+  - [Ubuntu 2004 setup done](#ubuntu-2604-setup-done)
+
 -
 ## Kernel Virtual Machine
 
@@ -47,7 +49,7 @@ We just need to satisfy AZ-800 & AZ-801.
 
 ![rufus](https://github.com/spawnmarvel/kvm-lab/blob/main/images/rufus.png)
 
-### Ubuntu 26.04 setup done
+### Ubuntu 26.04 setup
 
 ```bash
 hostnamectl
@@ -129,6 +131,53 @@ Vendor ID:                   GenuineIntel
 
 ```
 
+#### Step 1: Format and Mount the 500GB HDD (/dev/sda)
 
 
+```bash
+# Create a new GPT label and format /dev/sda into a single ext4 partition:
+sudo parted -s /dev/sda mklabel gpt
+sudo parted -s /dev/sda mkpart primary ext4 0% 100%
+sudo mkfs.ext4 -F /dev/sda1
+``` 
+
+Create the target folder and retrieve the volume's UUID:
+
+```bash
+sudo mkdir -p /mnt/datadrive1
+DISK_UUID=$(sudo blkid -s UUID -o value /dev/sda1)
+echo "Retrieved UUID: $DISK_UUID"
+
+```
+Retrieved UUID: c7a67a1a-d67a-4fdf-9497-00a1d79e0032
+
+
+Configure /etc/fstab and Mount the Drive
+
+
+```bash
+echo "UUID=c7a67a1a-d67a-4fdf-9497-00a1d79e0032 /mnt/datadrive1 ext4 defaults 0 2" | sudo tee -a /etc/fstab
+
+sudo mount -a
+
+systemctl daemon-reload
+
+# verify
+df -h /mnt/datadrive1
+``` 
+datadrive1
+
+```log
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1       458G  2.1M  435G   1% /mnt/datadrive1
+```
+
+By default, newly formatted drives mounted under /mnt are owned by root. Change the ownership to your user account espenk:
+
+```bash
+sudo chown -R espenk:espenk /mnt/datadrive1
+mkdir -p /mnt/datadrive1/vms /mnt/datadrive1/iso
+```
+
+#### Install KVM, Libvirt, and Virt-Manager
 
