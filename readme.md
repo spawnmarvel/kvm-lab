@@ -7,7 +7,7 @@
   - [Kernel Virtual Machine](#kernel-virtual-machine)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
   - [Lab Setup Strategy for AZ-800 \& AZ-801](#lab-setup-strategy-for-az-800--az-801)
-
+-
 ## Kernel Virtual Machine
 
 Linux KVM (Kernel-based Virtual Machine) is a built-in open-source feature that turns your Linux kernel into a high-performance hypervisor
@@ -17,16 +17,9 @@ https://linux-kvm.org/page/Main_Page
 KVM hypervisor enables full virtualisation capabilities. It provides each VM with all typical services of the physical system, including virtual BIOS (basic input/output system) and virtual hardware, such as processor, memory, storage, network cards, etc. As a result, every VM completely simulates a physical machine.
 
 
-![tolplogy](https://github.com/spawnmarvel/todo-and-current/blob/main/bash_linux_kvm_hypervisor/images/topology.jpg)
+![tolplogy](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology.jpg)
 
 ## KVM hypervisor a beginners’ guide
-
-Start by grabbing a fresh physical or virtual machine (yes, you can do nested virtualisation) with 
-
-* 4+ core amd64 CPU
-* 16 GB of RAM
-* 50 GB of storage 
-* and the latest Ubuntu Server LTS installed
 
 Read and compare with gemini chat KVM AZ-800 & AZ-801 https://ubuntu.com/blog/kvm-hyphervisor
 
@@ -37,9 +30,11 @@ We just need to satisfy AZ-800 & AZ-801.
 * HV01 (Hyper-V Host for AZ-801 Labs): Windows Server 2022 with Hyper-V role enabled via nested virtualization (4–6 GB RAM).
 * Host OS (Ubuntu): Leaves ~5–7 GB RAM for Ubuntu and management tools (Azure CLI, PowerShell Core, Windows Admin Center via browser).
 
-## Lab Setup Strategy for AZ-800 & AZ-801
+## Lab Setup Strategy
 
-* Old laptop with 2 ram slots each 8gb ddr3 ram.
+* HP ProDesk 600 G3 SFF i7 6.gen
+* 16 GB Ram (DDR4)
+* 256 GB SSD, 500 GB HDD
 * Image ubuntu-26.04.1-desktop-amd64
 * Rufus
 * Scandisk USB stick
@@ -50,4 +45,90 @@ We just need to satisfy AZ-800 & AZ-801.
 3. choose GPT / UEFI (non CSM), and click START
 4. Boot Laptop from USB: Restart your laptop, press your device’s boot menu key (typically F12, F11, or Del), select the USB drive, and begin installing Ubuntu.
 
-![rufus](https://github.com/spawnmarvel/todo-and-current/blob/main/bash_linux_kvm_hypervisor/images/rufus.png)
+![rufus](https://github.com/spawnmarvel/kvm-lab/blob/main/images/rufus.png)
+
+### Ubuntu 26.04 setup done
+
+```bash
+hostnamectl
+``` 
+
+Result:
+
+```log
+Static hostname: kvm-host-HP-ProDesk-600-G3-SFF
+        Icon name: computer-desktop
+          Chassis: desktop 🖥️
+Chassis Asset Tag: CZC8417B8V
+       Machine ID: 65b6409fa9c54edb8e83bbadbaf03a8e
+          Boot ID: e7787f400fee49d19c6671e35227d827
+ Operating System: Ubuntu 26.04.1 LTS              
+           Kernel: Linux 7.0.0-38-generic
+     Architecture: x86-64
+  Hardware Vendor: HP
+   Hardware Model: HP ProDesk 600 G3 SFF
+     Hardware SKU: Y3F34AV
+ Hardware Version: KBC Version 06.29
+ Firmware Version: P07 Ver. 02.51
+    Firmware Date: Thu 2024-07-18
+     Firmware Age: 2y 2month 2w 2d    
+```
+
+```bash
+# get ram
+free -h
+cat /proc/meminfo | grep MemTotal
+
+# get disk
+lsblk
+
+# get cpu
+lscpu
+``` 
+
+Result:
+
+```log
+MemTotal:       15718592 kB
+
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0         7:0    0     4K  1 loop /snap/bare/5
+loop1         7:1    0  66.8M  1 loop /snap/core24/1643
+loop2         7:2    0    20M  1 loop /snap/desktop-security-center/151
+loop3         7:3    0 260.3M  1 loop /snap/firefox/8763
+loop4         7:4    0  16.5M  1 loop /snap/firmware-updater/226
+loop5         7:5    0  91.7M  1 loop /snap/gtk-common-themes/1535
+loop6         7:6    0 614.5M  1 loop /snap/gnome-46-2404/164
+loop7         7:7    0   1.5M  1 loop /snap/hwctl/123
+loop8         7:8    0   402M  1 loop /snap/mesa-2404/1839
+loop9         7:9    0  18.8M  1 loop /snap/prompting-client/222
+loop10        7:10   0  50.1M  1 loop /snap/snapd/27710
+loop11        7:11   0  11.8M  1 loop /snap/snap-store/1390
+loop12        7:12   0   828K  1 loop /snap/snapd-desktop-integration/391
+sda           8:0    0 465.8G  0 disk 
+├─sda1        8:1    0    16M  0 part 
+└─sda2        8:2    0 465.7G  0 part 
+nvme0n1     259:0    0 238.5G  0 disk 
+├─nvme0n1p1 259:1    0     1G  0 part /boot/efi
+└─nvme0n1p2 259:2    0 237.4G  0 part /
+
+
+Architecture:                x86_64
+  CPU op-mode(s):            32-bit, 64-bit
+  Address sizes:             39 bits physical, 48 bits virtual
+  Byte Order:                Little Endian
+CPU(s):                      8
+  On-line CPU(s) list:       0-7
+Vendor ID:                   GenuineIntel
+  Model name:                Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+    CPU family:              6
+    Model:                   94
+    Thread(s) per core:      2
+    Core(s) per socket:      4
+    Socket(s):               1
+
+```
+
+
+
+
