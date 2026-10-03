@@ -11,7 +11,7 @@
   - [Step 2: Format and mount the 500gb hdd devsda](#step-2-format-and-mount-the-500gb-hdd-devsda)
   - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
   - [Overview & Milestone Achieved](#overview--milestone-achieved)
-
+  - [Download the Windows Server 2022 evaluation ISO directly to my new storage pool](#download-the-windows-server-2022-evaluation-iso-directly-to-my-new-storage-pool)
 
 ## Kernel Virtual Machine
 
@@ -322,3 +322,97 @@ Once virt-manager opens, you will see qemu:///system connected with datadrive1-p
 
 
 ![qemu storage](https://github.com/spawnmarvel/kvm-lab/blob/main/images/qemu_storage.png)
+
+## Download the Windows Server 2022 evaluation ISO directly to my new storage pool
+
+
+We will download the official Microsoft Windows Server 2022 64-bit Evaluation ISO directly into your ISO folder on /mnt/datadrive1/iso using wget.
+
+Once downloaded, we will refresh datadrive1-pool so virt-manager instantly recognizes the ISO file for VM deployments.
+
+
+Download the official 64-bit English evaluation ISO directly from Microsoft (~4.7 GB):
+
+
+Visit and register.
+
+https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2022
+
+Please select your Windows Server 2022 download
+
+* ISO downloads 64 bit edition > SERVER_EVA_x64FRE_en-us.iso 4.7 GB
+
+
+```bash
+
+# Delete all contents inside the iso folder if any
+sudo rm -rf /mnt/datadrive1/iso/*
+
+# Ensure directory permissions are clean for espenk
+sudo chown -R espenk:espenk /mnt/datadrive1
+chmod 755 /mnt/datadrive1
+
+cd Downloads
+
+cp SERVER_EVAL_x64FRE_en-us.iso /mnt/datadrive1/iso/SERVER_EVAL_x64FRE_en-us.iso
+
+cd /mnt/datadrive1
+
+ls
+# SERVER_EVAL_x64FRE_en-us.iso
+
+# Ensure proper permissions
+chmod 644 SERVER_EVAL_x64FRE_en-us.iso
+
+# It should show a file size of approximately 4.7 GB.
+ls -lh /mnt/datadrive1/SERVER_EVAL_x64FRE_en-us.iso 
+
+# Refresh libvirt storage pool
+virsh pool-refresh datadrive1-pool
+virsh vol-list datadrive1-pool
+
+
+```
+
+Log
+
+```log
+ Name                           Path
+------------------------------------------------------------------------------
+ iso                            /mnt/datadrive1/iso
+ lost+found                     /mnt/datadrive1/lost+found
+ SERVER_EVAL_x64FRE_en-us.iso   /mnt/datadrive1/SERVER_EVAL_x64FRE_en-us.iso
+ vms                            /mnt/datadrive1/vms
+
+
+``` 
+
+With the storage layer validated, the next step is to create the dedicated virtual network switch for the AZ-800 lab and deploy the first Windows Server 2022 virtual machine (DC01).
+
+
+## Step 1: Create Dedicated Virtual Network (az800-lab)
+
+
+Define a dedicated virtual network (az800-lab) on subnet 192.168.100.0/24. This gives your Active Directory Domain Controller and subsequent lab VMs an isolated communication channel with outbound NAT access.
+
+```bash
+
+cat << 'EOF' > ~/az800-lab-network.xml
+<network>
+  <name>az800-lab</name>
+  <forward mode='nat'/>
+  <bridge name='virbr1' stp='on' delay='0'/>
+  <ip address='192.168.100.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.100.100' end='192.168.100.200'/>
+    </dhcp>
+  </ip>
+</network>
+EOF
+```
+
+Or in GUI.
+
+
+![vnet](https://github.com/spawnmarvel/kvm-lab/blob/main/images/vnet.png)
+
