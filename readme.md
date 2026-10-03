@@ -12,6 +12,9 @@
   - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
   - [Overview & Milestone Achieved](#overview--milestone-achieved)
   - [Download the Windows Server 2022 evaluation ISO directly to my new storage pool](#download-the-windows-server-2022-evaluation-iso-directly-to-my-new-storage-pool)
+  - [Step 1: Create Dedicated Virtual Network (az800-lab)](#step-1-create-dedicated-virtual-network-az800-lab)
+  - [Toplogy](#toplogy)
+  - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
 
@@ -422,4 +425,108 @@ Or in GUI.
 
 
 ![vnet active](https://github.com/spawnmarvel/kvm-lab/blob/main/images/vnet_active.png)
+
+
+```bash
+virsh net-list --all
+``` 
+
+Log
+
+```log
+ Name        State    Autostart   Persistent
+----------------------------------------------
+ az800-lab   active   yes         yes
+ default     active   yes         yes
+```
+
+To quickly view the bridge name and basic network details:
+
+```bash
+virsh net-info az800-lab
+``` 
+
+To print the full XML configuration showing the exact gateway IP (192.168.100.1) and DHCP pool range (.100 to .200):
+
+```bash
+virsh net-dumpxml az800-lab | grep -A 5 "<ip"
+``` 
+
+Or get xml from GUI
+
+```xml
+<network>
+  <name>az800-lab</name>
+  <uuid>371919da-e36b-486b-aaa5-3e9064562c9a</uuid>
+  <forward mode="nat">
+    <nat>
+      <port start="1024" end="65535"/>
+    </nat>
+  </forward>
+  <bridge name="virbr1" stp="on" delay="0"/>
+  <mac address="52:54:00:17:15:e4"/>
+  <domain name="az800-lab"/>
+  <ip address="192.168.100.1" netmask="255.255.255.0">
+    <dhcp>
+      <range start="192.168.100.100" end="192.168.100.200"/>
+    </dhcp>
+  </ip>
+</network>
+
+``` 
+
+* Name, az800lab
+* uuid, A unique identifier generated automatically by libvirt to track this network internally.
+* <forward mode="nat">, Network Address Translation. Gives your VMs internet access through your host's physical network adapter, while keeping the VMs hidden from the rest of your physical home network.
+* <nat><port .../></nat>, Defines the standard unprivileged port range the host uses to translate outgoing traffic for the VMs.
+* <bridge name="virbr1">, The virtual network bridge created inside Linux. stp="on" prevents network loops, and delay="0" ensures virtual switch ports forward packets instantly on boot.
+* <mac address="...">, The virtual MAC address assigned to the host gateway interface (virbr1).
+* <domain name="...">, Sets the local DNS search domain suffix assigned to VMs connected to this virtual switch.
+* <ip address="..." netmask="...">, Host Gateway IP. Your Ubuntu host acts as the router/gateway for this private subnet (192.168.100.0/24). VMs will use 192.168.100.1 as their Default Gateway.
+
+
+192.168.100.0/24
+
+* Total IP addresses: $2^8 = 256
+* Network Address: 192.168.100.0 (Reserved)Broadcast Address: 192.168.100.255 (Reserved)
+* Host Gateway IP: 192.168.100.1 (Assigned to your Ubuntu host bridge virbr1)
+
+This leaves 253 usable IP addresses (192.168.100.2 through 192.168.100.254).
+
+### Toplogy
+
+```txt
++---------------------------------------------------------------------------------+
+|                         PHYSICAL HOST (Ubuntu 24.04 LTS)                        |
+|                         HP ProDesk 600 G3 SFF                                   |
+|                                                                                 |
+|  [ Physical NIC ] <---> Home Network / Router <---> Internet                    |
+|          |                                                                      |
+|  [ /mnt/datadrive1 ] (500GB HDD Storage Pool: datadrive1-pool)                  |
+|          ├── SERVER_EVAL_x64FRE_en-us.iso (Windows Server 2022 ISO - 4.7 GB)     |
+|          └── vms/ (Storage location for .qcow2 virtual disks)                   |
+|                                                                                 |
+|  [ Virtual Bridge Interface: virbr1 ]                                           |
+|          ├── IP Address: 192.168.100.1 /24 (Gateway / Router)                   |
+|          ├── NAT Engine: Forwards outgoing traffic through Physical NIC          |
+|          └── DHCP Service: Active (.100 to .200 pool)                            |
++---------------------------------------------------------------------------------+
+                                       |
+                                       | (Virtual Network Switch: az800-lab)
+                                       v
+===================================================================================
+                    VIRTUAL NETWORK SUBNET: 192.168.100.0/24
+===================================================================================
+                                       |
+                   +-------------------+-------------------+
+                   | (Planned Deployment)                  | (Future Additions)
+                   v                                       v
+         +-------------------+                   +-------------------+
+         | DC01 (Windows)    |                   | Member Servers    |
+         | Target IP:        |                   | (FS01, SVR02,     |
+         | 192.168.100.10/24 |                   |  Admin Workstation)
+         +-------------------+                   +-------------------+
+``` 
+
+## Step-by-Step GUI Creation Guide for DC01
 
