@@ -530,3 +530,6 @@ This leaves 253 usable IP addresses (192.168.100.2 through 192.168.100.254).
 
 ## Step-by-Step GUI Creation Guide for DC01
 
+DC01 is the standard default hostname for a primary Active Directory (AD) domain controller in Windows Server environments. It runs Active Directory Domain Services (AD DS) and DNS to manage user authentication, group policies, and domain security.
+
+
