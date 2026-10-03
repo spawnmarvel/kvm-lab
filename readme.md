@@ -300,3 +300,4 @@ Your libvirt storage pool datadrive1-pool is now fully defined, started, and set
 
 With KVM installed and /mnt/datadrive1 active as a storage pool, you can launch virt-manager at any time to visually monitor and control your VMs.
 
+![virtual manager](https://github.com/spawnmarvel/kvm-lab/blob/main/images/virt_manager.png)
