@@ -221,3 +221,82 @@ pwm1:             N/A
 
 ### Step 3: Install KVM, Libvirt, and Virt-Manager
 
+
+* We will install the KVM hypervisor stack (qemu-kvm, libvirt, virt-manager)
+* Add your user (espenk) to the appropriate system groups so you don't need sudo for virtual machine operations, 
+* Then define /mnt/datadrive1 as an active storage pool in libvirt.
+
+
+***Install Hypervisor & Tools***
+
+Update package repositories and install the KVM engine, libvirt daemon, network tools, and Virt-Manager GUI:
+
+```bash
+sudo apt update
+
+# In newer Ubuntu releases, qemu-kvm is a transitional 
+# virtual package replaced by qemu-system-x86
+
+sudo apt install -y qemu-system-x86 libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+```
+
+***Configure User Groups & Enable Service***
+
+
+```bash
+# Add your user account espenk to the libvirt
+# and kvm groups and enable the service:
+sudo usermod -aG libvirt,kvm espenk
+
+sudo systemctl enable --now libvirtd
+
+# verify libvrtd
+sudo systemctl status libvirtd
+
+``` 
+
+Log
+
+```log
+ libvirtd.service - libvirt legacy monolithic daemon
+     Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-10-03 22:10:42 CEST; 45s ago
+```
+
+***Define Storage Pool on 500GB HDD***
+
+```bash
+# Reload your group permissions using su:
+su - $USER
+
+virsh pool-define-as datadrive1-pool dir --target /mnt/datadrive1
+# Pool datadrive1-pool defined
+
+
+virsh pool-build datadrive1-pool
+# Pool datadrive1-pool built
+
+virsh pool-start datadrive1-pool
+# Pool datadrive1-pool started
+
+virsh pool-autostart datadrive1-pool
+# Pool datadrive1-pool marked as autostarted
+
+# Check active libvirt storage pools:
+virsh pool-list --all
+```
+
+Log
+
+```log
+ Name              State    Autostart
+---------------------------------------
+ datadrive1-pool   active   yes
+```
+
+### Overview & Milestone Achieved
+
+Your libvirt storage pool datadrive1-pool is now fully defined, started, and set to autostart! This completes the host setup on your HP ProDesk 600 G3 SFF.
+
+With KVM installed and /mnt/datadrive1 active as a storage pool, you can launch virt-manager at any time to visually monitor and control your VMs.
+
