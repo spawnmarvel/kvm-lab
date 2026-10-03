@@ -42,10 +42,18 @@ We just need to satisfy AZ-800 & AZ-801.
 
 * HP ProDesk 600 G3 SFF i7 6.gen
 * 16 GB Ram (DDR4)
+* Slot Count:  4 memory slots on the motherboard
+* Maximum Capacity: Up to 64 GB total, 16 GB each, you can mix 4, 8, 16
 * 256 GB SSD, 500 GB HDD
 * Image ubuntu-26.04.1-desktop-amd64
 * Rufus
 * Scandisk USB stick
+
+
+The HP ProDesk 600 G3 SFF with a 6th-generation Intel Core i7 processor (specifically the i7-6700) is highly capable and well-suited for KVM (Kernel-based Virtual Machine) hypervisors like Proxmox VE, Ubuntu Server, or pure QEMU/KVM.
+
+While it features older hardware, it serves as an excellent, budget-friendly machine for a home lab or lightweight virtualization server.
+
 
 
 1. Insert a USB Flash Drive: Connect a USB drive (at least 8 GB) to your laptop. Note that flashing will erase all existing data on the flash drive.
