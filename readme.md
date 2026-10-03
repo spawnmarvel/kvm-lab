@@ -14,6 +14,7 @@
   - [Download the Windows Server 2022 evaluation ISO directly to my new storage pool](#download-the-windows-server-2022-evaluation-iso-directly-to-my-new-storage-pool)
   - [Step 1: Create Dedicated Virtual Network (az800-lab)](#step-1-create-dedicated-virtual-network-az800-lab)
   - [Toplogy](#toplogy)
+  - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -541,6 +542,11 @@ This leaves 253 usable IP addresses (192.168.100.2 through 192.168.100.254).
          | 192.168.100.10/24 |                   |  Admin Workstation)
          +-------------------+                   +-------------------+
 ``` 
+
+
+## Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure
+
+https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-800
 
 ## Step-by-Step GUI Creation Guide for DC01
 
