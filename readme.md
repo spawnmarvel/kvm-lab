@@ -319,3 +319,6 @@ After rebooting, launch Virtual Machine Manager from your desktop app menu or by
 ![qemu](https://github.com/spawnmarvel/kvm-lab/blob/main/images/qemu.png)
 
 Once virt-manager opens, you will see qemu:///system connected with datadrive1-pool ready under Edit -> Connection Details -> Storage!
+
+
+![qemu storage](https://github.com/spawnmarvel/kvm-lab/blob/main/images/qemu_storage.png)
