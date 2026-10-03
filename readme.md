@@ -316,3 +316,4 @@ sudo reboot
 After rebooting, launch Virtual Machine Manager from your desktop app menu or by typing virt-manager in any terminal—it will connect to qemu:///system without errors.
 
 
+![qemu](https://github.com/spawnmarvel/kvm-lab/blob/main/images/qemu.png)
