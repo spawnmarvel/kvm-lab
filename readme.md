@@ -56,6 +56,12 @@ While it features older hardware, it serves as an excellent, budget-friendly mac
 
 
 
+Front
+![hp](https://github.com/spawnmarvel/kvm-lab/blob/main/images/hp.png)
+
+Back
+![hp back](https://github.com/spawnmarvel/kvm-lab/blob/main/images/hp_back.png)
+
 1. Insert a USB Flash Drive: Connect a USB drive (at least 8 GB) to your laptop. Note that flashing will erase all existing data on the flash drive.
 2. Open Rufus (if on Windows), select the downloaded ubuntu-26.04.1-desktop-amd64.iso, 
 3. choose GPT / UEFI (non CSM), and click START
