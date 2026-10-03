@@ -7,8 +7,9 @@
   - [Kernel Virtual Machine](#kernel-virtual-machine)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
   - [Lab Setup Strategy for AZ-800 \& AZ-801](#lab-setup-strategy-for-az-800--az-801)
-  - [Ubuntu 2004 setup done](#ubuntu-2604-setup-done)
-
+  - [Step 1: Ubuntu 2604 setup](#step-1-ubuntu-2604-setup)
+  - [Step 2: Format and mount the 500gb hdd devsda](#step-2-format-and-mount-the-500gb-hdd-devsda)
+  - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
 -
 ## Kernel Virtual Machine
 
@@ -49,7 +50,7 @@ We just need to satisfy AZ-800 & AZ-801.
 
 ![rufus](https://github.com/spawnmarvel/kvm-lab/blob/main/images/rufus.png)
 
-### Ubuntu 26.04 setup
+### Step 1: Ubuntu 26.04 setup
 
 ```bash
 hostnamectl
@@ -131,7 +132,7 @@ Vendor ID:                   GenuineIntel
 
 ```
 
-#### Step 1: Format and Mount the 500GB HDD (/dev/sda)
+### Step 2: Format and Mount the 500GB HDD (/dev/sda)
 
 
 ```bash
@@ -218,5 +219,5 @@ pwm1:             N/A
 
 ``` 
 
-#### Install KVM, Libvirt, and Virt-Manager
+### Step 3: Install KVM, Libvirt, and Virt-Manager
 
