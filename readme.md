@@ -11,7 +11,8 @@
   - [Step 2: Format and mount the 500gb hdd devsda](#step-2-format-and-mount-the-500gb-hdd-devsda)
   - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
   - [Overview & Milestone Achieved](#overview--milestone-achieved)
--
+
+
 ## Kernel Virtual Machine
 
 Linux KVM (Kernel-based Virtual Machine) is a built-in open-source feature that turns your Linux kernel into a high-performance hypervisor
@@ -302,3 +303,12 @@ Your libvirt storage pool datadrive1-pool is now fully defined, started, and set
 With KVM installed and /mnt/datadrive1 active as a storage pool, you can launch virt-manager at any time to visually monitor and control your VMs.
 
 ![virtual manager](https://github.com/spawnmarvel/kvm-lab/blob/main/images/virt_manager.png)
+
+
+To permanently grant virt-manager access across all desktop applications and menus:
+
+Log out of Ubuntu and log back in (or reboot the host machine)
+
+```bash
+sudo reboot
+``` 
