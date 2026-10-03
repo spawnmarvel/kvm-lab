@@ -179,5 +179,44 @@ sudo chown -R espenk:espenk /mnt/datadrive1
 mkdir -p /mnt/datadrive1/vms /mnt/datadrive1/iso
 ```
 
+Check heat
+
+```bash
+sudo apt install lm-sensors
+
+sudo sensors-detect
+
+sensors
+
+```
+
+Result
+
+```log
+radeon-pci-0100
+Adapter: PCI adapter
+temp1:        +46.0°C  (crit = +120.0°C, hyst = +90.0°C)
+freq1:        875 MHz 
+
+nvme-pci-0200
+Adapter: PCI adapter
+Composite:    +26.9°C  (low  = -20.1°C, high = +77.8°C)
+                       (crit = +81.8°C)
+Sensor 1:     +26.9°C  (low  = -273.1°C, high = +65261.8°C)
+
+coretemp-isa-0000
+Adapter: ISA adapter
+Package id 0:  +33.0°C  (high = +84.0°C, crit = +100.0°C)
+Core 0:        +30.0°C  (high = +84.0°C, crit = +100.0°C)
+Core 1:        +30.0°C  (high = +84.0°C, crit = +100.0°C)
+Core 2:        +30.0°C  (high = +84.0°C, crit = +100.0°C)
+Core 3:        +29.0°C  (high = +84.0°C, crit = +100.0°C)
+
+hp-isa-0000
+Adapter: ISA adapter
+pwm1:             N/A
+
+``` 
+
 #### Install KVM, Libvirt, and Virt-Manager
 
