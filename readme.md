@@ -416,3 +416,10 @@ Or in GUI.
 
 ![vnet](https://github.com/spawnmarvel/kvm-lab/blob/main/images/vnet.png)
 
+1. Click the Finish (or Apply) button at the bottom right of the wizard window.
+2. Ensure the newly created az800-lab network is selected in the left list and click the green Play/Start button (if it isn't already active).
+3. Check the Autostart checkbox so the virtual switch turns on automatically when your Ubuntu host boots up.
+
+
+![vnet active](https://github.com/spawnmarvel/kvm-lab/blob/main/images/vnet_active.png)
+
