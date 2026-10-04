@@ -580,7 +580,7 @@ HP ProDesk 600 G3 SFF RAM, NVME, GPU, CPU Upgrade 2023
 2. Remove side with the power off button
 3. The unplug the two black and click here and lift like a car door that goes up
 
-![click](https://github.com/spawnmarvel/kvm-lab/blob/main/images/click.png)
+![click](https://github.com/spawnmarvel/kvm-lab/blob/main/images/click.jpg)
 
 All slots are full, from left
 
