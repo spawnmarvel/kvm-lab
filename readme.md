@@ -16,6 +16,7 @@
   - [Toplogy](#toplogy)
   - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [virsh commands](#virsh-commands)
+  - [Pre step make a Ubuntu 26.04](#pre-step-make-a-ubuntu-2604)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -553,6 +554,12 @@ https://learn.microsoft.com/en-us/credentials/certifications/resources/study-gui
 
 
 GOTO readme.virsh_bash.md
+
+
+## Pre step make a Ubuntu 26.04
+
+Just to get a feel for it.
+
 
 
 ## Step-by-Step GUI Creation Guide for DC01
