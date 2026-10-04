@@ -592,11 +592,15 @@ All slots are full, from left (this is before insert the last 4gb)
 ![ram](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ram.jpg)
 
 
-## Pre step make a Ubuntu 26.04
+## Get to know Virtual Machine Manager
 
-Just to get a feel for it.
+Lets get to know the Virtual Machine Manager GUI before we start to use only virsh commands
 
-
+1. Download ubuntu 26.04
+2. Make a vm
+3. Take a clean snap
+4. Make some files, install something, connect to internet
+5. Restore to the clean snap
 
 ## Step-by-Step GUI Creation Guide for DC01
 
