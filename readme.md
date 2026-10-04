@@ -66,7 +66,7 @@ bios
 
 Additionally, Hyperthreading and Multi-processor support are both enabled, allowing KVM/libvirt to utilize all 8 threads of your Core i7-7700
 
-![bios](https://github.com/spawnmarvel/kvm-lab/blob/main/images/bios.jpg)
+![bios](https://github.com/spawnmarvel/kvm-lab/blob/main/images/bios.png)
 
 
 Front
