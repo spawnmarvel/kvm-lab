@@ -2,16 +2,27 @@
 
 ## Table of content
 
+ - [virsh man](#virsh-man)
+ - [libvirt.org](#libvirtorg)
+ - [What we have used before we create the first vm](#what-we-have-used-before-we-create-the-first-vm)
+ - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
+ - [quick guide reference](#quick-guide-reference)
+
 
 ## virsh man
 
 ```bash
 
+# virsh - management user interface
 virsh --help
 
 man virsh
 
 ``` 
+
+## libvirt.org
+
+https://www.libvirt.org/manpages/virsh.html
 
 ## What we have used before we create the first vm
 
@@ -63,10 +74,12 @@ virsh list --all
 * https://www.redhat.com/en/blog/virsh-subcommands
 
 
-## The virsh program is the main interface for managing virsh guest domains.
+## quick guide reference
 
 ```bash
 
 ``` 
 
-* https://www.libvirt.org/manpages/virsh.html
+All references
+
+https://www.libvirt.org/manpages/virsh.html
