@@ -558,6 +558,38 @@ GOTO readme.virsh_bash.md
 
 ## Added 8 GB of DDR4 RAM
 
+```bash
+free -h
+
+```
+Log
+
+```log
+               total        used        free      shared  buff/cache   available
+Mem:            22Gi       1.2Gi        20Gi        75Mi       1.1Gi        21Gi
+Swap:          4.0Gi          0B       4.0Gi
+
+```   
+
+
+HP ProDesk 600 G3 SFF RAM, NVME, GPU, CPU Upgrade 2023
+
+* https://www.youtube.com/watch?v=-HbeV6Lbj6s&t=44s
+
+1. Remova main 
+2. Remove side with the power off button
+3. The unplug the two black and click here and lift like a car door that goes up
+
+![click](https://github.com/spawnmarvel/kvm-lab/blob/main/images/click.png)
+
+All slots are full, from left
+
+1. 4GB, price 150nok / finn.no
+2. 8GB
+3. 4GB, price 150nok / finn.no
+4. 8GB
+
+![ram](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ram.png)
 
 
 ## Pre step make a Ubuntu 26.04
