@@ -576,13 +576,13 @@ HP ProDesk 600 G3 SFF RAM, NVME, GPU, CPU Upgrade 2023
 
 * https://www.youtube.com/watch?v=-HbeV6Lbj6s&t=44s
 
-1. Remova main 
+1. Remove main 
 2. Remove side with the power off button
 3. The unplug the two black and click here and lift like a car door that goes up
 
 ![click](https://github.com/spawnmarvel/kvm-lab/blob/main/images/click.jpg)
 
-All slots are full, from left
+All slots are full, from left (this is before insert the last 4gb)
 
 1. 4GB, price 150nok / finn.no
 2. 8GB
