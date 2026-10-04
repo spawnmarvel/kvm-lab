@@ -18,7 +18,7 @@
   - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [virsh commands](#virsh-commands)
   - [Added 8 GB of DDR4 RAM](#added-8-gb-of-ddr4-ram)
-  - [Pre step make a Ubuntu 26.04](#pre-step-make-a-ubuntu-2604)
+  - [Get to know Virtual Machine Manager](#get-to-know-virtual-machine-manager)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
