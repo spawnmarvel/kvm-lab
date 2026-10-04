@@ -5,6 +5,7 @@
 - [](#)
   - [Table of content](#table-of-content)
   - [Kernel Virtual Machine](#kernel-virtual-machine)
+  - [What is hypervisor?](#what-is-hypervisor)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
   - [Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen](#lab-setup-strategy-hp-prodesk-600-g3-sff-i7-6gen)
   - [Step 1: Ubuntu 2604 setup](#step-1-ubuntu-2604-setup)
@@ -25,6 +26,10 @@
 Linux KVM (Kernel-based Virtual Machine) is a built-in open-source feature that turns your Linux kernel into a high-performance hypervisor
 
 https://linux-kvm.org/page/Main_Page
+
+### What is hypervisor?
+
+A hypervisor, or virtual machine monitor (VMM), is software, firmware, or hardware that creates and runs virtual machines by splitting a physical computer's resources among multiple operating systems
 
 KVM hypervisor enables full virtualisation capabilities. It provides each VM with all typical services of the physical system, including virtual BIOS (basic input/output system) and virtual hardware, such as processor, memory, storage, network cards, etc. As a result, every VM completely simulates a physical machine.
 
