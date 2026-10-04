@@ -65,6 +65,19 @@ Front
 Back
 ![hp back](https://github.com/spawnmarvel/kvm-lab/blob/main/images/hp_back.png)
 
+
+
+In the future maybe this HP ProDesk 400 G9 SFF 9H7L1ET stasjonær PC
+
+* https://www.power.no/data-og-tilbehoer/pc-og-mac/bedrifts-pc/stasjonaer-pc-bedrift/hp-prodesk-400-g9-sff-9h7l1et-stasjonaer-pc/p-4171257/
+
+
+```txt
+
+The Intel Core i5-14500 in this G9 SFF is an absolute monster for virtualization compared to your i7-7700:
+
+``` 
+
 1. Insert a USB Flash Drive: Connect a USB drive (at least 8 GB) to your laptop. Note that flashing will erase all existing data on the flash drive.
 2. Open Rufus (if on Windows), select the downloaded ubuntu-26.04.1-desktop-amd64.iso, 
 3. choose GPT / UEFI (non CSM), and click START
@@ -600,6 +613,8 @@ Lets get to know the Virtual Machine Manager GUI before we start to use only vir
 3. Take a clean snap
 4. Make some files, install something, connect to internet
 5. Restore to the clean snap
+
+
 
 ## Step-by-Step GUI Creation Guide for DC01
 
