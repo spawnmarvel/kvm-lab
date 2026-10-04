@@ -15,6 +15,7 @@
   - [Step 1: Create Dedicated Virtual Network (az800-lab)](#step-1-create-dedicated-virtual-network-az800-lab)
   - [Toplogy](#toplogy)
   - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
+  - [virsh commands](#virsh-commands)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -547,6 +548,35 @@ This leaves 253 usable IP addresses (192.168.100.2 through 192.168.100.254).
 ## Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure
 
 https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-800
+
+## virsh commands
+
+
+What we already ahve used
+
+
+```bash
+
+
+``` 
+
+8 Linux virsh subcommands for managing VMs on the command line
+
+```bash
+
+```
+
+* https://www.redhat.com/en/blog/virsh-subcommands
+
+
+The virsh program is the main interface for managing virsh guest domains.
+
+```bash
+
+``` 
+
+* https://www.libvirt.org/manpages/virsh.html
+
 
 ## Step-by-Step GUI Creation Guide for DC01
 
