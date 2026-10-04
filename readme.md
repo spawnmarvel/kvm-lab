@@ -2,7 +2,6 @@
 
 ## Table of content
 
-- [](#)
   - [Table of content](#table-of-content)
   - [Kernel Virtual Machine](#kernel-virtual-machine)
   - [What is hypervisor?](#what-is-hypervisor)
