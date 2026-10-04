@@ -45,7 +45,8 @@ We just need to satisfy AZ-800 & AZ-801.
 ## Lab Setup Strategy
 
 * HP ProDesk 600 G3 SFF i7 6.gen
-* 16 GB Ram (DDR4)
+* CPU's 8
+* 16 GB Ram (DDR4), (We will upgrade to 24GB a bit later)
 * Slot Count:  4 memory slots on the motherboard
 * Maximum Capacity: Up to 64 GB total, 16 GB each, you can mix 4, 8, 16
 * 256 GB SSD, 500 GB HDD
