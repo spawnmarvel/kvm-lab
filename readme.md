@@ -2,18 +2,19 @@
 
 ## Table of content
 
+- [kvm-lab](#kvm-lab)
   - [Table of content](#table-of-content)
   - [Kernel Virtual Machine](#kernel-virtual-machine)
-  - [What is hypervisor?](#what-is-hypervisor)
+    - [What is hypervisor?](#what-is-hypervisor)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
   - [Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen](#lab-setup-strategy-hp-prodesk-600-g3-sff-i7-6gen)
-  - [Step 1: Ubuntu 2604 setup](#step-1-ubuntu-2604-setup)
-  - [Step 2: Format and mount the 500gb hdd devsda](#step-2-format-and-mount-the-500gb-hdd-devsda)
-  - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
-  - [Overview & Milestone Achieved](#overview--milestone-achieved)
+    - [Step 1: Ubuntu 26.04 setup](#step-1-ubuntu-2604-setup)
+    - [Step 2: Format and Mount the 500GB HDD (/dev/sda)](#step-2-format-and-mount-the-500gb-hdd-devsda)
+    - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
+    - [Overview \& Milestone Achieved](#overview--milestone-achieved)
   - [Download the Windows Server 2022 evaluation ISO directly to my new storage pool](#download-the-windows-server-2022-evaluation-iso-directly-to-my-new-storage-pool)
   - [Step 1: Create Dedicated Virtual Network (az800-lab)](#step-1-create-dedicated-virtual-network-az800-lab)
-  - [Toplogy](#toplogy)
+    - [Toplogy](#toplogy)
   - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [virsh commands](#virsh-commands)
   - [Added 8 GB of DDR4 RAM](#added-8-gb-of-ddr4-ram)
@@ -57,6 +58,15 @@ The HP ProDesk 600 G3 SFF with a 6th-generation Intel Core i7 processor (specifi
 
 While it features older hardware, it serves as an excellent, budget-friendly machine for a home lab or lightweight virtualization server.
 
+
+bios
+
+* Virtualization Technology (VTx): Checked (enables core KVM hardware acceleration for running 64-bit VMs)
+* Virtualization Technology for Directed I/O (VTd): Checked (enables direct PCI device passthrough capabilities)
+
+Additionally, Hyperthreading and Multi-processor support are both enabled, allowing KVM/libvirt to utilize all 8 threads of your Core i7-7700
+
+![bios](https://github.com/spawnmarvel/kvm-lab/blob/main/images/bios.jpg)
 
 
 Front
