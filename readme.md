@@ -589,7 +589,7 @@ All slots are full, from left
 3. 4GB, price 150nok / finn.no
 4. 8GB
 
-![ram](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ram.png)
+![ram](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ram.jpg)
 
 
 ## Pre step make a Ubuntu 26.04
