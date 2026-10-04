@@ -7,6 +7,8 @@
   - [Kernel Virtual Machine](#kernel-virtual-machine)
     - [What is hypervisor?](#what-is-hypervisor)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
+  - [1. KVM hypervisor benefits](#1-kvm-hypervisor-benefits)
+  - [2. What is KVM and tools](#2-what-is-kvm-and-tools)
   - [Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen](#lab-setup-strategy-hp-prodesk-600-g3-sff-i7-6gen)
     - [Step 1: Ubuntu 26.04 setup](#step-1-ubuntu-2604-setup)
     - [Step 2: Format and Mount the 500GB HDD (/dev/sda)](#step-2-format-and-mount-the-500gb-hdd-devsda)
@@ -36,9 +38,44 @@ KVM hypervisor enables full virtualisation capabilities. It provides each VM wit
 
 ## KVM hypervisor a beginners’ guide
 
-* https://ubuntu.com/blog/kvm-hyphervisor
+### 1. KVM hypervisor benefits
+
+1. Native Linux
+
+2. Performance –  Since KVM is the type-1 hypervisor, it outperforms all type-2 hypervisors, ensuring near-metal performance.
+
+3. Scalability – As a Linux kernel module, the KVM hypervisor automatically scales to respond to heavy loads once the number of VMs increases. 
+
+4. Security – Since KVM is part of the Linux kernel source code, it benefits from the world’s biggest open source community collaboration
+
+5. Maturity – KVM was first created in 2006 and has continued to be actively developed since then. 
+
+6. Cost-efficiency – Last but not least, cost is a driving factor for many organisations. Since KVM is open source and available as a Linux kernel module, it comes at zero cost out of the box.
+
+https://ubuntu.com/blog/kvm-hyphervisor
 
 ![tolplogy](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology.jpg)
+
+### 2. What is KVM and tools
+
+Kernel-based Virtual Machine (KVM) is an open source virtualization technology for Linux® operating systems. 
+
+With KVM, Linux can function as a hypervisor that runs multiple, isolated virtual machines (VMs).
+
+
+libvirt and virsh
+
+The libvirt project provides an API for managing virtualization platforms. Within libvirt, virsh is a command-line utility for creating, starting, listing, and stopping VMs, as well as entering a virtualization shell.
+
+
+Virtual Machine Manager
+
+Virtual Machine Manager (known as VMM or virt-manager) provides a desktop interface for VMs, and is available for major Linux distributions.
+
+[...]
+
+
+https://www.redhat.com/en/topics/virtualization/what-is-KVM
 
 
 ## Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen
