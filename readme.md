@@ -34,18 +34,12 @@ A hypervisor, or virtual machine monitor (VMM), is software, firmware, or hardwa
 KVM hypervisor enables full virtualisation capabilities. It provides each VM with all typical services of the physical system, including virtual BIOS (basic input/output system) and virtual hardware, such as processor, memory, storage, network cards, etc. As a result, every VM completely simulates a physical machine.
 
 
-![tolplogy](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology.jpg)
-
 ## KVM hypervisor a beginners’ guide
 
-Read and compare with gemini chat KVM AZ-800 & AZ-801 https://ubuntu.com/blog/kvm-hyphervisor
+* https://ubuntu.com/blog/kvm-hyphervisor
 
-We just need to satisfy AZ-800 & AZ-801.
+![tolplogy](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology.jpg)
 
-* DC01 (Domain Controller / DNS / DHCP): Windows Server 2022 Core or Desktop Experience (2 GB RAM).
-* SVR01 (Member Server / File Services / Azure Arc / Storage Bus Cache): Windows Server 2022 (3 GB RAM).
-* HV01 (Hyper-V Host for AZ-801 Labs): Windows Server 2022 with Hyper-V role enabled via nested virtualization (4–6 GB RAM).
-* Host OS (Ubuntu): Leaves ~5–7 GB RAM for Ubuntu and management tools (Azure CLI, PowerShell Core, Windows Admin Center via browser).
 
 ## Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen
 
