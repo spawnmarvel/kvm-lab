@@ -552,7 +552,7 @@ https://learn.microsoft.com/en-us/credentials/certifications/resources/study-gui
 ## virsh commands
 
 
-GOTO reademe.virsh.md
+GOTO readme.virsh_bash.md
 
 
 ## Step-by-Step GUI Creation Guide for DC01
