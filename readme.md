@@ -6,7 +6,7 @@
   - [Table of content](#table-of-content)
   - [Kernel Virtual Machine](#kernel-virtual-machine)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
-  - [Lab Setup Strategy for AZ-800 \& AZ-801](#lab-setup-strategy-for-az-800--az-801)
+  - [Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen](#lab-setup-strategy-hp-prodesk-600-g3-sff-i7-6gen)
   - [Step 1: Ubuntu 2604 setup](#step-1-ubuntu-2604-setup)
   - [Step 2: Format and mount the 500gb hdd devsda](#step-2-format-and-mount-the-500gb-hdd-devsda)
   - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
@@ -42,7 +42,7 @@ We just need to satisfy AZ-800 & AZ-801.
 * HV01 (Hyper-V Host for AZ-801 Labs): Windows Server 2022 with Hyper-V role enabled via nested virtualization (4–6 GB RAM).
 * Host OS (Ubuntu): Leaves ~5–7 GB RAM for Ubuntu and management tools (Azure CLI, PowerShell Core, Windows Admin Center via browser).
 
-## Lab Setup Strategy
+## Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen
 
 * HP ProDesk 600 G3 SFF i7 6.gen
 * CPU's 8
