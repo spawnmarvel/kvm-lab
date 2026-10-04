@@ -60,9 +60,11 @@ While it features older hardware, it serves as an excellent, budget-friendly mac
 
 
 Front
+
 ![hp](https://github.com/spawnmarvel/kvm-lab/blob/main/images/hp.png)
 
 Back
+
 ![hp back](https://github.com/spawnmarvel/kvm-lab/blob/main/images/hp_back.png)
 
 
