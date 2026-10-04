@@ -552,30 +552,7 @@ https://learn.microsoft.com/en-us/credentials/certifications/resources/study-gui
 ## virsh commands
 
 
-What we already ahve used
-
-
-```bash
-
-
-``` 
-
-8 Linux virsh subcommands for managing VMs on the command line
-
-```bash
-
-```
-
-* https://www.redhat.com/en/blog/virsh-subcommands
-
-
-The virsh program is the main interface for managing virsh guest domains.
-
-```bash
-
-``` 
-
-* https://www.libvirt.org/manpages/virsh.html
+GOTO reademe.virsh.md
 
 
 ## Step-by-Step GUI Creation Guide for DC01
