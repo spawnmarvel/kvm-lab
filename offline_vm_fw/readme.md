@@ -24,9 +24,9 @@
 
 * archive.ubuntu.com / security.ubuntu.com (Ubuntu OS updates)
 
-* repo.zabbix.com (Zabbix packages & keys)
+(* repo.zabbix.com (Zabbix packages & keys))
 
-* repo.mysql.com / dev.mysql.com (MySQL 8.4 LTS packages & configuration DEB files)
+(* repo.mysql.com / dev.mysql.com (MySQL 8.4 LTS packages & configuration DEB files))
 
 
 By including MySQL 8.4 LTS directly in Ubuntu 26.04 (resolute-updates/main), Canonical built the official Community edition binaries straight into the distribution's core main repository.
@@ -38,7 +38,7 @@ Simplified Firewall Rules: Your outbound network rule only needs to allow archiv
 
 Canonical Maintenance: Security patches and bug fixes for MySQL 8.4 are delivered directly through standard sudo apt update && sudo apt upgrade workflows.
 
-
+![mysql 8 4 in 26 04](https://github.com/spawnmarvel/kvm-lab/blob/main/images/mysql_84.png)
 
 
 Use this checklist in order to isolate the root cause in under 2 minutes:
