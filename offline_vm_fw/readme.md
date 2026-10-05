@@ -5,7 +5,7 @@
 
 - [Quick Checklist for Repository Connectivity](#quick-checklist-for-repository-connectivity)
   - [Table of contents](#table-of-contents)
-  - [Scenario, offline vms that needs direct access to some repsitories.](#scenario-offline-vms-that-needs-direct-access-to-some-repsitories)
+  - [Scenario, offline vms that needs direct access to some repsitories Ubuntu 26.04](#scenario-offline-vms-that-needs-direct-access-to-some-repsitories-ubuntu-2604)
   - [Prerequisites: Global \& Interface DNS Setup check](#prerequisites-global--interface-dns-setup-check)
   - [1. Verify DNS Lookup (Port 53) and test routing and firwall rules](#1-verify-dns-lookup-port-53-and-test-routing-and-firwall-rules)
   - [Why Editing Netplan Is Still Highly Recommended after test FW](#why-editing-netplan-is-still-highly-recommended-after-test-fw)
@@ -15,9 +15,10 @@
   - [4. Force IPv4 in APT (In Case of IPv6 Conflicts) optional](#4-force-ipv4-in-apt-in-case-of-ipv6-conflicts-optional)
     - [5. Workaround Layer 7 Firewall / DPI User-Agent Drops](#5-workaround-layer-7-firewall--dpi-user-agent-drops)
     - [5.1 Next step 1 of 2](#51-next-step-1-of-2)
+    - [5.2 Test all repositores](#52-test-all-repositores)
   - [Appendix: Why Netplan Hardening is Recommended](#appendix-why-netplan-hardening-is-recommended)
 
-## Scenario, offline vms that needs direct access to some repsitories.
+## Scenario, offline vms that needs direct access to some repsitories Ubuntu 26.04
 
 * Firewall rules for HTTP/HTTPS outbound access on TCP ports 80 and 443
 
@@ -26,6 +27,18 @@
 * repo.zabbix.com (Zabbix packages & keys)
 
 * repo.mysql.com / dev.mysql.com (MySQL 8.4 LTS packages & configuration DEB files)
+
+
+By including MySQL 8.4 LTS directly in Ubuntu 26.04 (resolute-updates/main), Canonical built the official Community edition binaries straight into the distribution's core main repository.
+
+No External Repositories Required: You don't need to add dev.mysql.com or repo.mysql.com to your VMs.
+
+Simplified Firewall Rules: Your outbound network rule only needs to allow archive.ubuntu.com and security.ubuntu.com for both OS updates and MySQL 8.4 LTS packages.
+
+
+Canonical Maintenance: Security patches and bug fixes for MySQL 8.4 are delivered directly through standard sudo apt update && sudo apt upgrade workflows.
+
+
 
 
 Use this checklist in order to isolate the root cause in under 2 minutes:
@@ -260,6 +273,36 @@ Setting Acquire::http::User-Agent "curl/7.81.0"; in /etc/apt/apt.conf.d/99user-a
 Can you help me write a ticket to the network team requesting them to unblock the Debian APT User-Agent on the firewall?
 
 The firewall/network team needs to update the Application Control / Intrusion Prevention System (IPS) policy on the datacenter firewall to stop blocking the Debian APT-HTTP User-Agent string (or disable Layer 7 HTTP User-Agent filtering for outbound package repository traffic)
+
+Firewall team, Ask them to:
+
+```txt
+"Permit Layer 7 HTTP/HTTPS traffic matching the Debian APT-HTTP User-Agent for outbound connections to archive.ubuntu.com, security.ubuntu.com, repo.zabbix.com, repo.mysql.com, and dev.mysql.com."
+```
+
+### 5.2 Test all repositores
+
+```bash
+# 1. Test Canonical (Ubuntu OS Mirror)
+curl -Iv -m 5 --user-agent "curl/7.81.0" http://archive.ubuntu.com/ubuntu/dists/noble/InRelease
+
+# 2. Test Zabbix Repository
+curl -Iv -m 5 --user-agent "curl/7.81.0" https://repo.zabbix.com/zabbix-official-repo.key
+
+# 3. Test MySQL Repository
+curl -Iv -m 5 --user-agent "curl/7.81.0" https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+
+# MySQL 8.4 LTS is included by default in the standard Ubuntu 26.04 repositories. You do not need to add external Oracle or PPA repositories to install it
+# check what we have
+apt-cache policy mysql-server
+# Candidate: 8.4.11-0ubuntu0.26.04.1 from [archive.ubuntu.com/ubuntu](https://archive.ubuntu.com/ubuntu) resolute-updates/main
+
+# You do NOT need repo.mysql.com or dev.mysql.com just to install MySQL 8.4 LTS on Ubuntu 26.04. You can simply run sudo apt install mysql-server
+
+# 4. Say what, we are home free
+# curl -Iv -m 5 --user-agent "curl/7.81.0" https://dev.mysql.com/get/mysql-apt-config_0.8.33-1_all.deb
+```
+
 
 
 ## Appendix: Why Netplan Hardening is Recommended
