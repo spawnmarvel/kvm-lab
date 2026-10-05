@@ -7,8 +7,8 @@
   - [Kernel Virtual Machine](#kernel-virtual-machine)
     - [What is hypervisor?](#what-is-hypervisor)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
-  - [1. KVM hypervisor benefits](#1-kvm-hypervisor-benefits)
-  - [2. What is KVM and tools](#2-what-is-kvm-and-tools)
+    - [1. KVM hypervisor benefits](#1-kvm-hypervisor-benefits)
+    - [2. What is KVM and tools](#2-what-is-kvm-and-tools)
   - [Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen](#lab-setup-strategy-hp-prodesk-600-g3-sff-i7-6gen)
     - [Step 1: Ubuntu 26.04 setup](#step-1-ubuntu-2604-setup)
     - [Step 2: Format and Mount the 500GB HDD (/dev/sda)](#step-2-format-and-mount-the-500gb-hdd-devsda)
@@ -615,7 +615,7 @@ https://learn.microsoft.com/en-us/credentials/certifications/resources/study-gui
 ## virsh commands
 
 
-GOTO readme.virsh_bash.md
+GOTO virsh
 
 ## Added 8 GB of DDR4 RAM
 
