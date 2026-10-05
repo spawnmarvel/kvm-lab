@@ -13,6 +13,8 @@
   - [2. Check Default Gateway (Routing)](#2-check-default-gateway-routing)
   - [3. Test Firewall Connectivity (Port 80/443)](#3-test-firewall-connectivity-port-80443)
   - [4. Force IPv4 in APT (In Case of IPv6 Conflicts) optional](#4-force-ipv4-in-apt-in-case-of-ipv6-conflicts-optional)
+    - [5. Workaround Layer 7 Firewall / DPI User-Agent Drops](#5-workaround-layer-7-firewall--dpi-user-agent-drops)
+    - [5.1 Next step 1 of 2](#51-next-step-1-of-2)
   - [Appendix: Why Netplan Hardening is Recommended](#appendix-why-netplan-hardening-is-recommended)
 
 ## Scenario, offline vms that needs direct access to some repsitories.
@@ -200,6 +202,64 @@ echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
 sudo apt update
 ```
 
+
+### 5. Workaround Layer 7 Firewall / DPI User-Agent Drops
+
+If `curl` or `nc` succeeds on port 80/443 but `apt update` fails with `Connection failed [IP: ... 80]`, the datacenter firewall IPS/DPI is dropping native `Debian APT-HTTP` headers.
+
+**Temporary Test:**
+```bash
+
+Resolvectl query archive.ubuntu.com
+# retuns many ip addresses
+
+nc -zv -w3 archive.ubuntu.com 80
+# connection succeeded, tcp/http
+
+nc -zv -w3 archive.ubuntu.com 443
+# connection succeeded, tcp/htts
+
+sudo apt update
+# failes
+
+sudo apt update -o Acquire::http::Pipeline-Depth=0 -o Acquire::Queue-Mode=access
+# failes even when limited to a singel connection
+
+# force ipv4 test
+# echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
+# sudo apt update
+
+curl -Iv http://archive.ubuntu.com/ubuntu/dists/resolute/InRelease
+#  HTTP/1.1 200 ok
+
+# spoofing the user agent
+sudo apt update -o Acquire::http::User-Agent="curl/7.81.0"
+# 127 pakages can be upgraded
+
+```
+Why Spoofing the User-Agent Fixed the Issue
+The fact that Acquire::http::User-Agent="curl/7.81.0" succeeded confirms that Layer 4 connectivity, DNS, routing, and IPv4 access are all completely open.
+The root cause was a Layer 7 Application Control / Intrusion Prevention System (IPS) rule on the datacenter firewall. The firewall's deep packet inspection (DPI) engine was specifically intercepting and dropping HTTP requests containing APT's native header (Debian APT-HTTP/1.3), while permitting standard browser/CLI user agents like curl
+
+### 5.1 Next step 1 of 2
+
+1. To ensure apt update and apt upgrade work across all 3 VMs without needing to pass the -o flag manually every time, add the spoofed User-Agent setting to APT's configuration directory.
+
+Run this command on each VM:
+
+```bash
+echo 'Acquire::http::User-Agent "curl/7.81.0";' | sudo tee /etc/apt/apt.conf.d/99user-agent
+
+# verify that standard commands works normally
+```
+
+Setting Acquire::http::User-Agent "curl/7.81.0"; in /etc/apt/apt.conf.d/99user-agent will apply globally to all repositories configured in apt—including archive.ubuntu.com, security.ubuntu.com, repo.zabbix.com, and repo.mysql.com
+
+2. FW team
+
+Can you help me write a ticket to the network team requesting them to unblock the Debian APT User-Agent on the firewall?
+
+The firewall/network team needs to update the Application Control / Intrusion Prevention System (IPS) policy on the datacenter firewall to stop blocking the Debian APT-HTTP User-Agent string (or disable Layer 7 HTTP User-Agent filtering for outbound package repository traffic)
 
 
 ## Appendix: Why Netplan Hardening is Recommended
