@@ -20,13 +20,13 @@
 
 ## Scenario, offline vms that needs direct access to some repsitories Ubuntu 26.04
 
-* Firewall rules for HTTP/HTTPS outbound access on TCP ports 80 and 443
+Firewall rules for HTTP/HTTPS outbound access on TCP ports 80 and 443
 
-* archive.ubuntu.com / security.ubuntu.com (Ubuntu OS updates)
+🔵 archive.ubuntu.com / security.ubuntu.com (Ubuntu OS updates)
 
-(* repo.zabbix.com (Zabbix packages & keys))
+🔵 repo.zabbix.com (Zabbix packages & keys)
 
-(* repo.mysql.com / dev.mysql.com (MySQL 8.4 LTS packages & configuration DEB files))
+(🔵 repo.mysql.com / dev.mysql.com (MySQL 8.4 LTS packages & configuration DEB files))
 
 
 By including MySQL 8.4 LTS directly in Ubuntu 26.04 (resolute-updates/main), Canonical built the official Community edition binaries straight into the distribution's core main repository.
