@@ -4,11 +4,25 @@ https://ubuntu.com/security
 
 ## Table of content
 
- - [Secure out of the box](#secure-out-of-the-box)
- - [Hardening at scale](#hardening-at-scale)
- - [Certified compliance](#certified-compliance)
- - [How to Set Up a Firewall with UFW on Ubuntu](#how-to-set-up-a-firewall-with-ufw-on-ubuntu)
- - 
+- [Security of Ubuntu](#security-of-ubuntu)
+  - [Table of content](#table-of-content)
+  - [Secure out of the box](#secure-out-of-the-box)
+  - [Hardening at scale](#hardening-at-scale)
+  - [Certified compliance](#certified-compliance)
+  - [How to Set Up a Firewall with UFW on Ubuntu](#how-to-set-up-a-firewall-with-ufw-on-ubuntu)
+    - [Step 1 — Making Sure IPv6 is Enabled](#step-1--making-sure-ipv6-is-enabled)
+    - [Step 2 — Setting Up Default Policies](#step-2--setting-up-default-policies)
+    - [Step 3 — Allowing SSH Connections](#step-3--allowing-ssh-connections)
+    - [Step 4 — Enabling UFW](#step-4--enabling-ufw)
+    - [Step 5 — Allowing Other Connections](#step-5--allowing-other-connections)
+    - [Step 6 — Denying Connections](#step-6--denying-connections)
+    - [Step 7 — Deleting Rules](#step-7--deleting-rules)
+    - [Step 8 — Checking UFW Status and Rules](#step-8--checking-ufw-status-and-rules)
+    - [Step 9 — Disable or Reset Firewall](#step-9--disable-or-reset-firewall)
+  - [is ufw the best Linux server firewall?](#is-ufw-the-best-linux-server-firewall)
+
+
+
 ## Secure out of the box
 
 All Canonical products are built with unrivalled security in mind — and tested to ensure they deliver it. Your Ubuntu software is secure from the moment you install it, and will remain so as Canonical ensures security updates are always available on Ubuntu first.
