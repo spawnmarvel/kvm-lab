@@ -70,6 +70,15 @@ Override Interface DNS (If using DHCP): If your network card (ens33) receives an
 
  (e.g., /etc/netplan/50-cloud-init.yaml):
 
+
+```bash
+cd /etc/netplan
+ls
+# what is the file called, could be differnt name
+
+sudo nano /etc/netplan/        00-installer-config.yaml
+```
+
 ```yml
 network:
   version: 2
@@ -263,8 +272,20 @@ Run this command on each VM:
 ```bash
 echo 'Acquire::http::User-Agent "curl/7.81.0";' | sudo tee /etc/apt/apt.conf.d/99user-agent
 
+# werify that the file was created
+cat /etc/apt/apt.conf.d/99user-agent
+
 # verify that standard commands works normally
+sudo apt update
+
 ```
+
+Result
+
+```log
+130 packages can be upgraded....
+```
+
 
 Setting Acquire::http::User-Agent "curl/7.81.0"; in /etc/apt/apt.conf.d/99user-agent will apply globally to all repositories configured in apt—including archive.ubuntu.com, security.ubuntu.com, repo.zabbix.com, and repo.mysql.com
 
