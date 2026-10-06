@@ -2,6 +2,13 @@
 
 https://ubuntu.com/security
 
+## Table of content
+
+ - [Secure out of the box](#secure-out-of-the-box)
+ - [Hardening at scale](#hardening-at-scale)
+ - [Certified compliance](#certified-compliance)
+ - [How to Set Up a Firewall with UFW on Ubuntu](#how-to-set-up-a-firewall-with-ufw-on-ubuntu)
+ - 
 ## Secure out of the box
 
 All Canonical products are built with unrivalled security in mind — and tested to ensure they deliver it. Your Ubuntu software is secure from the moment you install it, and will remain so as Canonical ensures security updates are always available on Ubuntu first.
