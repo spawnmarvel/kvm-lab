@@ -12,7 +12,7 @@
 - [More troubleshooting if 1 does not work](#more-troubleshooting-if-1-does-not-work)
   - [2. Check Default Gateway (Routing)](#2-check-default-gateway-routing)
   - [3. Test Firewall Connectivity (Port 80/443)](#3-test-firewall-connectivity-port-80443)
-  - [4. Force IPv4 in APT (In Case of IPv6 Conflicts) optional](#4-force-ipv4-in-apt-in-case-of-ipv6-conflicts-optional)
+  - [4. Force IPv4 in APT (In Case of IPv6 Conflicts) optional nan](#4-force-ipv4-in-apt-in-case-of-ipv6-conflicts-optional-nan)
     - [5. Workaround Layer 7 Firewall / DPI User-Agent Drops](#5-workaround-layer-7-firewall--dpi-user-agent-drops)
     - [5.1 Next step 1 of 2](#51-next-step-1-of-2)
     - [5.2 Test all repositores](#52-test-all-repositores)
@@ -206,7 +206,7 @@ nc -zv -w3 archive.ubuntu.com 443
 * OK: Connection to archive.ubuntu.com 80 port [tcp/http] succeeded!
 * Error: Network is unreachable or Timed out The firewall is blocking the specific CDN IP address (ask the network team to allow the FQDN or Canonical IP ranges 91.189.88.0/21 and 185.125.188.0/22).
 
-## 4. Force IPv4 in APT (In Case of IPv6 Conflicts) optional
+## 4. Force IPv4 in APT (In Case of IPv6 Conflicts) optional nan
 
 If DNS returns IPv6 addresses that the firewall does not route:
 
