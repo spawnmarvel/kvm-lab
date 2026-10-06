@@ -5,6 +5,7 @@
 - [kvm-lab](#kvm-lab)
   - [Table of content](#table-of-content)
   - [Kernel Virtual Machine](#kernel-virtual-machine)
+  - [Azure vs KVM](#azure-vs-kvm)
     - [What is hypervisor?](#what-is-hypervisor)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
     - [1. KVM hypervisor benefits](#1-kvm-hypervisor-benefits)
@@ -29,6 +30,49 @@
 Linux KVM (Kernel-based Virtual Machine) is a built-in open-source feature that turns your Linux kernel into a high-performance hypervisor
 
 https://linux-kvm.org/page/Main_Page
+
+## Azure vs KVM
+
+While Azure abstracts away physical infrastructure maintenance, with KVM you are the cloud provider:
+
+
+* No Automatic Control Plane: You manage storage allocation, free memory space, CPU overcommit ratios, and host disk space directly.
+
+* Storage Performance: In Azure, you select a Premium SSD SKU. In KVM, you choose disk caching modes (none, writethrough, writeback), storage formats (qcow2 vs raw), and raw block devices (LVM/NVMe passthrough).
+
+* Network Plumbing: Azure manages virtual switches behind the scenes. In KVM, you manually create host bridges, map physical NICs, or set up VLAN sub-interfaces on the host OS.
+
+Learning KVM completes the full infrastructure abstraction stack for you.
+
+KVM fills the critical layer directly in the middle—the hypervisor and virtualization substrate. It turns what used to be "cloud magic" into explicit, visible Linux processes and kernel mechanisms.
+
+
+What KVM Unlocks in Your Knowledge Base
+
+
+```txt
+[ Your Azure Skillset ]        --->  Higher-level Cloud Abstraction & Governance
+       │
+       ▼
+[ KVM / Libvirt Layer ]        --->  THE MISSING LINK (CPU Virtualization, QEMU, TAP Devices)
+       │
+       ▼
+[ Your Linux & Net Skillset ]  --->  Host OS Kernel, Hardware, Network Topologies & Services
+
+```
+
+With KVM under your belt, you transition from someone who manages virtual environments to someone who understands the entire lifecycle of a workload.
+
+
+1. Bare Metal Hardware & Kernel: CPU extensions, memory management, PCI buses, physical NICs.
+
+2. Hypervisor & Process Control: KVM modules, QEMU device emulation, libvirt daemon, cgroups, namespaces.
+
+3. Guest OS & Services: Linux/Windows kernel, systemd, networking stack, certificate stores, local storage.
+
+4. Applications & Monitoring: RabbitMQ, MySQL, Python services, Zabbix agents, Prometheus exporters.
+
+5. Cloud Infrastructure & Orchestration: Azure VNets, IAM, ARM templates, hybrid connectivity.
 
 ### What is hypervisor?
 
