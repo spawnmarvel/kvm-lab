@@ -363,6 +363,12 @@ Update package repositories and install the KVM engine, libvirt daemon, network 
 ```bash
 sudo apt update
 
+kvm-ok
+
+INFO: /dev/kvm exists
+KVM acceleration can be used
+
+
 # In newer Ubuntu releases, qemu-kvm is a transitional 
 # virtual package replaced by qemu-system-x86
 
@@ -729,6 +735,8 @@ Gufw is the official graphical user interface for UFW on Ubuntu. It provides a c
 ```bash
 sudo apt update && sudo apt install gufw
 
+# either seacth for it Firewall Configuration, or type
+gufw
 ```
 
 Once installed, you can find it in your application menu by searching for "Firewall Configuration".
@@ -738,6 +746,18 @@ Once installed, you can find it in your application menu by searching for "Firew
 • Simple Rule Creation: Add rules by choosing from predefined applications/ports or entering custom IP addresses.
 
 • Live Logging: View blocked and allowed traffic in real-time to debug connectivity issues with your virtual machines.
+
+
+Create new rule
+
+
+Gufw
+
+* https://manpages.ubuntu.com/manpages/focal/man8/gufw.8.html
+
+
+
+![gufw](https://github.com/spawnmarvel/kvm-lab/blob/main/images/gufw.png)
 
 ## Step-by-Step GUI Creation Guide for DC01
 
