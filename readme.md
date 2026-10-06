@@ -6,7 +6,7 @@
   - [Table of content](#table-of-content)
   - [Kernel Virtual Machine](#kernel-virtual-machine)
   - [Azure vs KVM](#azure-vs-kvm)
-    - [What is hypervisor?](#what-is-hypervisor)
+  - [What is hypervisor?](#what-is-hypervisor)
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
     - [1. KVM hypervisor benefits](#1-kvm-hypervisor-benefits)
     - [2. What is KVM and tools](#2-what-is-kvm-and-tools)
@@ -74,7 +74,7 @@ With KVM under your belt, you transition from someone who manages virtual enviro
 
 5. Cloud Infrastructure & Orchestration: Azure VNets, IAM, ARM templates, hybrid connectivity.
 
-### What is hypervisor?
+## What is hypervisor?
 
 A hypervisor, or virtual machine monitor (VMM), is software, firmware, or hardware that creates and runs virtual machines by splitting a physical computer's resources among multiple operating systems
 
