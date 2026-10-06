@@ -21,6 +21,7 @@
   - [virsh commands](#virsh-commands)
   - [Added 8 GB of DDR4 RAM](#added-8-gb-of-ddr4-ram)
   - [Get to know Virtual Machine Manager](#get-to-know-virtual-machine-manager)
+  - [UFW (Uncomplicated Firewall) with KVM GUI Gufw](#ufw-uncomplicated-firewall-with-kvm-gui-gufw)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -664,6 +665,31 @@ Lets get to know the Virtual Machine Manager GUI before we start to use only vir
 5. Restore to the clean snap
 
 
+
+## UFW (Uncomplicated Firewall) with KVM GUI Gufw
+
+
+For running a KVM (Kernel-based Virtual Machine) virtualization host on Ubuntu, UFW (Uncomplicated Firewall) is the best and easiest default choice for host-level security, though nftables or libvirt's native integration handles the actual virtual bridge routing
+
+Why UFW Works Well
+
+• Pre-installed: It comes built-in with Ubuntu.
+• Simple Syntax: It replaces complex iptables commands with plain English commands (e.g., sudo ufw allow ssh).
+• KVM Compatibility: KVM and libvirt automatically insert their own forwarding rules into the underlying netfilter/iptables layer, and UFW can peacefully coexist as long as forwarding is enabled in /etc/ufw/ufw.conf (DEFAULT_FORWARD_POLICY="ACCEPT")
+
+
+Gufw is the official graphical user interface for UFW on Ubuntu. It provides a clean, easy-to-use desktop window to manage your firewall rules without using the terminal.
+
+```bash
+sudo apt update && sudo apt install gufw
+
+```
+
+Once installed, you can find it in your application menu by searching for "Firewall Configuration".
+
+• Pre-configured Profiles: Easily toggle between Home, Office, and Public profiles.
+• Simple Rule Creation: Add rules by choosing from predefined applications/ports or entering custom IP addresses.
+• Live Logging: View blocked and allowed traffic in real-time to debug connectivity issues with your virtual machines.
 
 ## Step-by-Step GUI Creation Guide for DC01
 
