@@ -62,7 +62,7 @@ DNS=10.10.10.10
 sudo systemctl restart systemd-resolved
 ```
 
-Wait a bit with netplan.
+Wait a bit with netplan, you can take it as a last step before reboot and test again.
 
 Netplan Hardening: Once the firewall team confirms the ports are open and sudo apt update succeeds, applying the Netplan update ensures that your Ubuntu nodes will retain their DNS configuration through future maintenance reboots.
 
