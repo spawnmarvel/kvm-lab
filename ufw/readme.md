@@ -20,6 +20,7 @@ https://ubuntu.com/security
     - [Step 8 — Checking UFW Status and Rules](#step-8--checking-ufw-status-and-rules)
     - [Step 9 — Disable or Reset Firewall](#step-9--disable-or-reset-firewall)
   - [is ufw the best Linux server firewall?](#is-ufw-the-best-linux-server-firewall)
+- [GUFW](#gufw)
 
 
 
@@ -289,3 +290,6 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-u
 Stick with the one that's tailored for your distro. ufw is Ubuntu. firewalld is Red Hat/Fedora & openSUSE.
 
 https://www.reddit.com/r/linuxquestions/comments/xhlgwb/is_ufw_the_best_linux_server_firewall/?rdt=43899
+
+# GUFW
+
