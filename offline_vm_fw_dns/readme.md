@@ -16,6 +16,7 @@
     - [5. Workaround Layer 7 Firewall / DPI User-Agent Drops](#5-workaround-layer-7-firewall--dpi-user-agent-drops)
     - [5.1 Next step 1 of 2](#51-next-step-1-of-2)
     - [5.2 Test all repositores](#52-test-all-repositores)
+  - [Tools for network checks](#tools-for-network-checks)
   - [Appendix: Why Netplan Hardening is Recommended](#appendix-why-netplan-hardening-is-recommended)
 
 ## Scenario, offline vms that needs direct access to some repsitories Ubuntu 26.04
@@ -325,6 +326,49 @@ apt-cache policy mysql-server
 ```
 
 
+
+
+##  Tools for network checks
+
+```bash
+
+# they may no tbe installed, avaliable or default
+
+traceroute
+
+# Doesn't require root privileges and automatically discovers Path MTU (Maximum Transmission Unit) along the route.
+tracepath
+
+tracepath repo.zabbix.com
+
+# (My Traceroute): Combines traceroute and ping into a live, continuously updating report.
+mtr
+
+mtr -rw -c 10 repo.zabbix.com
+
+
+# Since standard UDP/ICMP probes are frequently blocked by enterprise firewalls, force mtr to use TCP SYN packets targeted directly at HTTPS port 443:
+sudo mtr -rw -c 10 --tcp -P 443 repo.zabbix.com
+
+```
+
+Firewall & Layer 7 Limitations
+Keep two key limitations in mind for your environment:
+
+* ICMP / UDP Filtering: Many datacenter firewalls block the ICMP or UDP probes that mtr and tracepath use by default. The trace might stop at your perimeter firewall even if TCP ports 80/443 are actually open.
+
+* Layer 7 DPI (Deep Packet Inspection): mtr and tracepath only test Layer 3/4 (IP routing and hops). They won't reveal if a firewall establishes a TCP connection but subsequently resets or drops packets based on the User-Agent string (Layer 7).
+
+
+Why We Didn't Lead With mtr or tracepath
+
+We didn't start with mtr or tracepath because your original issue was a Layer 7 Application Block (Deep Packet Inspection on the Debian APT-HTTP User-Agent), not a Layer 3 routing failure.
+
+Using mtr or tracepath early on would have yielded misleading results for two specific reasons:
+
+mtr Would Show a "Successful" Route: Because mtr tests network routing (Layer 3/4), it would have shown packets successfully reaching archive.ubuntu.com or repo.zabbix.com. However, apt update would still fail right after because the firewall's DPI engine dropped the connection only after seeing the APT-HTTP header.
+
+ICMP/UDP Filtering: Enterprise datacenters frequently block ICMP ping and UDP probes at the perimeter edge. mtr often shows 100% packet loss at the firewall hop, making it look like a broken network route when HTTP/HTTPS traffic on ports 80/443 is actually allowed.
 
 ## Appendix: Why Netplan Hardening is Recommended
 
