@@ -31,7 +31,7 @@
     - [Managing KVM Storage Pools \& Locations via CLI](#managing-kvm-storage-pools--locations-via-cli)
     - [Steps 1–3: Inspect Storage Pools \& Directories](#steps-13-inspect-storage-pools--directories)
     - [Step 4: Download Ubuntu 26.04 ISO](#step-4-download-ubuntu-2604-iso)
-    - [Step 5: Create the Headless VM (virt-install)](#step-5-create-the-headless-vm-virt-install)
+    - [Step 5: Create the Headless VM (virt-install) with static ip](#step-5-create-the-headless-vm-virt-install-with-static-ip)
       - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
     - [Step 6: SSH into the VM](#step-6-ssh-into-the-vm)
     - [Step 8: Netplan Static IP Configuration verify 10.68.68.50](#step-8-netplan-static-ip-configuration-verify-10686850)
@@ -969,7 +969,7 @@ sudo virsh vol-list default
 
 ```
 
-### Step 5: Create the Headless VM (virt-install)
+### Step 5: Create the Headless VM (virt-install) with static ip
 
 ```bash
 
@@ -994,7 +994,7 @@ chmod +x create-ubuntu-vm.sh
 ./create-ubuntu-vm.sh
 ```
 
-Verification: Any VM built with this script will immediately draw its IP address from the test-network range (10.68.68.2–10.68.68.20) during installation
+If you do not assignd a static ip, any VM built will immediately draw its IP address from the test-network range (10.68.68.2–10.68.68.20) during installation
 
 
 
