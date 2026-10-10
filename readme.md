@@ -34,7 +34,7 @@
     - [Step 5: Create the Headless VM (virt-install) with static ip](#step-5-create-the-headless-vm-virt-install-with-static-ip)
       - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
     - [Step 6: SSH into the VM](#step-6-ssh-into-the-vm)
-    - [Step 8: Netplan Static IP Configuration verify 10.68.68.50](#step-8-netplan-static-ip-configuration-verify-10686850)
+    - [Step 7: Netplan Static IP Configuration verify 10.68.68.50](#step-7-netplan-static-ip-configuration-verify-10686850)
   - [Next Session Agenda:](#next-session-agenda)
 
 ## Kernel Virtual Machine
@@ -1020,6 +1020,10 @@ Navigate through the installer prompts using your arrow keys, Tab, and Spacebar:
 
 #### There is a lot of steps, keep default and enable ssh
 
+john
+
+lima
+
 justfortest1
 
 ![ubuntu1_user](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_user.png)
@@ -1037,12 +1041,36 @@ Press enter
 
 ### Step 6: SSH into the VM
 
+We assigned a static ip.
+
+```bash
+ssh john@10.68.68.50
+
+hostname
+
+uname -a
+
+free -h
+
+lsblk
 
 
-### Step 8: Netplan Static IP Configuration verify 10.68.68.50
+```
+
+
+### Step 7: Netplan Static IP Configuration verify 10.68.68.50
 
 Dynamic DHCP vs. IP Persistence
 Short answer: It can change, but in practice with libvirt, it usually stays the same.
+
+Lets have a look at netplan
+
+
+```bash
+cd /etc/netplan
+ls
+cat 
+```
 
 
 
