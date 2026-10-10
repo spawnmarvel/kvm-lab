@@ -37,7 +37,7 @@
     - [Step 7: Netplan Static IP Configuration verify 10.68.68.50](#step-7-netplan-static-ip-configuration-verify-10686850)
       - [Why 10.68.68.50 Is Not Listed in Netplan](#why-10686850-is-not-listed-in-netplan)
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
-  - [Next Session Agenda:](#next-session-agenda)
+  - [Backup and restore](#backup-and-restore)
 
 ## Kernel Virtual Machine
 
@@ -1179,7 +1179,7 @@ ping -c 3 google.com
 curl -I https://www.google.com
 ```
 
-## Next Session Agenda: 
+## Backup and restore
 
 
 Step 1: Create Initial Clean Snapshot / Disk Backup
