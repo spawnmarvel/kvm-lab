@@ -36,6 +36,7 @@
     - [Step 6: SSH into the VM](#step-6-ssh-into-the-vm)
     - [Step 7: Netplan Static IP Configuration verify 10.68.68.50](#step-7-netplan-static-ip-configuration-verify-10686850)
       - [Why 10.68.68.50 Is Not Listed in Netplan](#why-10686850-is-not-listed-in-netplan)
+  - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
   - [Next Session Agenda:](#next-session-agenda)
 
 ## Kernel Virtual Machine
@@ -1132,10 +1133,64 @@ Because dhcp4: true is active, Netplan accepts 10.68.68.50 dynamically from the 
 This host reservation method is the standard industry best practice for automated lab deployments, as it avoids manual post-installation Netplan edits or frozen SSH sessions.
 
 
+## Analyzing Your Current DNS Setup
+
+```bash
+resolvectl status
+Global
+         Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+  resolv.conf mode: stub
+
+Link 2 (enp1s0)
+    Current Scopes: DNS
+         Protocols: +DefaultRoute -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+Current DNS Server: 10.68.68.1
+       DNS Servers: 10.68.68.1
+     Default Route: yes
+
+```
+
+Trace it with built in tool
+
+```bash
+tracepath google.com
+```
+
+Log
+
+```log
+tracepath google.com
+ 1?: [LOCALHOST]                      pmtu 1500
+ 1:  kvm-host-HP-ProDesk-600-G3-SFF                        0.366ms
+ 1:  kvm-host-HP-ProDesk-600-G3-SFF                        0.340ms
+ 2:  34D5091B3F50.lan                                      1.145ms
+ [...] The rest is different for each network
+ Hops 3–7
+ Packet enters your fiber ISP network (Altibox/Lyse) and travels across the core routing network (latency stays tight between 4.6 ms and 13.9 ms).
+```
+
+To verify that packets are reaching Google despite the rate-limited probe responses, test direct HTTP/ICMP reachability:
+
+```bash
+# 1. ICMP ping check
+ping -c 3 google.com
+
+# 2. HTTP response check via curl
+curl -I https://www.google.com
+```
 
 ## Next Session Agenda: 
 
 
+Step 1: Create Initial Clean Snapshot / Disk Backup
 
+
+Step 2: Modify Guest Files & System State
+
+
+Step 3: Revert & Restore to Clean Baseline State
+
+
+Step 4: Verification
 
 
