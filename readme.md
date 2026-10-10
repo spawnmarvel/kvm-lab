@@ -21,9 +21,9 @@
   - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [virsh commands](#virsh-commands)
   - [Added 8 GB of DDR4 RAM](#added-8-gb-of-ddr4-ram)
-  - [Get to know Virtual Machine Manager (maybe)](#get-to-know-virtual-machine-manager-maybe)
+  - [Get to know Virtual Machine Manager GUI / na...we go headless, look below](#get-to-know-virtual-machine-manager-gui--nawe-go-headless-look-below)
   - [UFW (Uncomplicated Firewall) with KVM GUI Gufw](#ufw-uncomplicated-firewall-with-kvm-gui-gufw)
-  - [Get to know Virtual Machine Manager with virsh via ssh](#get-to-know-virtual-machine-manager-with-virsh-via-ssh)
+  - [Get to know Virtual Machine Manager with virsh via ssh / or headless](#get-to-know-virtual-machine-manager-with-virsh-via-ssh--or-headless)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -705,7 +705,7 @@ All slots are full, from left (this is before insert the last 4gb)
 ![ram](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ram.jpg)
 
 
-## Get to know Virtual Machine Manager (maybe)
+## Get to know Virtual Machine Manager GUI / na...we go headless, look below
 
 Lets get to know the Virtual Machine Manager GUI before we start to use only virsh commands
 
@@ -757,10 +757,11 @@ Gufw
 * https://manpages.ubuntu.com/manpages/focal/man8/gufw.8.html
 
 
+You can do the same with commands.
 
 ![gufw](https://github.com/spawnmarvel/kvm-lab/blob/main/images/gufw.png)
 
-## Get to know Virtual Machine Manager with virsh via ssh
+## Get to know Virtual Machine Manager with virsh via ssh / or headless
 
 Lets get to know the Virtual Machine Manager, we start to use only virsh commands
 
