@@ -28,6 +28,7 @@
     - [Steps 1–3: Inspect Storage Pools \& Directories](#steps-13-inspect-storage-pools--directories)
     - [Step 4: Download Debian 12 ISO](#step-4-download-debian-12-iso)
     - [Step 5: Create the Headless VM (virt-install)](#step-5-create-the-headless-vm-virt-install)
+      - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -890,11 +891,15 @@ Navigate through the installer prompts using your arrow keys, Tab, and Spacebar:
 
 ![ubuntu1](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1.png)
 
+#### There is a lot of steps, keep default and enable ssh
+
 justfortest1
 
 ![ubuntu1_user](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_user.png)
 
 ![ubuntu1_ssh](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_ssh.png)
+
+Select Reboot Now when the installation completes.
 
 
 ## Step-by-Step GUI Creation Guide for DC01
