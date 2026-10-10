@@ -1201,6 +1201,16 @@ ip addr
 
 ```
 
+Ping from kvm-host
+
+```bash
+exit
+
+ping -c 3 10.68.68.50
+PING 10.68.68.50 (10.68.68.50) 56(84) bytes of data.
+64 bytes from 10.68.68.50: icmp_seq=1 ttl=64 time=0.549 ms
+```
+
 
 
 
