@@ -94,6 +94,12 @@ sudo virsh domiflist ubuntu-test
  Interface   Type      Source         Model    MAC
 ------------------------------------------------------------------
  vnet2       network   test-network   virtio   52:54:00:c7:8a:85
+
+# Run this single command on your host terminal to stop the VM, unregister it from libvirt
+sudo virsh destroy ubuntu-test --graceful 2>/dev/null || sudo virsh destroy ubuntu-test
+
+# automatically delete its storage disk
+sudo virsh undefine ubuntu-test --remove-all-storage
 ```
 
 ## 8 Linux virsh subcommands for managing VMs on the command line
