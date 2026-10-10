@@ -30,7 +30,11 @@
     - [Step 5: Create the Headless VM (virt-install)](#step-5-create-the-headless-vm-virt-install)
       - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
     - [Step 6: to Obtain IP \& SSH into the VM](#step-6-to-obtain-ip--ssh-into-the-vm)
-  - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
+  - [Next Session Agenda: KVM Networking, UFW \& VM Maintenance](#next-session-agenda-kvm-networking-ufw--vm-maintenance)
+      - [1. Host \& Guest Network Configuration](#1-host--guest-network-configuration)
+      - [2. UFW Firewall Management](#2-ufw-firewall-management)
+      - [3. Dynamic VM Editing \& Maintenance](#3-dynamic-vm-editing--maintenance)
+    - [📌 Prerequisites](#-prerequisites)
 
 ## Kernel Virtual Machine
 
@@ -968,14 +972,29 @@ Now exit ssh and list it from host
  2    ubuntu-test   running
 ```
 
+## Next Session Agenda: KVM Networking, UFW & VM Maintenance
+
+#### 1. Host & Guest Network Configuration
+* **Bridge & Routing:** Verify NAT routing on `virbr0` and host forwarding.
+* **DNS & Connectivity:** Test and configure static IP/DNS settings inside `ubuntu-test`.
+* **Outbound Access:** Ensure reliable internet reachability from the guest VM.
+
+#### 2. UFW Firewall Management
+* **Basic Policies:** Enable `ufw` and set default rules (`deny incoming`, `allow outgoing`).
+* **Service Rules:** Configure explicit allow rules for SSH (`port 22`) and custom lab ports.
+* **Logging & Status:** Inspect active rules using `ufw status numbered` and review block logs.
+
+#### 3. Dynamic VM Editing & Maintenance
+* **Resource Scaling:** Modify vCPU count and RAM allocation dynamically using `virsh setvcpus` and `virsh setmem`.
+* **XML Configuration:** Edit persistent VM hardware configurations with `sudo virsh edit ubuntu-test`.
+* **Storage Expansion:** Resize `.qcow2` virtual disks and extend LVM partitions on the live guest.
+
+---
+
+### 📌 Prerequisites
+* Running `ubuntu-test` VM created via `~/scripts/create-ubuntu-vm.sh`.
+* Active SSH connection from host to `ubuntu-test`.
 
 
-
-## Step-by-Step GUI Creation Guide for DC01
-
-DC01 is the standard default hostname for a primary Active Directory (AD) domain controller in Windows Server environments. It runs 
-
-* Active Directory Domain Services (AD DS)
-* DNS to manage user authentication, group policies, and domain security.
 
 
