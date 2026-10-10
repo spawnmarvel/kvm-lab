@@ -16,7 +16,8 @@
     - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
     - [Overview \& Milestone Achieved](#overview--milestone-achieved)
   - [Download the Windows Server 2022 evaluation ISO directly to my new storage pool](#download-the-windows-server-2022-evaluation-iso-directly-to-my-new-storage-pool)
-  - [Step 1: Create Dedicated Virtual Network (az800-lab)](#step-1-create-dedicated-virtual-network-az800-lab)
+    - [Step 1: Create Dedicated Virtual Network via GUI (example)](#step-1-create-dedicated-virtual-network-via-gui-example)
+  - [Step 1.1 Create Dedicated Virtual Network test-network via virsh](#step-11-create-dedicated-virtual-network-test-network-via-virsh)
     - [Toplogy](#toplogy)
   - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [virsh commands](#virsh-commands)
@@ -30,6 +31,8 @@
     - [Step 5: Create the Headless VM (virt-install)](#step-5-create-the-headless-vm-virt-install)
       - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
     - [Step 6: to Obtain IP \& SSH into the VM](#step-6-to-obtain-ip--ssh-into-the-vm)
+    - [Step 7 move ubunut-test to test-network](#step-7-move-ubunut-test-to-test-network)
+    - [Step 8: Netplan Static IP Configuration 10.68.68.14](#step-8-netplan-static-ip-configuration-10686814)
   - [Next Session Agenda: KVM Networking, UFW \& VM Maintenance](#next-session-agenda-kvm-networking-ufw--vm-maintenance)
       - [1. Host \& Guest Network Configuration](#1-host--guest-network-configuration)
       - [2. UFW Firewall Management](#2-ufw-firewall-management)
@@ -534,7 +537,7 @@ Log
 With the storage layer validated, the next step is to create the dedicated virtual network switch for the AZ-800 lab and deploy the first Windows Server 2022 virtual machine (DC01).
 
 
-## Step 1: Create Dedicated Virtual Network (az800-lab)
+### Step 1: Create Dedicated Virtual Network via GUI (example)
 
 
 Define a dedicated virtual network (az800-lab) on subnet 192.168.100.0/24. This gives your Active Directory Domain Controller and subsequent lab VMs an isolated communication channel with outbound NAT access.
@@ -633,6 +636,93 @@ Or get xml from GUI
 * Host Gateway IP: 192.168.100.1 (Assigned to your Ubuntu host bridge virbr1)
 
 This leaves 253 usable IP addresses (192.168.100.2 through 192.168.100.254).
+
+
+## Step 1.1 Create Dedicated Virtual Network test-network via virsh
+
+
+
+```bash
+
+mkdir networks
+cd networks
+
+```
+Create it on current folder
+
+```bash
+cat << 'EOF' > test-network.xml
+<network>
+  <name>test-network</name>
+  <forward mode='nat'/>
+  <bridge name='virbr2' stp='on' delay='0'/>
+  <ip address='10.68.68.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='10.68.68.2' end='10.68.68.20'/>
+    </dhcp>
+  </ip>
+</network>
+EOF
+```
+Import, launch, and enable autostart on host boot for:
+
+``` bash
+# 1. Register the network configuration with libvirt
+sudo virsh net-define ~/test-network.xml
+
+# 2. Start the network bridge interface
+sudo virsh net-start test-network
+
+# 3. Configure it to autostart on system boot
+sudo virsh net-autostart test-network
+
+```
+
+Verification:
+
+```bash
+
+# 1. List all libvirt networks and their autostart status
+sudo virsh net-list --all
+
+ Name           State    Autostart   Persistent
+-------------------------------------------------
+ az800-lab      active   yes         yes
+ default        active   yes         yes
+ test-network   active   yes         yes
+
+
+# Inspect the host's virbr2 bridge interface
+ip addr show virbr2
+
+7: virbr2: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default qlen 1000
+    link/ether 52:54:00:45:08:40 brd ff:ff:ff:ff:ff:ff
+    inet 10.68.68.1/24 brd 10.68.68.255 scope global virbr2
+       valid_lft forever preferred_lft forever
+```
+
+Active Configuration File Locations
+
+```bash
+cd /etc/libvirt/qemu
+ls
+networks
+
+cd networks
+ls
+autostart  az800-lab.xml  default.xml  test-network.xml
+```
+
+
+In the test-network configuration (10.68.68.0/24), you defined the DHCP scope with the following parameters:
+
+* Host Gateway / Bridge IP (virbr2): 10.68.68.1 (1 IP)
+* DHCP Range: 10.68.68.2 through 10.68.68.20
+
+This gives you 19 dynamically assignable IP addresses available in the DHCP pool for your virtual machines.
+
+
+
 
 ### Toplogy
 
@@ -874,6 +964,9 @@ chmod +x create-ubuntu-vm.sh
 ./create-ubuntu-vm.sh
 ```
 
+Verification: Any VM built with this script will immediately draw its IP address from the test-network range (10.68.68.2–10.68.68.20) during installation
+
+
 
 When you execute ./create-ubuntu-vm.sh, virt-install will start and connect your terminal directly to the Ubuntu text installer via the serial console. You can verify that the step was successful when the installer screen appears directly inside your SSH session.
 
@@ -970,6 +1063,59 @@ Now exit ssh and list it from host
  Id   Name          State
 -----------------------------
  2    ubuntu-test   running
+```
+
+### Step 7 move ubunut-test to test-network
+
+We are unhappy with the ip range, lets move the vm to a test-network with a better range.
+
+```bash
+
+sudo virsh shutdown ubuntu-test
+
+# edit the vm from <source network='default'/> 
+# to 
+# <source network='test-network'/>
+sudo virsh edit ubuntu-test
+```
+
+
+```xml
+<interface type='network'>
+  <mac address='52:54:00:xx:xx:xx'/>
+  <source network='test-network'/>
+  <model type='virtio'/>
+</interface>
+```
+
+Starrt the vm again.
+
+```bash
+sudo virsh start ubuntu-test
+Domain 'ubuntu-test' started
+
+# Retrieve the Dynamic IP Address
+sudo virsh domifaddr ubuntu-test
+ Name       MAC address          Protocol     Address
+-------------------------------------------------------------------------------
+ vnet2      52:54:00:c7:8a:85    ipv4         10.68.68.14/24
+
+ssh john@10.68.68.14
+```
+
+### Step 8: Netplan Static IP Configuration 10.68.68.14
+
+Dynamic DHCP vs. IP Persistence
+Short answer: It can change, but in practice with libvirt, it usually stays the same.
+
+
+Static IP inside Guest Netplan
+
+Configure a static IP directly in the guest operating system (/etc/netplan/50-cloud-init.yaml) using an IP outside the DHCP pool (e.g., 10.68.68.50).
+
+
+```bash
+
 ```
 
 ## Next Session Agenda: KVM Networking, UFW & VM Maintenance

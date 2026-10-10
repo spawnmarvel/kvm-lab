@@ -2,11 +2,14 @@
 
 ## Table of content
 
- - [virsh man](#virsh-man)
- - [libvirt.org](#libvirtorg)
- - [What we have used before we create the first vm](#what-we-have-used-before-we-create-the-first-vm)
- - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
- - [quick guide reference](#quick-guide-reference)
+- [virsh commands](#virsh-commands)
+  - [Table of content](#table-of-content)
+  - [virsh man](#virsh-man)
+  - [libvirt.org](#libvirtorg)
+  - [1. Pool and vnets](#1-pool-and-vnets)
+  - [2. Vm's and networks](#2-vms-and-networks)
+  - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
+  - [quick guide reference](#quick-guide-reference)
 
 
 ## virsh man
@@ -24,7 +27,7 @@ man virsh
 
 https://www.libvirt.org/manpages/virsh.html
 
-## What we have used before we create the first vm
+## 1. Pool and vnets
 
 What we already used
 
@@ -59,11 +62,39 @@ virsh pool-autostart datadrive1-pool
 # List all created virtual disk volumes inside a storage pool
 virsh vol-list datadrive1-pool
 
+``` 
+
+## 2. Vm's and networks
+
+```bash
+
 # List all virtual machines currently defined on the host
 virsh list --all
 
+# stop
+sudo virsh shutdown ubuntu-test
 
-``` 
+# edit configuration
+sudo virsh edit ubuntu-test
+
+# start
+sudo virsh start ubuntu-test
+
+
+# get vm ip
+
+sudo virsh domifaddr ubuntu-test
+ Name       MAC address          Protocol     Address
+-------------------------------------------------------------------------------
+ vnet2      52:54:00:c7:8a:85    ipv4         10.68.68.14/24
+
+# You can verify which virtual network ubuntu-test is attached to directly from your host's terminal using
+sudo virsh domiflist ubuntu-test
+
+ Interface   Type      Source         Model    MAC
+------------------------------------------------------------------
+ vnet2       network   test-network   virtio   52:54:00:c7:8a:85
+```
 
 ## 8 Linux virsh subcommands for managing VMs on the command line
 
