@@ -17,7 +17,7 @@
     - [Overview \& Milestone Achieved](#overview--milestone-achieved)
   - [Download the Windows Server 2022 evaluation ISO directly to my new storage pool](#download-the-windows-server-2022-evaluation-iso-directly-to-my-new-storage-pool)
     - [Step 1: Create Dedicated Virtual Network via GUI (example)](#step-1-create-dedicated-virtual-network-via-gui-example)
-  - [Step 1.1 Create Dedicated Virtual Network test-network via virsh](#step-11-create-dedicated-virtual-network-test-network-via-virsh)
+  - [Step 1.1 Create Dedicated Virtual Network test-network via virsh 10.68.68.0/24 (254 addresses total)](#step-11-create-dedicated-virtual-network-test-network-via-virsh-106868024-254-addresses-total)
     - [1. The Subnet Boundaries (10.68.68.0/24):](#1-the-subnet-boundaries-106868024)
     - [2. The Dynamic DHCP Range (10.68.68.2 – 10.68.68.20):](#2-the-dynamic-dhcp-range-1068682--10686820)
     - [3. Static IPs outside the DHCP range (10.68.68.21 – 10.68.68.254):](#3-static-ips-outside-the-dhcp-range-10686821--106868254)
@@ -636,7 +636,7 @@ Or get xml from GUI
 This leaves 253 usable IP addresses (192.168.100.2 through 192.168.100.254).
 
 
-## Step 1.1 Create Dedicated Virtual Network test-network via virsh
+## Step 1.1 Create Dedicated Virtual Network test-network via virsh 10.68.68.0/24 (254 addresses total)
 
 
 
