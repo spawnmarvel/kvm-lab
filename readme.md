@@ -22,7 +22,6 @@
     - [2. The Dynamic DHCP Range (10.68.68.2 – 10.68.68.20):](#2-the-dynamic-dhcp-range-1068682--10686820)
     - [3. Static IPs outside the DHCP range (10.68.68.21 – 10.68.68.254):](#3-static-ips-outside-the-dhcp-range-10686821--106868254)
     - [Toplogy](#toplogy)
-  - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [virsh commands](#virsh-commands)
   - [Added 8 GB of DDR4 RAM](#added-8-gb-of-ddr4-ram)
   - [Get to know Virtual Machine Manager GUI / na...we go headless, look below](#get-to-know-virtual-machine-manager-gui--nawe-go-headless-look-below)
@@ -792,11 +791,6 @@ The key distinction is between dynamic DHCP pool allocation and static IP assign
                                                  | 10.68.68.50/24    |
                                                  +-------------------+
 ``` 
-
-
-## Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure
-
-https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-800
 
 ## virsh commands
 
