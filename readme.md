@@ -18,6 +18,9 @@
   - [Download the Windows Server 2022 evaluation ISO directly to my new storage pool](#download-the-windows-server-2022-evaluation-iso-directly-to-my-new-storage-pool)
     - [Step 1: Create Dedicated Virtual Network via GUI (example)](#step-1-create-dedicated-virtual-network-via-gui-example)
   - [Step 1.1 Create Dedicated Virtual Network test-network via virsh](#step-11-create-dedicated-virtual-network-test-network-via-virsh)
+    - [1. The Subnet Boundaries (10.68.68.0/24):](#1-the-subnet-boundaries-106868024)
+    - [2. The Dynamic DHCP Range (10.68.68.2 – 10.68.68.20):](#2-the-dynamic-dhcp-range-1068682--10686820)
+    - [3. Static IPs outside the DHCP range (10.68.68.21 – 10.68.68.254):](#3-static-ips-outside-the-dhcp-range-10686821--106868254)
     - [Toplogy](#toplogy)
   - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [virsh commands](#virsh-commands)
@@ -717,6 +720,31 @@ In the test-network configuration (10.68.68.0/24), you defined the DHCP scope wi
 This gives you 19 dynamically assignable IP addresses available in the DHCP pool for your virtual machines.
 
 
+***Why 10.68.68.50 Works (Static IP vs Dynamic Scope)***
+
+The key distinction is between dynamic DHCP pool allocation and static IP assignment within the /24 subnet:
+
+### 1. The Subnet Boundaries (10.68.68.0/24):
+
+* Subnet Mask: 255.255.255.0 (/24)
+
+* Total Usable Host Addresses: 10.68.68.1 through 10.68.68.254 (254 addresses total).
+
+* Gateway (virbr2): 10.68.68.1.
+
+### 2. The Dynamic DHCP Range (10.68.68.2 – 10.68.68.20):
+
+* This range is reserved strictly for unrecognized devices or generic dynamic DHCP requests.
+
+* When an unknown device asks for an IP, dnsmasq hands out an address between .2 and .20.
+
+### 3. Static IPs outside the DHCP range (10.68.68.21 – 10.68.68.254):
+
+* Address 10.68.68.50 is inside the 10.68.68.0/24 network, so routing, gateways, and internet access work seamlessly.
+
+* Because .50 sits outside the dynamic scope (.2–.20), dnsmasq will never automatically hand it out to another random VM. That makes it completely safe from IP conflicts.
+
+
 
 
 ### Toplogy
@@ -726,32 +754,34 @@ This gives you 19 dynamically assignable IP addresses available in the DHCP pool
 |                         PHYSICAL HOST (Ubuntu 24.04 LTS)                        |
 |                         HP ProDesk 600 G3 SFF                                   |
 |                                                                                 |
-|  [ Physical NIC ] <---> Home Network / Router <---> Internet                    |
+|  [ Physical NIC: eno1 ] <---> Home Network / Router <---> Internet              |
 |          |                                                                      |
-|  [ /mnt/datadrive1 ] (500GB HDD Storage Pool: datadrive1-pool)                  |
-|          ├── SERVER_EVAL_x64FRE_en-us.iso (Windows Server 2022 ISO - 4.7 GB)     |
-|          └── vms/ (Storage location for .qcow2 virtual disks)                   |
+|  [ Storage Pool: default ] (/var/lib/libvirt/images)                            |
+|          ├── ubuntu-26.04-server.iso (Ubuntu ISO Image)                         |
+|          └── ubuntu-test.qcow2 (Virtual Disk for guest VM)                      |
 |                                                                                 |
-|  [ Virtual Bridge Interface: virbr1 ]                                           |
-|          ├── IP Address: 192.168.100.1 /24 (Gateway / Router)                   |
-|          ├── NAT Engine: Forwards outgoing traffic through Physical NIC          |
-|          └── DHCP Service: Active (.100 to .200 pool)                            |
+|  [ Virtual Bridge Interface: virbr2 ]                                           |
+|          ├── IP Address: 10.68.68.1 /24 (Gateway / Router)                      |
+|          ├── NAT Engine: Forwards outgoing traffic through Physical NIC (eno1)   |
+|          └── DHCP Service: Active (10.68.68.2 to 10.68.68.20 pool)              |
 +---------------------------------------------------------------------------------+
                                        |
-                                       | (Virtual Network Switch: az800-lab)
+                                       | (Virtual Network Switch: test-network)
                                        v
 ===================================================================================
-                    VIRTUAL NETWORK SUBNET: 192.168.100.0/24
+                    VIRTUAL NETWORK SUBNET: 10.68.68.0/24
 ===================================================================================
                                        |
                    +-------------------+-------------------+
-                   | (Planned Deployment)                  | (Future Additions)
+                   | (Current Deployment)                  | (Future Lab Additions)
                    v                                       v
          +-------------------+                   +-------------------+
-         | DC01 (Windows)    |                   | Member Servers    |
-         | Target IP:        |                   | (FS01, SVR02,     |
-         | 192.168.100.10/24 |                   |  Admin Workstation)
-         +-------------------+                   +-------------------+
+         | ubuntu-test       |                   | Future Lab VMs    |
+         | Static MAC:       |                   | (DC01, FS01,      |
+         | 52:54:00:11:22:33 |                   |  Member Servers)  |
+         | Reserved Static IP|                   |                   |
+         | 10.68.68.50/24    |                   +-------------------+
+         +-------------------+
 ``` 
 
 
