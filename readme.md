@@ -26,9 +26,10 @@
   - [Get to know Virtual Machine Manager with virsh via ssh / or headless](#get-to-know-virtual-machine-manager-with-virsh-via-ssh--or-headless)
     - [Managing KVM Storage Pools \& Locations via CLI](#managing-kvm-storage-pools--locations-via-cli)
     - [Steps 1–3: Inspect Storage Pools \& Directories](#steps-13-inspect-storage-pools--directories)
-    - [Step 4: Download Debian 12 ISO](#step-4-download-debian-12-iso)
+    - [Step 4: Download Ubuntu 26.04 ISO](#step-4-download-ubuntu-2604-iso)
     - [Step 5: Create the Headless VM (virt-install)](#step-5-create-the-headless-vm-virt-install)
       - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
+    - [Step 6: to Obtain IP \& SSH into the VM](#step-6-to-obtain-ip--ssh-into-the-vm)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -777,9 +778,8 @@ Lets get to know the Virtual Machine Manager, we start to use only virsh command
 3. List Storage Volumes
 4. Download Debian 12 Image (Netinst ISO or Cloud Image)
 5. Create the Ubuntu VM via Headless CLI (virt-install)
-6. Access and Manage the VM Over SSH / Serial Console
-7. Find the VM's Dynamic IP Address
-8. Ssh into it
+6. Steps to Obtain IP & SSH into the VM
+
 
 Enter kvm-host-HP-ProDesk-600-G3-SFF
 
@@ -823,7 +823,7 @@ sudo virsh vol-list default
 ```
 
 
-### Step 4: Download Debian 12 ISO
+### Step 4: Download Ubuntu 26.04 ISO
 
 ```bash
 # save images
@@ -907,6 +907,68 @@ Select Reboot Now when the installation completes.
 Press enter
 
 ![ubuntu1_press_enter](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_press_enter.png)
+
+### Step 6: to Obtain IP & SSH into the VM
+
+Press Ctrl + ] to exit the serial console and return to your host's command line. (The VM continues running in the background).
+
+
+```bash
+[   12.326980] cloud-init[962]: |         ... .o..|
+[   12.328502] cloud-init[962]: |           . . o.|
+[   12.329973] cloud-init[962]: |            .   .|
+[   12.331474] cloud-init[962]: |                 |
+[   12.333436] cloud-init[962]: +----[SHA256]-----+
+
+Ubuntu 26.04 LTS lima ttyS0
+
+lima login:
+espenk@kvm-host-HP-ProDesk-600-G3-SFF:~/scripts$
+```
+
+Retrieve the Dynamic IP Address
+
+```bash
+ sudo virsh domifaddr ubuntu-test
+[sudo: authenticate] Password:
+ Name       MAC address          Protocol     Address
+-------------------------------------------------------------------------------
+ vnet1      52:54:00:c7:8a:85    ipv4         192.168.122.183/24
+```
+ssh into
+
+```bash
+ssh john@192.168.122.183
+
+john@lima:~$ hostname
+lima
+
+free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.6Gi       328Mi       906Mi       1.1Mi       554Mi       1.3Gi
+Swap:          1.7Gi          0B       1.7Gi
+
+lsblk
+NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sr0                        11:0    1 1024M  1 rom
+vda                       253:0    0   20G  0 disk
+├─vda1                    253:1    0    1M  0 part
+├─vda2                    253:2    0  1.8G  0 part /boot
+└─vda3                    253:3    0 18.2G  0 part
+  └─ubuntu--vg-ubuntu--lv 252:0    0   10G  0 lvm  /
+
+```
+
+Now exit ssh and list it from host
+
+```bash
+~/scripts$ sudo virsh list
+ Id   Name          State
+-----------------------------
+ 2    ubuntu-test   running
+```
+
+
 
 
 ## Step-by-Step GUI Creation Guide for DC01
