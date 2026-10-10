@@ -37,6 +37,7 @@
     - [Step 7: Netplan Static IP Configuration verify 10.68.68.50](#step-7-netplan-static-ip-configuration-verify-10686850)
       - [Why 10.68.68.50 Is Not Listed in Netplan](#why-10686850-is-not-listed-in-netplan)
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
+    - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
   - [Backup and restore](#backup-and-restore)
 
 ## Kernel Virtual Machine
@@ -1135,6 +1136,28 @@ This host reservation method is the standard industry best practice for automate
 
 ## Analyzing Your Current DNS Setup
 
+
+resolved.conf is not used.
+
+```bash
+
+sudo cat /etc/systemd/resolved.conf
+```
+
+Result
+
+```txt
+#DNS=
+#FallbackDNS=
+
+```
+
+Check DNS we are using, Yes, you are currently using the KVM host for DNS resolution.
+
+Your resolvectl status output confirms that interface enp1s0 inside ubuntu-test has its Current DNS Server set to 10.68.68.1, which is the IP address of your host bridge (virbr2).
+
+
+
 ```bash
 resolvectl status
 Global
@@ -1178,6 +1201,19 @@ ping -c 3 google.com
 # 2. HTTP response check via curl
 curl -I https://www.google.com
 ```
+
+
+### Order of Precedence in Ubuntu DN
+
+1. Top Priority — /etc/systemd/resolved.conf (Global Scope):
+
+Any DNS servers listed under DNS= or FallbackDNS= in resolved.conf apply system-wide across all interfaces. They override or complement link-level settings.
+
+2. Second Priority — Netplan Explicit Nameservers (nameservers.addresses):
+
+DNS servers configured inside /etc/netplan/*.yaml apply directly to that specific network link (e.g., enp1s0).
+
+
 
 ## Backup and restore
 
