@@ -901,6 +901,8 @@ justfortest1
 
 Select Reboot Now when the installation completes.
 
+![ubuntu1_reboot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_reboot.png)
+
 
 ## Step-by-Step GUI Creation Guide for DC01
 
