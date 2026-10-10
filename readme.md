@@ -904,6 +904,11 @@ Select Reboot Now when the installation completes.
 ![ubuntu1_reboot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_reboot.png)
 
 
+Press enter
+
+![ubuntu1_press_enter](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_press_enter.png)
+
+
 ## Step-by-Step GUI Creation Guide for DC01
 
 DC01 is the standard default hostname for a primary Active Directory (AD) domain controller in Windows Server environments. It runs 
