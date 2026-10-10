@@ -24,6 +24,10 @@
   - [Get to know Virtual Machine Manager GUI / na...we go headless, look below](#get-to-know-virtual-machine-manager-gui--nawe-go-headless-look-below)
   - [UFW (Uncomplicated Firewall) with KVM GUI Gufw](#ufw-uncomplicated-firewall-with-kvm-gui-gufw)
   - [Get to know Virtual Machine Manager with virsh via ssh / or headless](#get-to-know-virtual-machine-manager-with-virsh-via-ssh--or-headless)
+    - [Managing KVM Storage Pools \& Locations via CLI](#managing-kvm-storage-pools--locations-via-cli)
+    - [Steps 1–3: Inspect Storage Pools \& Directories](#steps-13-inspect-storage-pools--directories)
+    - [Step 4: Download Debian 12 ISO](#step-4-download-debian-12-iso)
+    - [Step 5: Create the Headless VM (virt-install)](#step-5-create-the-headless-vm-virt-install)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -763,19 +767,128 @@ You can do the same with commands.
 
 ## Get to know Virtual Machine Manager with virsh via ssh / or headless
 
+### Managing KVM Storage Pools & Locations via CLI
+
 Lets get to know the Virtual Machine Manager, we start to use only virsh commands
 
-1. Download ubuntu 26.04
-2. Make a vm
-3. Take a clean snap
-4. Make some files, install something, connect to internet
-5. Restore to the clean snap
+1. Inspect Active Storage Pools
+2. Locate Storage Directories
+3. List Storage Volumes
+4. Download Debian 12 Image (Netinst ISO or Cloud Image)
+5. Create the Ubuntu VM via Headless CLI (virt-install)
+6. Access and Manage the VM Over SSH / Serial Console
+7. Find the VM's Dynamic IP Address
+8. Ssh into it
+
+Enter kvm-host-HP-ProDesk-600-G3-SFF
 
 ```bash
 ssh
 
 192.168.10.70
 ```
+
+### Steps 1–3: Inspect Storage Pools & Directories
+
+
+```bash
+# 1. List active storage pools
+sudo virsh pool-list --all
+
+ Name              State    Autostart
+---------------------------------------
+ datadrive1-pool   active   yes
+ default           active   yes
+
+
+# 2. Locate storage pool physical directory (default path)
+sudo virsh pool-info default
+
+Name:           default
+UUID:           3486f9fb-a93c-4457-9ca6-3f794cd49f49
+State:          running
+Persistent:     yes
+Autostart:      yes
+Capacity:       232.64 GiB
+Allocation:     17.65 GiB
+Available:      214.98 GiB
+
+# 3. List existing storage volumes (virtual disks/ISOs)
+sudo virsh vol-list default
+
+ Name   Path
+--------------
+
+```
+
+
+### Step 4: Download Debian 12 ISO
+
+```bash
+# save images
+cd /var/lib/libvirt/images
+
+# get ubuntu 26.04
+sudo wget https://releases.ubuntu.com/resolute/ubuntu-26.04-live-server-amd64.iso -O ubuntu-26.04-server.iso
+
+# refrsh pool
+sudo virsh pool-refresh default
+
+# Verify that the ISO volume shows up in your storage pool:
+sudo virsh vol-list default
+
+ Name                      Path
+----------------------------------------------------------------------------
+ debian-12-netinst.iso     /var/lib/libvirt/images/debian-12-netinst.iso
+ ubuntu-26.04-server.iso   /var/lib/libvirt/images/ubuntu-26.04-server.iso
+
+```
+
+### Step 5: Create the Headless VM (virt-install)
+
+```bash
+
+cd ~
+pwd
+
+/home/espenk
+
+mkdir scripts
+cd scripts
+
+sudo nano create-ubuntu-vm.sh
+```
+
+GOTO Scripts\
+
+```bash
+# make it executable
+chmod +x create-ubuntu-vm.sh
+
+# run it
+./create-ubuntu-vm.sh
+```
+
+
+When you execute ./create-ubuntu-vm.sh, virt-install will start and connect your terminal directly to the Ubuntu text installer via the serial console. You can verify that the step was successful when the installer screen appears directly inside your SSH session.
+
+Press Enter on [ Continue in rich mode > ]
+
+Navigate through the installer prompts using your arrow keys, Tab, and Spacebar:
+
+* Language & Keyboard: Select your preferred language and layout (e.g., English / Norwegian).
+* Network Connections: Leave the default DHCP settings on the virbr0 interface.
+* Storage Configuration: Accept the default guided layout on the 20 GB disk.
+* Profile Setup: Enter your desired username, password, and hostname.
+* SSH Setup: Make sure to check [X] Install OpenSSH server so you can connect via SSH later.
+* Featured Snaps: Leave everything unchecked and press Done.
+* Select Reboot Now when the installation completes.
+
+
+(Note: To detach from the serial console at any time, press Ctrl + ]. Reconnect whenever you want using sudo virsh console ubuntu-test.)
+
+
+
 
 
 ## Step-by-Step GUI Creation Guide for DC01
