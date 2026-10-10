@@ -888,7 +888,13 @@ Navigate through the installer prompts using your arrow keys, Tab, and Spacebar:
 (Note: To detach from the serial console at any time, press Ctrl + ]. Reconnect whenever you want using sudo virsh console ubuntu-test.)
 
 
+![ubuntu1](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1.png)
 
+justfortest1
+
+![ubuntu1_user](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_user.png)
+
+![ubuntu1_ssh](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1_ssh.png)
 
 
 ## Step-by-Step GUI Creation Guide for DC01
