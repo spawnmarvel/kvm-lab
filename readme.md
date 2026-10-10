@@ -21,8 +21,9 @@
   - [Study guide for Exam AZ-800: Administering Windows Server Hybrid Core Infrastructure](#study-guide-for-exam-az-800-administering-windows-server-hybrid-core-infrastructure)
   - [virsh commands](#virsh-commands)
   - [Added 8 GB of DDR4 RAM](#added-8-gb-of-ddr4-ram)
-  - [Get to know Virtual Machine Manager](#get-to-know-virtual-machine-manager)
+  - [Get to know Virtual Machine Manager (maybe)](#get-to-know-virtual-machine-manager-maybe)
   - [UFW (Uncomplicated Firewall) with KVM GUI Gufw](#ufw-uncomplicated-firewall-with-kvm-gui-gufw)
+  - [Get to know Virtual Machine Manager with virsh via ssh](#get-to-know-virtual-machine-manager-with-virsh-via-ssh)
   - [Step-by-Step GUI Creation Guide for DC01](#step-by-step-gui-creation-guide-for-dc01)
 
 ## Kernel Virtual Machine
@@ -704,7 +705,7 @@ All slots are full, from left (this is before insert the last 4gb)
 ![ram](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ram.jpg)
 
 
-## Get to know Virtual Machine Manager
+## Get to know Virtual Machine Manager (maybe)
 
 Lets get to know the Virtual Machine Manager GUI before we start to use only virsh commands
 
@@ -758,6 +759,23 @@ Gufw
 
 
 ![gufw](https://github.com/spawnmarvel/kvm-lab/blob/main/images/gufw.png)
+
+## Get to know Virtual Machine Manager with virsh via ssh
+
+Lets get to know the Virtual Machine Manager, we start to use only virsh commands
+
+1. Download ubuntu 26.04
+2. Make a vm
+3. Take a clean snap
+4. Make some files, install something, connect to internet
+5. Restore to the clean snap
+
+```bash
+ssh
+
+192.168.10.70
+```
+
 
 ## Step-by-Step GUI Creation Guide for DC01
 
