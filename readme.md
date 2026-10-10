@@ -749,6 +749,11 @@ The key distinction is between dynamic DHCP pool allocation and static IP assign
 
 ### Toplogy
 
+
+![topolgy net](https://github.com/spawnmarvel/kvm-lab/blob/main/images/toplogy_net.png)
+
+
+
 ```txt
 +---------------------------------------------------------------------------------+
 |                         PHYSICAL HOST (Ubuntu 24.04 LTS)                        |
