@@ -32,7 +32,7 @@
       - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
     - [Step 6: to Obtain IP \& SSH into the VM](#step-6-to-obtain-ip--ssh-into-the-vm)
     - [Step 7 move ubunut-test to test-network](#step-7-move-ubunut-test-to-test-network)
-    - [Step 8: Netplan Static IP Configuration 10.68.68.14](#step-8-netplan-static-ip-configuration-10686814)
+    - [Step 8: Netplan Static IP Configuration on 10.68.68.14 to 10.68.68.50](#step-8-netplan-static-ip-configuration-on-10686814-to-10686850)
   - [Next Session Agenda: KVM Networking, UFW \& VM Maintenance](#next-session-agenda-kvm-networking-ufw--vm-maintenance)
       - [1. Host \& Guest Network Configuration](#1-host--guest-network-configuration)
       - [2. UFW Firewall Management](#2-ufw-firewall-management)
@@ -1103,7 +1103,7 @@ sudo virsh domifaddr ubuntu-test
 ssh john@10.68.68.14
 ```
 
-### Step 8: Netplan Static IP Configuration 10.68.68.14
+### Step 8: Netplan Static IP Configuration on 10.68.68.14 to 10.68.68.50
 
 Dynamic DHCP vs. IP Persistence
 Short answer: It can change, but in practice with libvirt, it usually stays the same.
@@ -1114,9 +1114,95 @@ Static IP inside Guest Netplan
 Configure a static IP directly in the guest operating system (/etc/netplan/50-cloud-init.yaml) using an IP outside the DHCP pool (e.g., 10.68.68.50).
 
 
+Cloud-init creates a default configuration at /etc/netplan/50-cloud-init.yaml. Open it with nano.
+
 ```bash
+ssh john@10.68.68.14
+
+# it can have have many names
+cd /etc/netplan/
+ls
+
+sudo cat /etc/netplan/00-installer-config.yaml
+
+# back it up
+sudo cp 00-installer-config.yaml 00-installer-config.yaml_bck
+
+sudo nano /etc/netplan/00-installer-config.yaml
 
 ```
+
+Deafault 00-installer-config.yaml
+
+```yml
+# This is the network config written by 'subiquity'
+network:
+  ethernets:
+    enp1s0:
+      dhcp4: true
+      dhcp6: true
+      match:
+        macaddress: 52:54:00:c7:8a:85
+      set-name: enp1s0
+  version: 2
+```
+
+Replace it with this:
+
+```yml
+# This is the network config written by 'subiquity' modified by ek
+network:
+  version: 2
+  ethernets:
+    enp1s0:
+      dhcp4: false
+      dhcp6: false
+      match:
+        macaddress: 52:54:00:c7:8a:85
+      set-name: enp1s0
+      addresses:
+        - 10.68.68.50/24
+      routes:
+        - to: default
+          via: 10.68.68.1
+      nameservers:
+        addresses:
+          - 10.68.68.1
+          - 1.1.1.168.1
+          - 1.1.1.1
+```
+
+Now test it.
+
+```bash
+# Try the configuration safely (reverts automatically if connection breaks after 120s)
+sudo netplan try
+
+# When you run sudo netplan try over an active SSH session, applying the network changes breaks the current IP connection. 
+# Because the SSH session freezes immediately, you cannot see or respond to the timeout prompt (Press ENTER before the timeout to accept the new configuration).
+
+# login again and apply if not already applied
+
+ssh john@10.68.68.14
+# or
+ssh john@10.68.68.50
+
+
+sudo cat /etc/netplan/00-installer-config.yaml
+
+
+# Not always, do we have to do: Apply permanently if no errors occur
+sudo netplan apply
+
+ssh john@10.68.68.50
+ip addr
+
+ inet 10.68.68.50/24 brd 10.68.68.255 scope global enp1s0
+
+```
+
+
+
 
 ## Next Session Agenda: KVM Networking, UFW & VM Maintenance
 
