@@ -35,6 +35,7 @@
       - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
     - [Step 6: SSH into the VM](#step-6-ssh-into-the-vm)
     - [Step 7: Netplan Static IP Configuration verify 10.68.68.50](#step-7-netplan-static-ip-configuration-verify-10686850)
+      - [Why 10.68.68.50 Is Not Listed in Netplan](#why-10686850-is-not-listed-in-netplan)
   - [Next Session Agenda:](#next-session-agenda)
 
 ## Kernel Virtual Machine
@@ -778,15 +779,16 @@ The key distinction is between dynamic DHCP pool allocation and static IP assign
 ===================================================================================
                                        |
                    +-------------------+-------------------+
-                   | (Current Deployment)                  | (Future Lab Additions)
+                   | (Dynamic DHCP Zone)                   | (Static / Reserved Zone)
+                   | Range: 10.68.68.2 - 10.68.68.20       | Range: 10.68.68.21 - 10.68.68.254
                    v                                       v
          +-------------------+                   +-------------------+
-         | ubuntu-test       |                   | Future Lab VMs    |
-         | Static MAC:       |                   | (DC01, FS01,      |
-         | 52:54:00:11:22:33 |                   |  Member Servers)  |
-         | Reserved Static IP|                   |                   |
-         | 10.68.68.50/24    |                   +-------------------+
-         +-------------------+
+         | Generic / Test    |                   | ubuntu-test       |
+         | Unrecognized VMs  |                   | MAC:              |
+         | (Auto DHCP IP)    |                   | 52:54:00:11:22:33 |
+         +-------------------+                   | Static IP:        |
+                                                 | 10.68.68.50/24    |
+                                                 +-------------------+
 ``` 
 
 
@@ -1047,12 +1049,25 @@ We assigned a static ip.
 ssh john@10.68.68.50
 
 hostname
+lina
 
 uname -a
+Linux lima 7.0.0-38-generic #38-Ubuntu SMP PREEMPT_DYNAMIC Fri Sep  4 09:10:14 UTC 2026 x86_64 GNU/Linux
 
 free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.6Gi       336Mi       996Mi       1.1Mi       455Mi       1.3Gi
+Swap:          1.7Gi          0B       1.7Gi
 
 lsblk
+lsblk
+NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sr0                        11:0    1 1024M  1 rom
+vda                       253:0    0   20G  0 disk
+├─vda1                    253:1    0    1M  0 part
+├─vda2                    253:2    0  1.8G  0 part /boot
+└─vda3                    253:3    0 18.2G  0 part
+  └─ubuntu--vg-ubuntu--lv 252:0    0   10G  0 lvm  /
 
 
 ```
@@ -1069,11 +1084,52 @@ Lets have a look at netplan
 ```bash
 cd /etc/netplan
 ls
-cat 
+00-installer-config.yaml
+
+cat 00-installer-config.yaml
 ```
 
+Netplan
 
+```yml
+# This is the network config written by 'subiquity'
+network:
+  ethernets:
+    enp1s0:
+      dhcp4: true
+      dhcp6: true
+      match:
+        macaddress: '52:54:00:11:22:33'
+      set-name: enp1s0
+  version: 2
+```
 
+#### Why 10.68.68.50 Is Not Listed in Netplan
+
+You do not see 10.68.68.50 inside /etc/netplan/00-installer-config.yaml because the VM's guest OS is set to DHCP (dhcp4: true).
+
+Instead of configuring a hardcoded static IP directly inside the guest operating system, your IP address is being managed externally by the libvirt DHCP server on the KVM host.
+
+1. Host Reservation Rule: On the KVM host, you ran:
+
+```bash
+# we ran
+./create-ubuntu-vm.sh
+
+# [...]
+
+# 1. Add static reservation for a specific MAC on test-network
+sudo virsh net-update test-network add-last ip-dhcp-host \
+  "<host mac='52:54:00:11:22:33' name='ubuntu-vm2' ip='10.68.68.50'/>" \
+  --live --config
+```
+
+2. MAC Matching: During boot, ubuntu-test broadcasts a standard DHCP request over virtual interface enp1s0 using MAC address 52:54:00:11:22:33
+3. Host Response: The host dnsmasq service intercepts the request, recognizes the MAC address 52:54:00:11:22:33, and assigns it the reserved static IP 10.68.68.50.
+
+Because dhcp4: true is active, Netplan accepts 10.68.68.50 dynamically from the host.
+
+This host reservation method is the standard industry best practice for automated lab deployments, as it avoids manual post-installation Netplan edits or frozen SSH sessions.
 
 
 

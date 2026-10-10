@@ -7,7 +7,7 @@
   - [virsh man](#virsh-man)
   - [libvirt.org](#libvirtorg)
   - [1. Pool and vnets](#1-pool-and-vnets)
-  - [2. Vm's and networks](#2-vms-and-networks)
+  - [2. Vm's and ip addresses](#2-vms-and-ip-addresses)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
   - [quick guide reference](#quick-guide-reference)
 
@@ -64,17 +64,21 @@ virsh vol-list datadrive1-pool
 
 ``` 
 
-## 2. Vm's and networks
+## 2. Vm's and ip addresses
 
 ```bash
 
 # List all virtual machines currently defined on the host
-virsh list --all
+sudo virsh list --all
 
 # stop
-sudo virsh shutdown ubuntu-test
+sudo virsh shutdown ubuntu-vm2
 
-# edit configuration
+# rename
+sudo virsh domrename ubuntu-vm2 ubuntu-test
+# start
+
+# edit configuration (must check what ww can edit, but move between networks is fine)
 sudo virsh edit ubuntu-test
 
 # start
@@ -84,16 +88,20 @@ sudo virsh start ubuntu-test
 # get vm ip
 
 sudo virsh domifaddr ubuntu-test
+
  Name       MAC address          Protocol     Address
 -------------------------------------------------------------------------------
- vnet2      52:54:00:c7:8a:85    ipv4         10.68.68.14/24
+ vnet5      52:54:00:11:22:33    ipv4         10.68.68.50/24
 
 # You can verify which virtual network ubuntu-test is attached to directly from your host's terminal using
+# Sequential Allocation: Every time a VM starts, stops, re-instantiates, 
+# or has its virtual network adapter re-attached, the Linux kernel 
+# assigns the next available vnetX integer index on the host.
 sudo virsh domiflist ubuntu-test
 
  Interface   Type      Source         Model    MAC
 ------------------------------------------------------------------
- vnet2       network   test-network   virtio   52:54:00:c7:8a:85
+ vnet5       network   test-network   virtio   52:54:00:11:22:33
 
 # Run this single command on your host terminal to stop the VM, unregister it from libvirt
 sudo virsh destroy ubuntu-test --graceful 2>/dev/null || sudo virsh destroy ubuntu-test
