@@ -37,7 +37,7 @@
       - [Why 10.68.68.50 Is Not Listed in Netplan](#why-10686850-is-not-listed-in-netplan)
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
     - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
-  - [Backup and restore](#backup-and-restore)
+  - [Backup, edit and restore](#backup-edit-and-restore)
 
 ## Kernel Virtual Machine
 
@@ -1209,7 +1209,7 @@ DNS servers configured inside /etc/netplan/*.yaml apply directly to that specifi
 
 
 
-## Backup and restore
+## Backup, edit and restore
 
 
 Step 1: Create Initial Clean Snapshot / Disk Backup
