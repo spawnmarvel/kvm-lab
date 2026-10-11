@@ -85,6 +85,11 @@ sudo virsh edit ubuntu-test
 sudo virsh start ubuntu-test
 
 
+# check if it has autostart
+# Look for the Autostart line in the output. It will explicitly show either enable or disable
+sudo virsh dominfo ubunty-test
+
+
 # get vm ip
 
 sudo virsh domifaddr ubuntu-test
