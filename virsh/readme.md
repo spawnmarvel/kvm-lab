@@ -4,6 +4,7 @@
 
 - [virsh commands](#virsh-commands)
   - [Table of content](#table-of-content)
+  - [virsh (enter, help)](#virsh-enter-help)
   - [virsh man](#virsh-man)
   - [libvirt.org](#libvirtorg)
   - [1. Pool and vnets](#1-pool-and-vnets)
@@ -11,6 +12,23 @@
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
   - [quick guide reference](#quick-guide-reference)
 
+
+## virsh (enter, help)
+
+
+```bash
+virsh
+
+Welcome to virsh, the virtualization interactive terminal.
+
+Type:  'help' for help with commands
+       'quit' to quit
+
+virsh #
+
+
+
+```
 
 ## virsh man
 
