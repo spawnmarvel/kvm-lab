@@ -976,13 +976,13 @@ pwd
 
 /home/espenk
 
-mkdir scripts
-cd scripts
+mkdir scripts_kvm
+cd scripts_kvm
 
 sudo nano create-ubuntu-vm.sh
 ```
 
-GOTO Scripts\
+GOTO Scripts_kvm\
 
 ```bash
 # make it executable

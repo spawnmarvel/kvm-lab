@@ -1,0 +1,47 @@
+espenk@kvm-host-HP-ProDesk-600-G3-SFF:~/scripts_general$ bash verify_repos_layer4.sh
+L4 OK: archive.ubuntu.com:80
+L4 OK: archive.ubuntu.com:443
+L4 OK: security.ubuntu.com:80
+L4 OK: security.ubuntu.com:443
+L4 OK: repo.zabbix.com:80
+L4 OK: repo.zabbix.com:443
+L4 OK: repo.mysql.com:80
+L4 OK: repo.mysql.com:443
+L4 OK: dev.mysql.com:80
+L4 OK: dev.mysql.com:443
+espenk@kvm-host-HP-ProDesk-600-G3-SFF:~/scripts_general$ sudo nano verify_repos_layer7.sh
+espenk@kvm-host-HP-ProDesk-600-G3-SFF:~/scripts_general$ bash verify_repos_layer7.sh
+L7 OK (200): http://archive.ubuntu.com
+L7 OK (200): https://archive.ubuntu.com
+L7 OK (301): http://security.ubuntu.com
+L7 OK (301): https://security.ubuntu.com
+L7 OK (301): http://repo.zabbix.com
+L7 OK (200): https://repo.zabbix.com
+L7 OK (200): http://repo.mysql.com
+L7 OK (200): https://repo.mysql.com
+L7 OK (301): http://dev.mysql.com
+L7 OK (200): https://dev.mysql.com
+
+
+The test outputs from your KVM host show that both Layer 4 and Layer 7 egress rules are fully functional for all designated package repositories:
+
+
+
+Layer 4 (TCP Handshakes):
+
+All 5 target endpoints respond cleanly on ports 80 and 443 with zero socket connection timeouts.
+
+Layer 7 (HTTP/HTTPS Protocol Responses):
+
+HTTP 200 (OK): Direct content delivery (e.g., [https://archive.ubuntu.com](https://archive.ubuntu.com), [https://repo.zabbix.com](https://repo.zabbix.com), [https://repo.mysql.com](https://repo.mysql.com), [https://dev.mysql.com](https://dev.mysql.com)).
+
+HTTP 301 (Moved Permanently): Standard web redirection enforced by repository servers redirecting unencrypted HTTP requests to secure HTTPS endpoints (e.g., security.ubuntu.com, repo.zabbix.com).
+
+
+Key Takeaways
+
+Firewall Policy Alignment: Outbound repository access across HTTP (80) and HTTPS (443) is working as intended without upstream packet dropping or SSL inspection failures
+
+
+APT / Package Manager Compatibility: Both apt-get and dpkg will be able to perform package updates, security patches, and repository syncs seamlessly across these endpoints.
+
