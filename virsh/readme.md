@@ -8,7 +8,7 @@
   - [virsh man](#virsh-man)
   - [libvirt.org](#libvirtorg)
   - [1. Pool and vnets](#1-pool-and-vnets)
-  - [2. Vm's and ip addresses](#2-vms-and-ip-addresses)
+  - [2. Vm's (domain) and ip addresses](#2-vms-domain-and-ip-addresses)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
   - [quick guide reference](#quick-guide-reference)
 
@@ -25,6 +25,10 @@ Type:  'help' for help with commands
        'quit' to quit
 
 virsh #
+
+start help
+edit help
+
 
 
 
@@ -82,7 +86,13 @@ virsh vol-list datadrive1-pool
 
 ``` 
 
-## 2. Vm's and ip addresses
+## 2. Vm's (domain) and ip addresses
+
+In virsh, a domain is a virtualized guest abstraction, such as a virtual machine (VM) or container managed via libvirt.
+
+* Domain Name (e.g., my-vm)
+* Domain ID (a numeric ID used only while the guest is running)
+* Domain UUID (a unique Universally Unique Identifier string)
 
 ```bash
 
