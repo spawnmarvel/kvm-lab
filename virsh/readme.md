@@ -13,7 +13,7 @@
   - [quick guide reference](#quick-guide-reference)
 
 
-## virsh (enter, help)
+## virsh (enter, help) 
 
 
 ```bash
@@ -28,10 +28,12 @@ virsh #
 
 start help
 edit help
+list help
+help pool-list
 
+# you get the idea
 
-
-
+exit
 ```
 
 ## virsh man
