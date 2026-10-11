@@ -45,3 +45,10 @@ Firewall Policy Alignment: Outbound repository access across HTTP (80) and HTTPS
 
 APT / Package Manager Compatibility: Both apt-get and dpkg will be able to perform package updates, security patches, and repository syncs seamlessly across these endpoints.
 
+
+
+Layer 3: Network Layer (Routing & ICMP)
+
+Layer 3 verifies IP-level routing and path discovery. Note that many enterprise firewalls explicitly block ICMP (ping) even when Layer 4 (ports 80/443) is open, so a failed ping does not necessarily mean your connection is broken.
+
+
