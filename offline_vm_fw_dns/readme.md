@@ -48,6 +48,22 @@ Use this checklist in order to isolate the root cause in under 2 minutes:
 ## Prerequisites: Global & Interface DNS Setup check
 
 
+
+```bash
+# Version 1.0.0
+# Print IP address, netmask, default gateway, and DNS configuration
+
+ip addr show
+ip route show
+# to vms each wit differtn route, one works with outbund, but the other not
+ip route | grep default
+# does it show difference? 
+cat /etc/resolv.conf
+
+
+
+```
+
 Yes, updating your DNS configuration is the essential Prerequisite Step before running any connectivity tests. Without a working DNS server, your system cannot resolve domain names to IP addresses.
 
 Configure Global DNS: Set your primary DNS server in /etc/systemd/resolved.conf
