@@ -9,6 +9,8 @@
   - [libvirt.org](#libvirtorg)
   - [1. Pool and vnets](#1-pool-and-vnets)
   - [2. Vm's (domain) and ip addresses](#2-vms-domain-and-ip-addresses)
+  - [3. View and edit vms, ram, disk cpu](#3-view-and-edit-vms-ram-disk-cpu)
+    - [3.1 Increase ram](#31-increase-ram)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
   - [quick guide reference](#quick-guide-reference)
 
@@ -143,6 +145,52 @@ sudo virsh destroy ubuntu-test --graceful 2>/dev/null || sudo virsh destroy ubun
 
 # automatically delete its storage disk
 sudo virsh undefine ubuntu-test --remove-all-storage
+```
+
+## 3. View and edit vms, ram, disk cpu
+
+
+```bash
+
+
+# Basic RAM and CPU allocation, ++
+virsh dominfo ubuntu-test
+
+# Detailed vCPU configuration
+virsh vcpuinfo ubuntu-test
+
+# Live memory statistics 
+virsh dommemstat ubuntu-test
+
+# Live CPU and memory usage overview
+virsh domstats ubuntu-test --cpu-total
+
+# List attached block devices
+# here we find the target we can use below
+virsh domblklist ubuntu-test
+
+# View capacity, allocation, and physical size in human-readable units
+virsh domblkinfo ubuntu-test vda --human
+
+```
+
+### 3.1 Increase ram
+
+```bash
+
+sudo virsh shutdown ubuntu-test
+
+sudo virsh setmaxmem ubuntu-test 4G --config
+
+# Increase the Maximum Memory limit
+sudo virsh setmem ubuntu-test 4G --config
+
+# Increase the Current Memory allocation to match
+
+sudo virsh start ubuntu-test
+
+virsh dominfo ubuntu-test
+
 ```
 
 ## 8 Linux virsh subcommands for managing VMs on the command line
