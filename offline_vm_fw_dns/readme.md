@@ -12,11 +12,11 @@
 - [More troubleshooting if 1 does not work](#more-troubleshooting-if-1-does-not-work)
   - [2. Check Default Gateway (Routing)](#2-check-default-gateway-routing)
   - [3. Test Firewall Connectivity (Port 80/443)](#3-test-firewall-connectivity-port-80443)
-  - [4. Force IPv4 in APT (In Case of IPv6 Conflicts) optional nan](#4-force-ipv4-in-apt-in-case-of-ipv6-conflicts-optional-nan)
     - [5. Workaround Layer 7 Firewall / DPI User-Agent Drops](#5-workaround-layer-7-firewall--dpi-user-agent-drops)
     - [5.1 Next step 1 of 2](#51-next-step-1-of-2)
     - [5.2 Test all repositores](#52-test-all-repositores)
   - [Tools for network checks](#tools-for-network-checks)
+  - [Compare Routing Tables and Egress Paths vm1 works not vm2](#compare-routing-tables-and-egress-paths-vm1-works-not-vm2)
   - [Appendix: Why Netplan Hardening is Recommended](#appendix-why-netplan-hardening-is-recommended)
 
 ## Scenario, offline vms that needs direct access to some repsitories Ubuntu 26.04
@@ -47,22 +47,6 @@ Use this checklist in order to isolate the root cause in under 2 minutes:
 
 ## Prerequisites: Global & Interface DNS Setup check
 
-
-
-```bash
-# Version 1.0.0
-# Print IP address, netmask, default gateway, and DNS configuration
-
-ip addr show
-ip route show
-# to vms each wit differtn route, one works with outbund, but the other not
-ip route | grep default
-# does it show difference? 
-cat /etc/resolv.conf
-
-
-
-```
 
 Yes, updating your DNS configuration is the essential Prerequisite Step before running any connectivity tests. Without a working DNS server, your system cannot resolve domain names to IP addresses.
 
@@ -232,15 +216,6 @@ nc -zv -w3 archive.ubuntu.com 443
 * OK: Connection to archive.ubuntu.com 80 port [tcp/http] succeeded!
 * Error: Network is unreachable or Timed out The firewall is blocking the specific CDN IP address (ask the network team to allow the FQDN or Canonical IP ranges 91.189.88.0/21 and 185.125.188.0/22).
 
-## 4. Force IPv4 in APT (In Case of IPv6 Conflicts) optional nan
-
-If DNS returns IPv6 addresses that the firewall does not route:
-
-```bash
-echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4
-sudo apt update
-```
-
 
 ### 5. Workaround Layer 7 Firewall / DPI User-Agent Drops
 
@@ -343,7 +318,6 @@ apt-cache policy mysql-server
 
 
 
-
 ##  Tools for network checks
 
 ```bash
@@ -385,6 +359,46 @@ Using mtr or tracepath early on would have yielded misleading results for two sp
 mtr Would Show a "Successful" Route: Because mtr tests network routing (Layer 3/4), it would have shown packets successfully reaching archive.ubuntu.com or repo.zabbix.com. However, apt update would still fail right after because the firewall's DPI engine dropped the connection only after seeing the APT-HTTP header.
 
 ICMP/UDP Filtering: Enterprise datacenters frequently block ICMP ping and UDP probes at the perimeter edge. mtr often shows 100% packet loss at the firewall hop, making it look like a broken network route when HTTP/HTTPS traffic on ports 80/443 is actually allowed.
+
+## Compare Routing Tables and Egress Paths vm1 works not vm2
+
+Run ip route on both VMs to inspect the exact default via definitions:
+
+```bash
+
+# Version 1.0.0
+# Compare default gateway and interface routing table
+
+ip route | grep default
+```
+Example
+
+VM1 (Working): Points to Gateway A (e.g., default via 10.68.68.1).
+
+VM2 (Failing): Points to Gateway B (e.g., default via 10.68.68.2).
+
+
+To prove that VM2's issue is TCP routing through Gateway B (and not a name resolution timing issue), execute a direct IP test on VM2 targeting one of Ubuntu's repository IP addresses:
+
+```bash
+
+# Version 1.0.0
+# Test raw TCP handshake to Ubuntu repo IP bypassing DNS
+
+resolveectl query archive.ubuntu.com
+
+# use the first ip in the next query
+nc -z -v -w 3 ip-address and port
+```
+
+How to verify:
+
+* On VM1, this returns succeeded!.
+
+* On VM2, this times out (Connection timed out or No route to host), confirming Gateway B is failing to route TCP traffic outbound.
+
+1. If Gateway A is the intended default gateway for that entire IP subnet, you can fix VM2 yourself immediately without waiting for network changes.
+2. If VM2 must use Gateway B (for instance, if Gateway B is a dedicated router, security appliance, or VRRP/HSRP secondary gateway for that segment), the network team needs to investigate and resolve one of the following on Gateway B.
 
 ## Appendix: Why Netplan Hardening is Recommended
 
