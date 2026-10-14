@@ -70,12 +70,17 @@ https://www.libvirt.org/manpages/virsh.html
 ```bash
 # Define, build, and start a directory-based storage pool on a dedicated drive
 virsh pool-define-as datadrive1-pool dir --target /mnt/datadrive1
+
+# Build, start, and set autostart for the pool
 virsh pool-build datadrive1-pool
 virsh pool-start datadrive1-pool
 virsh pool-autostart datadrive1-pool
 
 # List all created virtual disk volumes inside a storage pool
 virsh vol-list datadrive1-pool
+
+# Refresh pool after placing ISOs or disk images
+virsh pool-refresh datadrive1-pool
 
 ``` 
 
@@ -100,7 +105,9 @@ virsh net-dumpxml az800-lab
 # List all virtual machine storage pools and their status
 virsh pool-list --all
 
+
 ```
+For the test-network GOTO\scripts_network
 
 ## 3. Vm's (domain) and ip addresses
 
@@ -109,6 +116,10 @@ In virsh, a domain is a virtualized guest abstraction, such as a virtual machine
 * Domain Name (e.g., my-vm)
 * Domain ID (a numeric ID used only while the guest is running)
 * Domain UUID (a unique Universally Unique Identifier string)
+
+
+
+For deploy vm GOTO \scripts_kvm
 
 ```bash
 

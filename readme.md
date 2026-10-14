@@ -658,8 +658,8 @@ This leaves 253 usable IP addresses (192.168.100.2 through 192.168.100.254).
 
 ```bash
 
-mkdir networks
-cd networks
+mkdir scripts_networks
+cd scripts_networks
 
 ```
 Create it on current folder
