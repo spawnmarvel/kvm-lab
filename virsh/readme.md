@@ -69,21 +69,21 @@ https://www.libvirt.org/manpages/virsh.html
 
 ```bash
 # Define, build, and start a directory-based storage pool on a dedicated drive
-virsh pool-define-as datadrive1-pool dir --target /mnt/datadrive1
+sudo virsh pool-define-as datadrive1-pool dir --target /mnt/datadrive1
 
 # Build, start, and set autostart for the pool
-virsh pool-build datadrive1-pool
-virsh pool-start datadrive1-pool
-virsh pool-autostart datadrive1-pool
+sudo virsh pool-build datadrive1-pool
+sudo virsh pool-start datadrive1-pool
+sudo virsh pool-autostart datadrive1-pool
 
 # List all created virtual disk volumes inside a storage pool
-virsh vol-list datadrive1-pool
+sudo virsh vol-list datadrive1-pool
 
 # Refresh pool after placing ISOs or disk images
-virsh pool-refresh datadrive1-pool
+sudo virsh pool-refresh datadrive1-pool
 
-# List all virtual machine storage pools and their status, then you need a vm
-virsh pool-list --all
+# List all virtual machine storage pools and their status
+sudo virsh pool-list --all
 
 ``` 
 
@@ -93,11 +93,11 @@ For the test-network GOTO\scripts_network
 
 ```bash
 
-mkdir scripts_networks
-cd scripts_networks
+# Create and navigate to network scripts directory
+mkdir -p ~/scripts_networks
+cd ~/scripts_networks
 
-
-# 1. Register the network configuration with libvirt
+# 1. Register the network configuration with libvirt (adjust path if needed)
 sudo virsh net-define ~/scripts_networks/test-network.xml
 
 # 2. Start the network bridge interface
@@ -107,11 +107,11 @@ sudo virsh net-start test-network
 sudo virsh net-autostart test-network
 
 # Inspect detailed configuration and status of a virtual network
-virsh net-info test-network
-virsh net-dumpxml test-network
+sudo virsh net-info test-network
+sudo virsh net-dumpxml test-network
 
 # List all active and inactive virtual networks
-virsh net-list --all
+sudo virsh net-list --all
 
 
 ```
@@ -130,65 +130,50 @@ For deploy vm GOTO \scripts_kvm
 
 ```bash
 
-mkdir scripts_kvm
-cd scripts_kvm
+# Create and navigate to KVM deployment scripts directory
+mkdir -p ~/scripts_kvm
+cd ~/scripts_kvm
 
-# For deploy vm GOTO \scripts_kvm
-sudo nano create-ubuntu-vm.sh
-
-# make it executable
+# Create and run deployment script
+nano create-ubuntu-vm.sh
 chmod +x create-ubuntu-vm.sh
-
-# run it
 ./create-ubuntu-vm.sh
 
-
-# List all virtual machines currently defined on the host
+# List all virtual machines on the host
 sudo virsh list --all
 
-# stop
+# Stop VM before renaming (VM MUST be shut down to rename)
 sudo virsh shutdown ubuntu-vm2
 
-# rename, now create-ubuntu-vm.sh has ubuntu-vm2, but we rename it 
+# Rename VM
 sudo virsh domrename ubuntu-vm2 ubuntu-test
-# start
 
-# edit configuration (must check what ww can edit, but move between networks is fine)
-# virsh domrename only works when the VM is shut down
+# Edit VM configuration XML schema, we have change vnet, not sure about more, read docs
 sudo virsh edit ubuntu-test
 
-# start
+# Start VM
 sudo virsh start ubuntu-test
 
-
-# check if it has autostart
-# Look for the Autostart line in the output. It will explicitly show either enable or disable
+# Inspect VM domain info (verify autostart status)
 sudo virsh dominfo ubuntu-test
 
+# Enable/Disable VM autostart on host boot
+sudo virsh autostart ubuntu-test
+# sudo virsh autostart --disable ubuntu-test
 
-# get vm ip
-
+# Get guest IP address assigned via libvirt DHCP
 sudo virsh domifaddr ubuntu-test
 
- Name       MAC address          Protocol     Address
--------------------------------------------------------------------------------
- vnet5      52:54:00:11:22:33    ipv4         10.68.68.50/24
-
-# You can verify which virtual network ubuntu-test is attached to directly from your host's terminal using
-# Sequential Allocation: Every time a VM starts, stops, re-instantiates, 
-# or has its virtual network adapter re-attached, the Linux kernel 
-# assigns the next available vnetX integer index on the host.
+# Verify virtual interface and attached network
 sudo virsh domiflist ubuntu-test
 
- Interface   Type      Source         Model    MAC
-------------------------------------------------------------------
- vnet5       network   test-network   virtio   52:54:00:11:22:33
-
-# Run this single command on your host terminal to stop the VM, unregister it from libvirt
+# Stop VM gracefully (or force stop if hung)
 sudo virsh destroy ubuntu-test --graceful 2>/dev/null || sudo virsh destroy ubuntu-test
 
-# automatically delete its storage disk
+# Unregister VM and permanently delete its storage disk
 sudo virsh undefine ubuntu-test --remove-all-storage
+
+
 
 
 ```
