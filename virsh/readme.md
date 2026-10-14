@@ -5,10 +5,11 @@
 - [virsh commands](#virsh-commands)
   - [Table of content](#table-of-content)
   - [virsh (enter, help)](#virsh-enter-help)
-  - [virsh man](#virsh-man)
+  - [virsh man, help and interactive terminal](#virsh-man-help-and-interactive-terminal)
   - [libvirt.org](#libvirtorg)
-  - [1. Pool and vnets](#1-pool-and-vnets)
-  - [2. Vm's (domain) and ip addresses](#2-vms-domain-and-ip-addresses)
+  - [1. Pool's](#1-pools)
+  - [2. Vnets](#2-vnets)
+  - [3. Vm's (domain) and ip addresses](#3-vms-domain-and-ip-addresses)
   - [3. View and edit vms, ram, disk cpu](#3-view-and-edit-vms-ram-disk-cpu)
     - [3.1 Increase ram](#31-increase-ram)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
@@ -38,7 +39,7 @@ help pool-list
 exit
 ```
 
-## virsh man
+## virsh man, help and interactive terminal
 
 ```bash
 
@@ -47,20 +48,40 @@ virsh --help
 
 man virsh
 
+
+virsh
+Welcome to virsh, the virtualization interactive terminal.
+
+Type:  'help' for help with commands
+       'quit' to quit
+
+virsh #
+
 ``` 
+
 
 ## libvirt.org
 
 https://www.libvirt.org/manpages/virsh.html
 
-## 1. Pool and vnets
-
-What we already used
+## 1. Pool's
 
 
 ```bash
-v1.0.0
-# Reference guide of virsh commands used for KVM virtual network and VM lifecycle management
+# Define, build, and start a directory-based storage pool on a dedicated drive
+virsh pool-define-as datadrive1-pool dir --target /mnt/datadrive1
+virsh pool-build datadrive1-pool
+virsh pool-start datadrive1-pool
+virsh pool-autostart datadrive1-pool
+
+# List all created virtual disk volumes inside a storage pool
+virsh vol-list datadrive1-pool
+
+``` 
+
+## 2. Vnets
+
+```bash
 
 # List all active and inactive virtual networks
 virsh net-list --all
@@ -79,18 +100,9 @@ virsh net-dumpxml az800-lab
 # List all virtual machine storage pools and their status
 virsh pool-list --all
 
-# Define, build, and start a directory-based storage pool on a dedicated drive
-virsh pool-define-as datadrive1-pool dir --target /mnt/datadrive1
-virsh pool-build datadrive1-pool
-virsh pool-start datadrive1-pool
-virsh pool-autostart datadrive1-pool
+```
 
-# List all created virtual disk volumes inside a storage pool
-virsh vol-list datadrive1-pool
-
-``` 
-
-## 2. Vm's (domain) and ip addresses
+## 3. Vm's (domain) and ip addresses
 
 In virsh, a domain is a virtualized guest abstraction, such as a virtual machine (VM) or container managed via libvirt.
 

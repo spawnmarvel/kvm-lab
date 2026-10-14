@@ -14,7 +14,9 @@
     - [Step 1: Ubuntu 26.04 setup](#step-1-ubuntu-2604-setup)
     - [Step 2: Format and Mount the 500GB HDD (/dev/sda)](#step-2-format-and-mount-the-500gb-hdd-devsda)
     - [Step 3: Install KVM, Libvirt, and Virt-Manager](#step-3-install-kvm-libvirt-and-virt-manager)
+      - [Define Storage Pool on 500GB HDD](#define-storage-pool-on-500gb-hdd)
     - [Overview \& Milestone Achieved](#overview--milestone-achieved)
+  - [KVM Configuration Order](#kvm-configuration-order)
   - [Download the Windows Server 2022 evaluation ISO directly to my new storage pool](#download-the-windows-server-2022-evaluation-iso-directly-to-my-new-storage-pool)
     - [Step 1: Create Dedicated Virtual Network via GUI (example)](#step-1-create-dedicated-virtual-network-via-gui-example)
   - [Step 1.1 Create Dedicated Virtual Network test-network via virsh 10.68.68.0/24 (254 addresses total)](#step-11-create-dedicated-virtual-network-test-network-via-virsh-106868024-254-addresses-total)
@@ -413,7 +415,7 @@ Log
      Active: active (running) since Sat 2026-10-03 22:10:42 CEST; 45s ago
 ```
 
-***Define Storage Pool on 500GB HDD***
+#### Define Storage Pool on 500GB HDD
 
 ```bash
 # Reload your group permissions using su:
@@ -470,6 +472,17 @@ Once virt-manager opens, you will see qemu:///system connected with datadrive1-p
 
 
 ![qemu storage](https://github.com/spawnmarvel/kvm-lab/blob/main/images/qemu_storage.png)
+
+## KVM Configuration Order
+
+The standard and most logical order when setting up a KVM environment from scratch is:
+
+
+1. Storage Pools (Storage): You must define where ISO files and virtual disk images (such as .qcow2 files) will be stored before you can create disks.
+2. Virtual Networks (VNet / Networks): You define the virtual network (e.g., test-network with DHCP or static IP reservations) so that bridges like virbr2 are created, active, and ready.
+3. Virtual Machines (VMs): Finally, you create the VM, as it requires referencing both an active storage location/disk file and a network during deployment (virt-install)
+
+The pool has been defined already, so now we move in to the next section virtual networks and virtual machines.
 
 ## Download the Windows Server 2022 evaluation ISO directly to my new storage pool
 
