@@ -10,6 +10,8 @@
   - [KVM hypervisor a beginners’ guide](#kvm-hypervisor-a-beginners-guide)
     - [1. KVM hypervisor benefits](#1-kvm-hypervisor-benefits)
     - [2. What is KVM and tools](#2-what-is-kvm-and-tools)
+    - [3. Is KVM / Virsh Idempotent?](#3-is-kvm--virsh-idempotent)
+      - [How to Make Your KVM Scripts Fully Idempotent](#how-to-make-your-kvm-scripts-fully-idempotent)
   - [Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen](#lab-setup-strategy-hp-prodesk-600-g3-sff-i7-6gen)
     - [Step 1: Ubuntu 26.04 setup](#step-1-ubuntu-2604-setup)
     - [Step 2: Format and Mount the 500GB HDD (/dev/sda)](#step-2-format-and-mount-the-500gb-hdd-devsda)
@@ -138,6 +140,67 @@ Virtual Machine Manager (known as VMM or virt-manager) provides a desktop interf
 
 
 https://www.redhat.com/en/topics/virtualization/what-is-KVM
+
+### 3. Is KVM / Virsh Idempotent?
+
+
+No, out of the box, virsh and virt-install commands are NOT idempotent.
+
+If you re-run standard virsh or virt-install scripts without built-in checks, they will fail with errors rather than silently doing nothing. For example:
+
+* Re-running virsh net-define test-network.xml will overwrite or update the network, but re-running virsh net-start test-network will fail with error: Network is already active.
+
+* Re-running virsh net-update ... add-last ip-dhcp-host ... with a MAC address that is already registered will fail with error: requested entry already exists.
+
+* Re-running virt-install --name ubuntu-vm2 ... will fail with error: Guest name 'ubuntu-vm2' is already in use or prompt to overwrite existing disk images.
+
+
+#### How to Make Your KVM Scripts Fully Idempotent
+
+To make your deployment scripts safe to run multiple times without throwing errors or breaking state, wrap virsh commands with existence checks or conditional guards:
+
+1. Idempotent Storage Pool Start
+
+```bash
+# Only start the pool if it is not already active
+if ! virsh pool-info datadrive1-pool | grep -q "State:.*running"; then
+  sudo virsh pool-start datadrive1-pool
+fi
+```
+
+2. Idempotent Virtual Network Setup
+
+```bash
+# Define network
+sudo virsh net-define ~/test-network.xml
+
+# Only start network if not already active
+if ! virsh net-info test-network | grep -q "Active:.*yes"; then
+  sudo virsh net-start test-network
+fi
+```
+3. Idempotent VM Deployment
+
+```bash
+# Only run virt-install if the VM domain does not already exist
+if ! sudo virsh list --all | grep -q "ubuntu-vm2"; then
+  sudo virt-install \
+    --name ubuntu-vm2 \
+    --ram 2048 \
+    --vcpus 2 \
+    --disk path=/var/lib/libvirt/images/ubuntu-vm2.qcow2,size=20,bus=virtio,format=qcow2 \
+    --os-variant ubuntu24.04 \
+    --network network=test-network,model=virtio,mac=52:54:00:11:22:33 \
+    --graphics none \
+    --location /var/lib/libvirt/images/ubuntu-26.04-server.iso,kernel=casper/vmlinuz,initrd=casper/initrd \
+    --extra-args 'console=ttyS0,115200n8 serial'
+else
+  echo "VM 'ubuntu-vm2' already exists. Skipping creation."
+fi
+```
+
+
+
 
 
 ## Lab Setup Strategy HP ProDesk 600 G3 SFF i7 6.gen
