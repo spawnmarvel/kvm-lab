@@ -82,6 +82,9 @@ virsh vol-list datadrive1-pool
 # Refresh pool after placing ISOs or disk images
 virsh pool-refresh datadrive1-pool
 
+# List all virtual machine storage pools and their status, then you need a vm
+virsh pool-list --all
+
 ``` 
 
 ## 2. Vnets
@@ -90,22 +93,25 @@ For the test-network GOTO\scripts_network
 
 ```bash
 
-# List all active and inactive virtual networks
-virsh net-list --all
+mkdir scripts_networks
+cd scripts_networks
 
-# Create and start a virtual network from an XML configuration file
-virsh net-define az800-lab.xml
-virsh net-start az800-lab
 
-# Set a virtual network to automatically start on host boot
-virsh net-autostart az800-lab
+# 1. Register the network configuration with libvirt
+sudo virsh net-define ~/test-network.xml
+
+# 2. Start the network bridge interface
+sudo virsh net-start test-network
+
+# 3. Configure it to autostart on system boot
+sudo virsh net-autostart test-network
 
 # Inspect detailed configuration and status of a virtual network
-virsh net-info az800-lab
-virsh net-dumpxml az800-lab
+virsh net-info test-network
+virsh net-dumpxml test-network
 
-# List all virtual machine storage pools and their status
-virsh pool-list --all
+# List all active and inactive virtual networks
+virsh net-list --all
 
 
 ```
@@ -124,13 +130,26 @@ For deploy vm GOTO \scripts_kvm
 
 ```bash
 
+mkdir scripts_kvm
+cd scripts_kvm
+
+# For deploy vm GOTO \scripts_kvm
+sudo nano create-ubuntu-vm.sh
+
+# make it executable
+chmod +x create-ubuntu-vm.sh
+
+# run it
+./create-ubuntu-vm.sh
+
+
 # List all virtual machines currently defined on the host
 sudo virsh list --all
 
 # stop
 sudo virsh shutdown ubuntu-vm2
 
-# rename
+# rename, now create-ubuntu-vm.sh has ubuntu-vm2, but we rename it 
 sudo virsh domrename ubuntu-vm2 ubuntu-test
 # start
 
@@ -169,6 +188,8 @@ sudo virsh destroy ubuntu-test --graceful 2>/dev/null || sudo virsh destroy ubun
 
 # automatically delete its storage disk
 sudo virsh undefine ubuntu-test --remove-all-storage
+
+
 ```
 
 ## 3. View and edit vms, ram, disk cpu
