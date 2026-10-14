@@ -1372,7 +1372,7 @@ ubuntu-test.txt
 
 
 
-## Zabbix infrastructure into distinct isolated network zones/VLANs
+## Lab 1 Zabbix infrastructure into distinct isolated network zones/VLANs
 
-GOTO \lav_zones_and_vlans
+GOTO \lab_1_zones_vlans_infrasctructure_zabbix
 
