@@ -12,7 +12,9 @@
   - [3. Virtual Machines (Domains) and ip addresses](#3-virtual-machines-domains-and-ip-addresses)
   - [3. Virtual Machine View and edit vms, ram, disk cpu](#3-virtual-machine-view-and-edit-vms-ram-disk-cpu)
     - [3.1 Virtual Machine increase ram](#31-virtual-machine-increase-ram)
-    - [Virtual Machine Snapshots \& Restore](#virtual-machine-snapshots--restore)
+    - [3.2 Virtual Machine increase disk](#32-virtual-machine-increase-disk)
+    - [3.3 Virtual Machine increase vcpu](#33-virtual-machine-increase-vcpu)
+    - [4. Virtual Machine Snapshots \& Restore](#4-virtual-machine-snapshots--restore)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
   - [quick guide reference](#quick-guide-reference)
 
@@ -225,7 +227,11 @@ virsh dominfo ubuntu-test
 
 ```
 
-### Virtual Machine Snapshots & Restore
+### 3.2 Virtual Machine increase disk
+
+### 3.3 Virtual Machine increase vcpu
+
+### 4. Virtual Machine Snapshots & Restore
 
 ```bash
 # list all domains / vms
