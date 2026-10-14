@@ -86,6 +86,8 @@ virsh pool-refresh datadrive1-pool
 
 ## 2. Vnets
 
+For the test-network GOTO\scripts_network
+
 ```bash
 
 # List all active and inactive virtual networks
@@ -107,7 +109,6 @@ virsh pool-list --all
 
 
 ```
-For the test-network GOTO\scripts_network
 
 ## 3. Vm's (domain) and ip addresses
 
