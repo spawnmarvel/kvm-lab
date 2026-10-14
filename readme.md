@@ -43,7 +43,7 @@
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
     - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
   - [Backup, edit and restore TODO](#backup-edit-and-restore-todo)
-  - [zabbix01 and mysql01 zone 3, zabbix02 in zone 2 TODO](#zabbix01-and-mysql01-zone-3-zabbix02-in-zone-2-todo)
+  - [Zabbix infrastructure into distinct isolated network zones/VLANs](#zabbix-infrastructure-into-distinct-isolated-network-zonesvlans)
 
 ## Kernel Virtual Machine
 
@@ -1311,5 +1311,7 @@ Step 4: Verification
 
 
 
-## zabbix01 and mysql01 zone 3, zabbix02 in zone 2 TODO
+## Zabbix infrastructure into distinct isolated network zones/VLANs
+
+GOTO \lav_zones_and_vlans
 
