@@ -42,7 +42,7 @@
       - [Why 10.68.68.50 Is Not Listed in Netplan](#why-10686850-is-not-listed-in-netplan)
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
     - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
-  - [Backup, edit and restore TODO](#backup-edit-and-restore-todo)
+  - [Backup, edit and restore](#backup-edit-and-restore)
   - [Zabbix infrastructure into distinct isolated network zones/VLANs](#zabbix-infrastructure-into-distinct-isolated-network-zonesvlans)
 
 ## Kernel Virtual Machine
@@ -1294,20 +1294,81 @@ DNS servers configured inside /etc/netplan/*.yaml apply directly to that specifi
 
 
 
-## Backup, edit and restore TODO
+## Backup, edit and restore 
 
 
 Step 1: Create Initial Clean Snapshot / Disk Backup
 
+```bash
+# list all domains / vms
+sudo virsh list --all
+
+# start if not running
+sudo virsh start ubuntu-test
+
+# snap create
+sudo virsh snapshot-create-as --domain ubuntu-test --name "clean-install-snap-1" --description "Clean baseline setup before testing"
+
+# list it snap
+sudo virsh snapshot-list --domain ubuntu-test
+```
+
+SNAPSHOT COMMANDS, snapshot-create-as
+
+* https://www.libvirt.org/manpages/virsh.html#snapshot-commands
 
 Step 2: Modify Guest Files & System State
 
 
+```bash
+ssh john@10.68.68.50
+
+touch this_file_will_gone_after_restore.txt
+
+ls
+
+this_file_will_gone_after_restore.txt  ubuntu-test.txt
+
+exit
+```
+
 Step 3: Revert & Restore to Clean Baseline State
 
+```bash
+# check what we have
+sudo virsh snapshot-list --domain ubuntu-test
+Name                   Creation Time               State
+-------------------------------------------------------------
+clean-install-snap-1   2026-10-14 20:21:44 +0200   running
+
+
+# revert, --running: Forces the VM to boot immediately into the running state upon reverting
+sudo virsh snapshot-revert --domain ubuntu-test --snapshotname clean-install-snap-1 --running
+
+# verify
+sudo virsh list --all
+Id   Name          State
+-----------------------------
+3    ubuntu-test   running
+
+# Inspect current snapshot metadata state
+sudo virsh snapshot-current --domain ubuntu-test --name
+clean-install-snap-1
+```
+
+SNAPSHOT COMMANDS, snapshot-revert
+
+* https://www.libvirt.org/manpages/virsh.html#snapshot-revert
 
 Step 4: Verification
 
+
+```bash
+ssh john@10.68.68.50
+
+ls
+ubuntu-test.txt
+```
 
 
 

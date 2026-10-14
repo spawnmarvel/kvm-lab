@@ -12,6 +12,7 @@
   - [3. Virtual Machines (Domains) and ip addresses](#3-virtual-machines-domains-and-ip-addresses)
   - [3. View and edit vms, ram, disk cpu](#3-view-and-edit-vms-ram-disk-cpu)
     - [3.1 Increase ram](#31-increase-ram)
+    - [Virtual Machine Snapshots \& Restore](#virtual-machine-snapshots--restore)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
   - [quick guide reference](#quick-guide-reference)
 
@@ -222,6 +223,40 @@ sudo virsh start ubuntu-test
 
 virsh dominfo ubuntu-test
 
+```
+
+### Virtual Machine Snapshots & Restore
+
+```bash
+# list all domains / vms
+sudo virsh list --all
+
+# start if not running
+sudo virsh start ubuntu-test
+
+# 1. Create a named snapshot with description
+sudo virsh snapshot-create-as --domain ubuntu-test --name "clean-install-snap-1" --description "Clean baseline setup before testing"
+
+# 2. List all snapshots for a VM
+sudo virsh snapshot-list --domain ubuntu-test
+
+# RESTORE
+
+# View details of the current active snapshot
+sudo virsh snapshot-list --domain ubuntu-test
+
+# 4. Revert VM back to a specific snapshot and ensure it runs
+# revert, --running: Forces the VM to boot immediately into the running state upon reverting
+sudo virsh snapshot-revert --domain ubuntu-test --snapshotname clean-install-snap-1 --running
+
+# verify
+sudo virsh list --all
+
+# Inspect current snapshot metadata state
+sudo virsh snapshot-current --domain ubuntu-test --name
+
+# 5. Delete a snapshot when no longer needed
+sudo virsh snapshot-delete --domain ubuntu-test --snapshotname clean-install-snap
 ```
 
 ## 8 Linux virsh subcommands for managing VMs on the command line
