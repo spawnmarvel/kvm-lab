@@ -10,7 +10,7 @@
   - [1. Storage Pools](#1-storage-pools)
   - [2. Vnets](#2-vnets)
   - [3. Virtual Machines (Domains) and ip addresses](#3-virtual-machines-domains-and-ip-addresses)
-  - [3. View and edit vms, ram, disk cpu](#3-view-and-edit-vms-ram-disk-cpu)
+  - [3. Virtual Machine View and edit vms, ram, disk cpu](#3-virtual-machine-view-and-edit-vms-ram-disk-cpu)
     - [3.1 Increase ram](#31-increase-ram)
     - [Virtual Machine Snapshots \& Restore](#virtual-machine-snapshots--restore)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
@@ -179,7 +179,7 @@ sudo virsh undefine ubuntu-test --remove-all-storage
 
 ```
 
-## 3. View and edit vms, ram, disk cpu
+## 3. Virtual Machine View and edit vms, ram, disk cpu
 
 
 ```bash
