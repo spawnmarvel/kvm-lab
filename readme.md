@@ -42,7 +42,8 @@
       - [Why 10.68.68.50 Is Not Listed in Netplan](#why-10686850-is-not-listed-in-netplan)
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
     - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
-  - [Backup, edit and restore](#backup-edit-and-restore)
+  - [Backup, edit and restore TODO](#backup-edit-and-restore-todo)
+  - [zabbix01 and mysql01 zone 3, zabbix02 in zone 2 TODO](#zabbix01-and-mysql01-zone-3-zabbix02-in-zone-2-todo)
 
 ## Kernel Virtual Machine
 
@@ -1293,7 +1294,7 @@ DNS servers configured inside /etc/netplan/*.yaml apply directly to that specifi
 
 
 
-## Backup, edit and restore
+## Backup, edit and restore TODO
 
 
 Step 1: Create Initial Clean Snapshot / Disk Backup
@@ -1307,4 +1308,8 @@ Step 3: Revert & Restore to Clean Baseline State
 
 Step 4: Verification
 
+
+
+
+## zabbix01 and mysql01 zone 3, zabbix02 in zone 2 TODO
 
