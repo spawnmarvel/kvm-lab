@@ -7,9 +7,9 @@
   - [virsh (enter, help)](#virsh-enter-help)
   - [virsh man, help and interactive terminal](#virsh-man-help-and-interactive-terminal)
   - [libvirt.org](#libvirtorg)
-  - [1. Pool's](#1-pools)
+  - [1. Storage Pools](#1-storage-pools)
   - [2. Vnets](#2-vnets)
-  - [3. Vm's (domain) and ip addresses](#3-vms-domain-and-ip-addresses)
+  - [3. Virtual Machines (Domains) and ip addresses](#3-virtual-machines-domains-and-ip-addresses)
   - [3. View and edit vms, ram, disk cpu](#3-view-and-edit-vms-ram-disk-cpu)
     - [3.1 Increase ram](#31-increase-ram)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
@@ -64,7 +64,7 @@ virsh #
 
 https://www.libvirt.org/manpages/virsh.html
 
-## 1. Pool's
+## 1. Storage Pools
 
 
 ```bash
@@ -98,7 +98,7 @@ cd scripts_networks
 
 
 # 1. Register the network configuration with libvirt
-sudo virsh net-define ~/test-network.xml
+sudo virsh net-define ~/scripts_networks/test-network.xml
 
 # 2. Start the network bridge interface
 sudo virsh net-start test-network
@@ -116,7 +116,7 @@ virsh net-list --all
 
 ```
 
-## 3. Vm's (domain) and ip addresses
+## 3. Virtual Machines (Domains) and ip addresses
 
 In virsh, a domain is a virtualized guest abstraction, such as a virtual machine (VM) or container managed via libvirt.
 
@@ -154,6 +154,7 @@ sudo virsh domrename ubuntu-vm2 ubuntu-test
 # start
 
 # edit configuration (must check what ww can edit, but move between networks is fine)
+# virsh domrename only works when the VM is shut down
 sudo virsh edit ubuntu-test
 
 # start
@@ -162,7 +163,7 @@ sudo virsh start ubuntu-test
 
 # check if it has autostart
 # Look for the Autostart line in the output. It will explicitly show either enable or disable
-sudo virsh dominfo ubunty-test
+sudo virsh dominfo ubuntu-test
 
 
 # get vm ip
