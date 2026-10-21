@@ -15,6 +15,7 @@
     - [5. Workaround Layer 7 Firewall / DPI User-Agent Drops](#5-workaround-layer-7-firewall--dpi-user-agent-drops)
     - [5.1 Next step 1 of 2](#51-next-step-1-of-2)
     - [5.2 Test all repositores](#52-test-all-repositores)
+  - [tcpdump (show this to network team)](#tcpdump-show-this-to-network-team)
   - [Tools for network checks](#tools-for-network-checks)
   - [Compare Routing Tables and Egress Paths vm1 works not vm2](#compare-routing-tables-and-egress-paths-vm1-works-not-vm2)
   - [Appendix: Why Netplan Hardening is Recommended](#appendix-why-netplan-hardening-is-recommended)
@@ -151,6 +152,10 @@ nc -zv -w3 91.189.91.81 80
 # Test Direct HTTP Request via Curl
 curl -I -m 5 --header "Host: archive.ubuntu.com" http://91.189.91.81/ubuntu/
 # curl -I -m 5 --header "Host: archive.ubuntu.com" http://91.189.91.81/ubuntu/
+
+# Script version: 1.2.0
+# Test layer-7 HTTP connectivity to repo.zabbix.com via direct IPv4 address
+curl -I -m 5 --header "Host: repo.zabbix.com" http://178.128.6.101/zabbix/
 ```
 
 Why This Proves It Is a Firewall / Routing Issue
@@ -317,6 +322,34 @@ apt-cache policy mysql-server
 ```
 
 
+## tcpdump (show this to network team)
+
+```bash
+
+# get route
+sudo show | grep default
+
+# get it
+resolvectl query repo.zabbix.com
+
+# Terminal 1
+sudo tcpdump -nn -i ens33 host 178.128.6.101
+
+# Terminal 2
+nc -zv -w3 178.128.6.101 80
+
+
+# fail is, just SYN sent
+# 3 packets captured
+# 3 packets received by filter
+# 0 packets dropped by kernel
+
+
+# success it, SYN,SYN ACK,FIN
+# 6 packets captured
+# 6 packets received by filter
+# 0 packets dropped by kernel
+```
 
 ##  Tools for network checks
 
