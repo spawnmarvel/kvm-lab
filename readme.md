@@ -1101,7 +1101,7 @@ Navigate through the installer prompts using your arrow keys, Tab, and Spacebar:
 
 ![ubuntu1](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ubuntu1.png)
 
-#### There is a lot of steps, keep default and enable ssh
+#### There is a lot of steps, keep default and enable Open SSH server
 
 john
 

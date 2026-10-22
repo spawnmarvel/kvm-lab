@@ -88,6 +88,14 @@ sudo virsh pool-refresh datadrive1-pool
 # List all virtual machine storage pools and their status
 sudo virsh pool-list --all
 
+# To inspect the downloaded ISO images and virtual disk images (.qcow2) tracked inside each pool:
+sudo virsh vol-list default
+
+# Verification: Displays the downloaded installation ISOs (such as ubuntu-26.04-server.iso) and any root disk images located in /var/lib/libvirt/images/
+
+# Verification: Displays disk images mounted on your 500GB drive at /mnt/datadrive1.
+sudo virsh vol-list datadrive1-pool
+
 ``` 
 
 ## 2. Vnets
