@@ -116,6 +116,49 @@ set global log_bin_trust_function_creators = 1;
 quit; 
 ```
 
+Configure zabbix and create tables
+
+```bash
+sudo zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix 
+
+sudo mysql
+```
+
+Stop database log
+
+```sql
+set global log_bin_trust_function_creators = 0;
+quit; 
+```
+
+Edit config
+
+* DBPassword=seedit123456
+
+```bash
+sudo systemctl restart zabbix-server zabbix-agent2 apache2 php8.5-fpm
+
+# The error Invalid command 'ProxyTimeout' occurs because Apache's mod_proxy module is not enabled.
+journalctl -xeu apache2.service
+
+sudo a2enmod proxy proxy_fcgi
+sudo apachectl configtest
+sudo systemctl restart apache2
+sudo systemctl status apache2
+
+sudo systemctl restart zabbix-server zabbix-agent2 apache2 php8.5-fpm
+
+sudo systemctl enable zabbix-server zabbix-agent2 apache2 php8.5-fpm
+
+# get the date to use in zabbix
+date
+Thu Oct 22 06:18:57 PM UTC 2026
+```
+
+Go to http://10.68.68.50/zabbix
+
+*  set date to UTC
+
 Enable UFW and install proxy on zabbix02
 
 ```bash
