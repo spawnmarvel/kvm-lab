@@ -19,4 +19,4 @@ sudo virt-install \
   --location /var/lib/libvirt/images/ubuntu-26.04-server.iso,kernel=casper/vmlinuz,initrd=casper/initrd \
   --extra-args 'console=ttyS0,115200n8 serial'
 
-  # proxy, justfortest1
+  # proxyman, justfortest1
