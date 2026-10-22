@@ -66,6 +66,8 @@ sudo ufw enable
 ## install zabbix, mysql and proxy
 
 
+Install mysql and zabbix on zabbix01
+
 ```bash
 
 ssh master@10.68.68.50
@@ -94,13 +96,47 @@ sudo mysql
 
 # install zabbix and configure it
 
+sudo wget https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.0+ubuntu26.04_all.deb
+
+sudo dpkg -i zabbix-release_latest_7.0+ubuntu26.04_all.deb 
+
+sudo apt update
+
+sudo apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent2
+
+```
+
+Create database
+
+```sql
+create database zabbix character set utf8mb4 collate utf8mb4_bin;
+create user 'zabbix'@'%' identified by 'seedit123456';
+grant all privileges on zabbix.* to 'zabbix'@'%';
+set global log_bin_trust_function_creators = 1;
+quit; 
+```
+
+Enable UFW and install proxy on zabbix02
+
+```bash
+
 # enable the kvm host in zabbix
 
 ssh proxy@10.68.68.51
 
-# enable ufw and simulate that it os offline
-# port 22, 10051 and 10050 allow only
+sudo ufw default deny outgoing
 
+sudo ufw allow OpenSSH
+
+sudo ufw allow 22
+
+sudo ufw allow 10051
+
+sudo ufw allow 10050
+
+sudo ufw show added
+
+sudo ufw enable 
 
 
 ```
