@@ -162,6 +162,15 @@ Go to http://10.68.68.50/zabbix
 
 *  set date to UTC
 
+Update with a self signed certificate for Apache.
+
+
+Go to https://10.68.68.50/zabbix
+
+
+## install proxy
+
+
 Enable UFW and install proxy on zabbix02
 
 ```bash
@@ -186,9 +195,6 @@ sudo ufw enable
 
 
 ```
-
-
-## install proxy
 
 Take a snapshot
 
