@@ -13,9 +13,11 @@
 
 ```bash
 
-cd script_kvm
+cd scripts_kvm
 
-bash create-ubuntu.zabbix02.sh
+# create the two vms
+
+bash create-ubuntu.zabbix01.sh
 
 bash create-ubuntu.zabbix02.sh
 
