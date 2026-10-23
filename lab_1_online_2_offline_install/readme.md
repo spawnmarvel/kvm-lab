@@ -162,7 +162,7 @@ Go to http://10.68.68.50/zabbix
 
 *  set date to UTC
 
-Update with a self signed certificate for Apache.
+Update with a self signed certificate for Apache, yes.
 
 
 Go to https://10.68.68.50/zabbix
