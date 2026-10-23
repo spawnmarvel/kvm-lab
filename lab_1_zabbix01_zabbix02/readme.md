@@ -5,6 +5,7 @@
 - [install-vms)](#install-vms)
 - [architecture--network-flow)](#architecture--network-flow)
 - [install-zabbix-mysql-and-proxy](#install-zabbix-mysql-and-proxy)
+- [install-proxy](#install-proxy)
 
 
 
@@ -63,7 +64,7 @@ sudo ufw enable
 
 
 ```
-## install zabbix, mysql and proxy
+## install zabbix, mysql
 
 
 Install mysql and zabbix on zabbix01
@@ -183,6 +184,23 @@ sudo ufw enable
 
 
 ```
+
+
+## install proxy
+
+Take a snapshot
+
+
+```bash
+
+# create snap
+sudo virsh snapshot-create-as  --domain ubuntu-zabbix02 --name "clean-install"
+
+# list snaps
+sudo virsh snapshot-list ubuntu-zabbix02 
+
+
+``
 
 
 
