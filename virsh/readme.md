@@ -124,7 +124,11 @@ sudo virsh net-dumpxml test-network
 # List all active and inactive virtual networks
 sudo virsh net-list --all
 
+# To view the active dynamic DHCP leases across a virtual network, run:
+sudo virsh net-dhcp-leases test-network
 
+# To list static IP host reservations configured in the network's XML definition, run:
+sudo virsh net-dumpxml test-network | grep -i "ip='"
 ```
 
 ## 3. Virtual Machines (Domains) and ip addresses

@@ -15,10 +15,10 @@ deploy_vm() {
 
   # 2. Deploy VM with standard serial console
   sudo virt-install \
-    --name ubuntu-cloud-init01 \
+    --name ubuntu-test01 \
     --ram 4096 \
     --vcpus 2 \
-    --disk path=/var/lib/libvirt/images/ubuntu-cloud-init01.qcow2,size=20,bus=virtio,format=qcow2 \
+    --disk path=/var/lib/libvirt/images/ubuntu-test01.qcow2,size=20,bus=virtio,format=qcow2 \
     --os-variant ubuntu24.04 \
     --network network=test-network,model=virtio,mac=52:54:00:11:22:35 \
     --graphics none \
