@@ -2,8 +2,10 @@
 
 ## Table of content
 
-- [](#)
-- [](#ubuntu-2604-mysql)
+- [Cloud init](#cloud-init)
+  - [Table of content](#table-of-content)
+  - [Deploy cloud-init01 vm for test](#deploy-cloud-init01-vm-for-test)
+  - [Ubuntu 26.04 MySQL with  post cloud-init](#ubuntu-2604-mysql-with--post-cloud-init)
 
 
 
@@ -33,7 +35,7 @@ Continue in rich mode
 ```
 
 
-## Ubuntu 26.04 MySQL with cloud-init
+## Ubuntu 26.04 MySQL with  post cloud-init
 
 With Ubuntu 26.04 LTS ("Resolute Raccoon"), Canonical integrated the MySQL 8.4 LTS Community edition binaries straight into the official core resolute-updates/main repository
 
