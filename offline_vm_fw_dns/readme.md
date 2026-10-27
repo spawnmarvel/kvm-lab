@@ -241,6 +241,7 @@ nc -zv -w3 archive.ubuntu.com 443
 sudo apt update
 # failes
 
+# Sometimes it helps when a firewall, proxy, or other network appliance mishandles APT’s HTTP pipelining or concurrent requests, it only changes how APT queues and sends requests.
 sudo apt update -o Acquire::http::Pipeline-Depth=0 -o Acquire::Queue-Mode=access
 # failes even when limited to a singel connection
 
