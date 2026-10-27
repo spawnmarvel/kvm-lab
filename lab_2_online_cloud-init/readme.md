@@ -2,7 +2,7 @@
 
 ## Table of content
 
-- [](#deploy-cloud-init01-vm-with-all-settings)
+- [](#)
 - [](#ubuntu-2604-mysql)
 
 
