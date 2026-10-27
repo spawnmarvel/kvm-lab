@@ -245,8 +245,13 @@ virsh dominfo ubuntu-test
 # list all domains / vms
 sudo virsh list --all
 
-# remove vm if shytdown
+# remove vm if shutdown
 sudo virsh undefine --domain vmname
+
+# Remove the static DHCP host reservation from test-network
+sudo virsh net-update test-network delete ip-dhcp-host \
+  "<host mac='52:54:00:11:22:35' name='ubuntu-cloud-init01' ip='10.68.68.60'/>" \
+  --live --config
 
 # start if not running
 sudo virsh start ubuntu-test

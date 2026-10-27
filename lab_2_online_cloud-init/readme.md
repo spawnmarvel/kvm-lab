@@ -19,6 +19,12 @@ sudo nano create-ubuntu-cloud-init01.sh
 sudo nano user-data.yaml
 
 bash create-ubuntu-cloud-init01.sh
+
+# Remove the static DHCP host reservation from test-network
+sudo virsh net-update test-network delete ip-dhcp-host \
+  "<host mac='52:54:00:11:22:35' name='ubuntu-cloud-init01' ip='10.68.68.60'/>" \
+  --live --config
+
 ```
 
 ## Verify all settings from user-data.yml
