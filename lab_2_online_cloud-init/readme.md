@@ -7,7 +7,7 @@
 
 
 
-## Deploy cloud-init01 vm with all settings
+## Deploy cloud-init01 vm for test
 
 ```bash
 mkdir -p scripts_kvm_cloud_init/ubuntu_26.04
@@ -20,17 +20,16 @@ sudo nano user-data.yaml
 
 bash create-ubuntu-cloud-init01.sh
 
-# Remove the static DHCP host reservation from test-network
-sudo virsh net-update test-network delete ip-dhcp-host \
-  "<host mac='52:54:00:11:22:35' name='ubuntu-cloud-init01' ip='10.68.68.60'/>" \
-  --live --config
-
 ```
 
-## Verify all settings from user-data.yml
+Log from script and selections in serial installer
 
-```bash
-ssh master@10.68.68.60
+```log
+IP address 10.68.68.60 is available.
+Do you want to proceed with VM creation? [y/N]:y
+
+Continue in rich mode
+
 ```
 
 
@@ -48,3 +47,10 @@ Run cloud init.
 ```Bash
 
 ```
+
+```bash
+ssh master@10.68.68.60
+```
+
+
+
