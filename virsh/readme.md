@@ -245,6 +245,9 @@ virsh dominfo ubuntu-test
 # list all domains / vms
 sudo virsh list --all
 
+# remove vm if shytdown
+sudo virsh undefine --domain vmname
+
 # start if not running
 sudo virsh start ubuntu-test
 

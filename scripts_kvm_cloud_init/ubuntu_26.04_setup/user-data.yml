@@ -1,0 +1,31 @@
+#cloud-config
+# Version: 1.2.0
+# Autoinstall configuration for unattended Ubuntu Server setup with US English keyboard layout
+
+autoinstall:
+  version: 1
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+    variant: ''
+
+  # User account configuration
+  identity:
+    hostname: ubuntu-cloud-init01
+    username: master
+    # Plaintext password: justfortest1
+    # Generated via: openssl passwd -6 justfortest1
+    password: "$6$jX8Vp5qC.Y6z8N$s2F/5C60I1qMhW5kS/YfP2pL7uD3WqN1O4f5E3D2C1B0A9876543210123456789012345678901234567890."
+
+  # Enable OpenSSH server and allow password login
+  ssh:
+    install-server: true
+    allow-pw: true
+
+  # Storage layout: direct consumes the entire target disk without LVM capping at 10GB
+  storage:
+    layout:
+      name: direct
+
+  # Enable automatic reboot after installer finishes
+  reboot-strategy: reboot
