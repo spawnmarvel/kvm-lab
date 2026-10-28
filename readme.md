@@ -1379,11 +1379,15 @@ This is for offline repos internal and online DMZ with repos data
 
 ## Lab 1 install online
 
-GOTO lab_1_install_offline
+GOTO lab_1_install_online = done
 
 ## Lab 2 install offline 2 scenarios with scp cmd
 
 GOTO lab_2_install_offline
+
+1. architecture & network flow scenario 1 proxy offline = done
+2. 
+
 
 ## Lab 3 install with ansible
 
