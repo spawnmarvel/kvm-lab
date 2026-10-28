@@ -31,6 +31,15 @@
 
 * Roles: Modular, reusable directory structures for organizing playbooks, variables, and tasks.
 
+## Key Advantages
+
+* Agentless Architecture: Eliminates the need to maintain background daemons or agents on target systems.
+
+* Declarative Language: Written in human-readable YAML focusing on what state the system should be in rather than how to achieve it.
+
+* Idempotency: Tasks can run repeatedly without changing the system state if the desired outcome is already present.
+
+
 ## Install Mysql
 
 It is default 8.4 LTS on ubunut 26.04
