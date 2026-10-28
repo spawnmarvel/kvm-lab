@@ -1382,14 +1382,16 @@ This is for offline repos internal and online DMZ with repos data
 
 GOTO lab_1_install_online
 
-1. = Done
+1. Zabbix and Mysql (witch is avliable default) on one host = Done
 
 ## Lab 2 install offline 2 scenarios with scp cmd
 
 GOTO lab_2_install_offline
 
+Continue from GOTO lab_1_install_online
+
 1. architecture & network flow scenario 1 proxy offline = done
-2. TODO
+2. architecture & network flow scenario 2 all offline = 
 
 
 ## Lab 3 install with ansible and why use ansible
