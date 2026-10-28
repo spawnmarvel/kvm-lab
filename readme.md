@@ -1371,12 +1371,16 @@ ls
 ubuntu-test.txt
 ```
 
-## Lab 1 get software online install offline
+## Lab 1 install online
 
-GOTO lab_1_get_software_online_install_offline
+GOTO lab_1_install_offline
 
-## Lab 2 Install software with Ansible
+## Lab 2 install offline 2 scenarios with scp
 
-GOTO lab_2_install_software_with_ansible
+GOTO lab_2_install_offline
+
+## Lab 3 install with ansible
+
+GOTO lab_3_install_with_ansible
 
 
