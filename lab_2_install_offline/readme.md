@@ -59,14 +59,6 @@ PRETTY_NAME="Ubuntu 26.04 LTS"
 NAME="Ubuntu"
 
 
-sudo ufw default deny incoming
-sudo ufw default deny outgoing
-sudo ufw allow OpenSSH
-sudo ufw allow 22
-sudo ufw allow 10051
-sudo ufw allow 10050
-sudo ufw show added
-sudo ufw enable
 
 
 
@@ -383,10 +375,11 @@ OpenSSH (v6)               ALLOW       Anywhere (v6)
 
 ```
 
+Explicitly Allow Outbound Traffic
+
 ```bash
-# Allow all traffic from local subnet and re-enable UFW
-sudo ufw allow from 10.68.68.0/24
-sudo ufw enable
+# Explicitly Allow Outbound Traffic
+sudo ufw allow out to 10.68.68.50 port 10051 proto tcp
 
 # Run ufw status verbose on zabbix02 to view the active default policies for incoming, outgoing, and routed traffic
 sudo ufw status verbose
