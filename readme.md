@@ -1379,7 +1379,9 @@ This is for offline repos internal and online DMZ with repos data
 
 ## Lab 1 install online
 
-GOTO lab_1_install_online = done
+GOTO lab_1_install_online
+
+1. = Done
 
 ## Lab 2 install offline 2 scenarios with scp cmd
 
