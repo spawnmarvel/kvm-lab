@@ -6,6 +6,7 @@
   - [Table of content](#table-of-content)
   - [Here's a quick guide to get you up to speed on Ansible](#heres-a-quick-guide-to-get-you-up-to-speed-on-ansible)
   - [Install Ansible on host](#install-ansible-on-host)
+  - [Core Concepts](#core-concepts)
   - [Install Mysql](#install-mysql)
   - [Install Zabbix](#install-zabbix)
   - [Install Zabbix proxy](#install-zabbix-proxy)
@@ -15,7 +16,24 @@
 
 ## Install Ansible on host
 
+
+## Core Concepts
+
+* Control Node: The machine where Ansible is installed and commands are executed.
+
+* Managed Nodes: The target servers, network devices, or VMs managed by Ansible.
+
+* Inventory: A text file (INI or YAML) listing managed hosts grouped by environment or function.
+
+* Playbook: A YAML file containing a sequence of plays and tasks that define the desired system state.
+
+* Modules: Built-in Python scripts executed on targets to perform specific actions (e.g., package installation, file editing, service management).
+
+* Roles: Modular, reusable directory structures for organizing playbooks, variables, and tasks.
+
 ## Install Mysql
+
+It is default 8.4 LTS on ubunut 26.04
 
 ## Install Zabbix
 
