@@ -1389,12 +1389,15 @@ GOTO lab_1_install_online
 GOTO lab_2_install_offline
 
 1. architecture & network flow scenario 1 proxy offline = done
-2. 
+2. TODO
 
 
 ## Lab 3 install with ansible and why use ansible
 
 GOTO lab_3_install_with_ansible
+
+1. Install online
+2. Install offline
 
 ## IT/OT zabbix stack
 
