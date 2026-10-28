@@ -36,14 +36,15 @@
     - [Steps 1–3: Inspect Storage Pools \& Directories](#steps-13-inspect-storage-pools--directories)
     - [Step 4: Download Ubuntu 26.04 ISO](#step-4-download-ubuntu-2604-iso)
     - [Step 5: Create the Headless VM (virt-install) with static ip](#step-5-create-the-headless-vm-virt-install-with-static-ip)
-      - [There is a lot of steps, keep default and enable ssh](#there-is-a-lot-of-steps-keep-default-and-enable-ssh)
+      - [There is a lot of steps, keep default and enable Open SSH server](#there-is-a-lot-of-steps-keep-default-and-enable-open-ssh-server)
     - [Step 6: SSH into the VM](#step-6-ssh-into-the-vm)
     - [Step 7: Netplan Static IP Configuration verify 10.68.68.50](#step-7-netplan-static-ip-configuration-verify-10686850)
       - [Why 10.68.68.50 Is Not Listed in Netplan](#why-10686850-is-not-listed-in-netplan)
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
     - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
   - [Backup, edit and restore](#backup-edit-and-restore)
-  - [Zabbix infrastructure into distinct isolated network zones/VLANs](#zabbix-infrastructure-into-distinct-isolated-network-zonesvlans)
+  - [Lab 1 get software online install offline](#lab-1-get-software-online-install-offline)
+  - [Lab 2 Install software with Ansible](#lab-2-install-software-with-ansible)
 
 ## Kernel Virtual Machine
 
@@ -1370,9 +1371,12 @@ ls
 ubuntu-test.txt
 ```
 
+## Lab 1 get software online install offline
 
+GOTO lab_1_get_software_online_install_offline
 
-## Lab 1 Zabbix infrastructure into distinct isolated network zones/VLANs
+## Lab 2 Install software with Ansible
 
-GOTO \lab_1_zones_vlans_infrasctructure_zabbix
+GOTO lab_2_install_software_with_ansible
+
 

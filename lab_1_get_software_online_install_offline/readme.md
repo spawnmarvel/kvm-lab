@@ -2,10 +2,14 @@
 
 ## Table of content
 
-- [install-vms)](#install-vms)
-- [architecture--network-flow)](#architecture--network-flow)
-- [install-zabbix-mysql-and-proxy](#install-zabbix-mysql-and-proxy)
-- [install-proxy](#install-proxy)
+- [Online and offline vms](#online-and-offline-vms)
+  - [Table of content](#table-of-content)
+  - [install vms](#install-vms)
+  - [architecture \& network flow](#architecture--network-flow)
+  - [install zabbix, mysql](#install-zabbix-mysql)
+  - [install proxy](#install-proxy)
+- [create snap](#create-snap)
+- [list snaps](#list-snaps)
 
 
 
