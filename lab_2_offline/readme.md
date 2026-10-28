@@ -3,11 +3,10 @@
 ## Table of content
 
 - [Online and offline vms](#online-and-offline-vms)
-  - [Table of content](#table-of-content)
-  - [install vms](#install-vms)
-  - [architecture \& network flow](#architecture--network-flow)
-  - [install zabbix, mysql](#install-zabbix-mysql)
-  - [install proxy](#install-proxy)
+- [install vms](#install-vms)
+- [architecture \& network flow scenario 1](#architecture--network-flow-scenario-1)
+- [install zabbix, mysql](#install-zabbix-mysql)
+- [install proxy](#install-proxy)
 - [create snap](#create-snap)
 - [list snaps](#list-snaps)
 
@@ -28,10 +27,12 @@ bash create-ubuntu.zabbix02.sh
 
 ```
 
-## architecture & network flow
+## architecture & network flow scenario 1
 
 
-In this setup, zabbix01 (10.68.68.50) acts as the internet-connected jump host and main Zabbix Server. zabbix02 (10.68.68.51) will operate as an offline Zabbix Proxy with strict firewall rules restricting outbound connections strictly to the Zabbix Server port (10051/tcp) and inbound connections to its agent port (10050/tcp)
+In this setup, zabbix01 (10.68.68.50) acts as the internet-connected jump host and main Zabbix Server. 
+
+zabbix02 (10.68.68.51) will operate as an offline Zabbix Proxy with strict firewall rules restricting outbound connections strictly to the Zabbix Server port (10051/tcp) and inbound connections to its agent port (10050/tcp)
 
 
 ```bash
