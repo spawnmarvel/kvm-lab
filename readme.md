@@ -1371,6 +1371,10 @@ ls
 ubuntu-test.txt
 ```
 
+## Remember deb-mirror or aptly
+
+This is for offline repos internal and online DMZ with repos data
+
 ## Lab 1 install online
 
 GOTO lab_1_install_offline
