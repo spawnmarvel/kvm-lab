@@ -8,8 +8,8 @@
   - [architecture \& network flow scenario 1 proxy offline](#architecture--network-flow-scenario-1-proxy-offline)
   - [install zabbix, mysql already done](#install-zabbix-mysql-already-done)
   - [install proxy and allow verfify tcp out](#install-proxy-and-allow-verfify-tcp-out)
-    - [Step 1: Check ARP Cache \& Layer 2 MAC Discovery](#step-1-check-arp-cache--layer-2-mac-discovery)
-    - [Step 2: Step 1: Test Disabling UFW on zabbix02](#step-2-step-1-test-disabling-ufw-on-zabbix02)
+    - [Step 1: Check ARP Cache \& Layer 2 MAC Discovery (fix Explicitly Allow Outbound Traffic UFW)](#step-1-check-arp-cache--layer-2-mac-discovery-fix-explicitly-allow-outbound-traffic-ufw)
+    - [Step 2: Step 1: Test Disabling UFW on zabbix02 (fix Explicitly Allow Outbound Traffic UFW)](#step-2-step-1-test-disabling-ufw-on-zabbix02-fix-explicitly-allow-outbound-traffic-ufw)
   - [architecture \& network flow scenario 2 all offline](#architecture--network-flow-scenario-2-all-offline)
 
 
@@ -119,7 +119,7 @@ sudo ufw enable
 #  (or if kernel connection tracking conntrack drops stateful response packets), 
 # standard inbound ALLOW rules do not permit outbound traffic or return SYN-ACK packets
 
-# Explicitly Allow Outbound Traffic
+# Explicitly Allow Outbound Traffic to zabbix
 sudo ufw allow out to 10.68.68.50 port 10051 proto tcp
 
 # Check UFW default incoming and outgoing policies
@@ -298,7 +298,7 @@ Both VMs are on the same subnet (10.68.68.0/24) using the same interface (enp1s0
 
 Since zabbix01 has no active UFW firewall, the total failure of ICMP (ping) and TCP (nc) between 10.68.68.50 and 10.68.68.51 points directly to:
 
-### Step 1: Check ARP Cache & Layer 2 MAC Discovery
+### Step 1: Check ARP Cache & Layer 2 MAC Discovery (fix Explicitly Allow Outbound Traffic UFW)
 
 Run an ARP lookup on zabbix02 while pinging zabbix01
 
@@ -328,7 +328,7 @@ PING 10.68.68.50 (10.68.68.50) 56(84) bytes of data.
 The ARP lookup output (52:54:00:11:22:33 STALE) confirms that Layer 2 Ethernet connectivity does exist between the virtual NICs—zabbix02 successfully resolved the exact MAC address of zabbix01 (52:54:00:11:22:33).
 
 
-### Step 2: Step 1: Test Disabling UFW on zabbix02
+### Step 2: Step 1: Test Disabling UFW on zabbix02 (fix Explicitly Allow Outbound Traffic UFW)
 
 Run these commands on zabbix02 to temporarily disable UFW and test if local rules are dropping inbound ICMP replies:
 
