@@ -4,11 +4,10 @@
 
 - [Online and offline vms](#online-and-offline-vms)
 - [install vms](#install-vms)
-- [architecture \& network flow scenario 1](#architecture--network-flow-scenario-1)
+- [architecture \& network flow scenario 1 proxy offline](#architecture--network-flow-scenario-1-proxy-offline)
 - [install zabbix, mysql](#install-zabbix-mysql)
 - [install proxy](#install-proxy)
-- [create snap](#create-snap)
-- [list snaps](#list-snaps)
+- [architecture \& network flow scenario 2 all offline](#architecture--network-flow-scenario-2-all-offline)
 
 
 
@@ -27,7 +26,7 @@ bash create-ubuntu.zabbix02.sh
 
 ```
 
-## architecture & network flow scenario 1
+## architecture & network flow scenario 1 proxy offline
 
 
 In this setup, zabbix01 (10.68.68.50) acts as the internet-connected jump host and main Zabbix Server. 
@@ -213,7 +212,9 @@ sudo virsh snapshot-create-as  --domain ubuntu-zabbix02 --name "clean-install"
 sudo virsh snapshot-list ubuntu-zabbix02 
 
 
-``
+``` 
 
+
+## architecture & network flow scenario 2 all offline
 
 
