@@ -22,7 +22,7 @@ cd scripts_kvm
 # we already have this
 # bash create-ubuntu.zabbix01.sh
 
-bash create-ubuntu.zabbix02.sh
+bash create-ubuntu.zabbix02_proxy.sh
 
 
 ```
@@ -172,6 +172,8 @@ Update with a self signed certificate for Apache, yes.
 
 Go to https://10.68.68.50/zabbix
 
+![zabbix01](https://github.com/spawnmarvel/kvm-lab/blob/main/images/zabbix01.png)
+
 
 ## install proxy
 
@@ -214,6 +216,13 @@ sudo virsh snapshot-list ubuntu-zabbix02
 
 
 ``` 
+
+
+Install proxy
+
+```bash
+
+``
 
 
 ## architecture & network flow scenario 2 all offline
