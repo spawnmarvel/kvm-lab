@@ -8,7 +8,8 @@
   - [Core Concepts](#core-concepts)
   - [Key Advantages](#key-advantages)
   - [Ansible Agentless Architecture Linux and Windows](#ansible-agentless-architecture-linux-and-windows)
-  - [Install Ansible on host](#install-ansible-on-host)
+- [Install Ansible on host](#install-ansible-on-host)
+  - [](#)
 - [install online](#install-online)
   - [Install Mysql](#install-mysql)
   - [Install Zabbix](#install-zabbix)
@@ -50,7 +51,11 @@
 * On Windows, Ansible connects over WinRM (Windows Remote Management) or WinSSHD, authenticates using NTLM, Kerberos, or CredSSP, and executes PowerShell scripts or .NET code directly in memory. Results are captured in JSON format and returned to the control node without leaving persistent software behind.
 
 
-## Install Ansible on host
+# Install Ansible on host
+
+##
+
+
 
 # install online
 
