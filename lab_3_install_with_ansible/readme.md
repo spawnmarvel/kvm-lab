@@ -9,9 +9,14 @@
   - [Key Advantages](#key-advantages)
   - [Ansible Agentless Architecture Linux and Windows](#ansible-agentless-architecture-linux-and-windows)
   - [Install Ansible on host](#install-ansible-on-host)
+- [install online](#install-online)
   - [Install Mysql](#install-mysql)
   - [Install Zabbix](#install-zabbix)
   - [Install Zabbix proxy](#install-zabbix-proxy)
+- [install offline](#install-offline)
+  - [Install Mysql](#install-mysql-1)
+  - [Install Zabbix](#install-zabbix-1)
+  - [Install Zabbix proxy](#install-zabbix-proxy-1)
 
 # Here's a quick guide to get you up to speed on Ansible
 
@@ -47,9 +52,17 @@
 
 ## Install Ansible on host
 
+# install online
 
+## Install Mysql
 
+It is default 8.4 LTS on ubunut 26.04
 
+## Install Zabbix
+
+## Install Zabbix proxy
+
+# install offline
 
 ## Install Mysql
 

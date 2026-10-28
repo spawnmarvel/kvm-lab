@@ -47,7 +47,8 @@
   - [Lab 1 install online](#lab-1-install-online)
   - [Lab 2 install offline 2 scenarios with scp cmd](#lab-2-install-offline-2-scenarios-with-scp-cmd)
   - [Lab 3 install with ansible and why use ansible](#lab-3-install-with-ansible-and-why-use-ansible)
-  - [IT/OT zabbix stack](#itot-zabbix-stack)
+  - [lab\_4\_IT-OT\_zabbix\_stack\_study\_and\_prepare](#lab_4_it-ot_zabbix_stack_study_and_prepare)
+  - [lab\_5\_IT-OT\_zabbix\_stack\_with\_ansible](#lab_5_it-ot_zabbix_stack_with_ansible)
 
 ## Kernel Virtual Machine
 
@@ -1401,13 +1402,20 @@ GOTO lab_3_install_with_ansible
 1. Install online
 2. Install offline
 
-## IT/OT zabbix stack
+## lab_4_IT-OT_zabbix_stack_study_and_prepare
 
-GOTO lab_4_IT-OT_zabbix_stack
+GOTO lab_4_IT-OT_zabbix_stack_study_and_prepare
 
 1. Do a study on how to install, maintain zabbix stack in IT/OT environment
 2. Remember deb-mirror or aptly
 3. No code just concepts and purdue
 
+
+## lab_5_IT-OT_zabbix_stack_with_ansible
+
+GOT0 lab_5_IT-OT_zabbix_stack_with_ansible
+
+1. lab_4_IT-OT_zabbix_stack_study_and_prepare
+2. Make working example
 
 
