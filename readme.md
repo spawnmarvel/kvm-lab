@@ -1399,8 +1399,9 @@ Continue from GOTO lab_1_install_online
 
 GOTO lab_3_install_with_ansible
 
-1. Install online
-2. Install offline
+1. Tutorial ansible
+2. Install online
+3. Install offline
 
 ## lab_4_IT-OT_zabbix_stack_study_and_prepare
 
