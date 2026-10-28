@@ -129,3 +129,15 @@ Add som hosts
 
 ![zabbix01](https://github.com/spawnmarvel/kvm-lab/blob/main/images/zabbix01.png)
 
+
+## Mysql no such database?
+
+
+```bash
+
+sudo killall -9 mysqld 2>/dev/null
+
+sudo systemctl status mysql
+
+``
+
