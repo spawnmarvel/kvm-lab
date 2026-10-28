@@ -43,8 +43,10 @@
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
     - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
   - [Backup, edit and restore](#backup-edit-and-restore)
-  - [Lab 1 get software online install offline](#lab-1-get-software-online-install-offline)
-  - [Lab 2 Install software with Ansible](#lab-2-install-software-with-ansible)
+  - [Remember deb-mirror or aptly](#remember-deb-mirror-or-aptly)
+  - [Lab 1 install online](#lab-1-install-online)
+  - [Lab 2 install offline 2 scenarios with scp cmd](#lab-2-install-offline-2-scenarios-with-scp-cmd)
+  - [Lab 3 install with ansible](#lab-3-install-with-ansible)
 
 ## Kernel Virtual Machine
 
@@ -1379,7 +1381,7 @@ This is for offline repos internal and online DMZ with repos data
 
 GOTO lab_1_install_offline
 
-## Lab 2 install offline 2 scenarios with scp
+## Lab 2 install offline 2 scenarios with scp cmd
 
 GOTO lab_2_install_offline
 
