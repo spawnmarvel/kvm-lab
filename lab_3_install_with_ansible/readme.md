@@ -4,18 +4,16 @@
 
 - [Ansible](#ansible)
   - [Table of content](#table-of-content)
-  - [Here's a quick guide to get you up to speed on Ansible](#heres-a-quick-guide-to-get-you-up-to-speed-on-ansible)
-  - [Install Ansible on host](#install-ansible-on-host)
+- [Here's a quick guide to get you up to speed on Ansible](#heres-a-quick-guide-to-get-you-up-to-speed-on-ansible)
   - [Core Concepts](#core-concepts)
   - [Key Advantages](#key-advantages)
+  - [Ansible Agentless Architecture Linux and Windows](#ansible-agentless-architecture-linux-and-windows)
+  - [Install Ansible on host](#install-ansible-on-host)
   - [Install Mysql](#install-mysql)
   - [Install Zabbix](#install-zabbix)
   - [Install Zabbix proxy](#install-zabbix-proxy)
 
-## Here's a quick guide to get you up to speed on Ansible
-
-
-## Install Ansible on host
+# Here's a quick guide to get you up to speed on Ansible
 
 
 ## Core Concepts
@@ -39,6 +37,18 @@
 * Declarative Language: Written in human-readable YAML focusing on what state the system should be in rather than how to achieve it.
 
 * Idempotency: Tasks can run repeatedly without changing the system state if the desired outcome is already present.
+
+## Ansible Agentless Architecture Linux and Windows
+
+* On Linux, Ansible connects via SSH, authenticates using SSH keys or passwords, and transfers small Python modules to the /tmp directory on the target system. It executes those modules using the target's Python interpreter to apply the desired configuration, retrieves the JSON result, and automatically removes the temporary script files.
+
+* On Windows, Ansible connects over WinRM (Windows Remote Management) or WinSSHD, authenticates using NTLM, Kerberos, or CredSSP, and executes PowerShell scripts or .NET code directly in memory. Results are captured in JSON format and returned to the control node without leaving persistent software behind.
+
+
+## Install Ansible on host
+
+
+
 
 
 ## Install Mysql
