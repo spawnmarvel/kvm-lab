@@ -6,4 +6,13 @@ When we done this many times
 
 1. Install MySQL
 2. Install Zabbix
-3. Install Zabbix proxy with sqlite3
+
+
+```bash
+
+cd scripts_kvm
+
+# create the vm
+
+bash create-ubuntu.zabbix01.sh
+``

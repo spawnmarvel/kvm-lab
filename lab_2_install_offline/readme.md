@@ -17,9 +17,10 @@
 
 cd scripts_kvm
 
-# create the two vms
+# create the new vm
 
-bash create-ubuntu.zabbix01.sh
+# we already have this
+# bash create-ubuntu.zabbix01.sh
 
 bash create-ubuntu.zabbix02.sh
 
