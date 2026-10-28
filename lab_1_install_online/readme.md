@@ -2,8 +2,11 @@
 
 ## Table of content
 
-- [create vm](#create-vm)
-- [install zabbix mysql](#install-zabbix-mysql)
+- [Install Zabbix online](#install-zabbix-online)
+  - [Table of content](#table-of-content)
+  - [create vm](#create-vm)
+  - [install zabbix, mysql](#install-zabbix-mysql)
+  - [Mysql no such database?](#mysql-no-such-database)
 
 ## create vm
 

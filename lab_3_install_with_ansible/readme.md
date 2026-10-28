@@ -7,6 +7,7 @@
   - [Here's a quick guide to get you up to speed on Ansible](#heres-a-quick-guide-to-get-you-up-to-speed-on-ansible)
   - [Install Ansible on host](#install-ansible-on-host)
   - [Core Concepts](#core-concepts)
+  - [Key Advantages](#key-advantages)
   - [Install Mysql](#install-mysql)
   - [Install Zabbix](#install-zabbix)
   - [Install Zabbix proxy](#install-zabbix-proxy)

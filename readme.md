@@ -46,7 +46,7 @@
   - [Remember deb-mirror or aptly](#remember-deb-mirror-or-aptly)
   - [Lab 1 install online](#lab-1-install-online)
   - [Lab 2 install offline 2 scenarios with scp cmd](#lab-2-install-offline-2-scenarios-with-scp-cmd)
-  - [Lab 3 install with ansible](#lab-3-install-with-ansible)
+  - [Lab 3 install with ansible and why use ansible](#lab-3-install-with-ansible-and-why-use-ansible)
 
 ## Kernel Virtual Machine
 
@@ -1391,7 +1391,7 @@ GOTO lab_2_install_offline
 2. 
 
 
-## Lab 3 install with ansible
+## Lab 3 install with ansible and why use ansible
 
 GOTO lab_3_install_with_ansible
 

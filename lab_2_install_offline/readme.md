@@ -3,11 +3,14 @@
 ## Table of content
 
 - [Online and offline vms](#online-and-offline-vms)
-- [install vms](#install-vms)
-- [architecture \& network flow scenario 1 proxy offline](#architecture--network-flow-scenario-1-proxy-offline)
-- [install zabbix, mysql already done](#install-zabbix-mysql-already-done)
-- [install proxy](#install-proxy)
-- [architecture \& network flow scenario 2 all offline](#architecture--network-flow-scenario-2-all-offline)
+  - [Table of content](#table-of-content)
+  - [install vms](#install-vms)
+  - [architecture \& network flow scenario 1 proxy offline](#architecture--network-flow-scenario-1-proxy-offline)
+  - [install zabbix, mysql already done](#install-zabbix-mysql-already-done)
+  - [install proxy and allow verfify tcp out](#install-proxy-and-allow-verfify-tcp-out)
+    - [Step 1: Check ARP Cache \& Layer 2 MAC Discovery](#step-1-check-arp-cache--layer-2-mac-discovery)
+    - [Step 2: Step 1: Test Disabling UFW on zabbix02](#step-2-step-1-test-disabling-ufw-on-zabbix02)
+  - [architecture \& network flow scenario 2 all offline](#architecture--network-flow-scenario-2-all-offline)
 
 
 
