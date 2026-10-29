@@ -53,6 +53,13 @@
 
 # Install Ansible on host
 
+```bash
+# install all
+
+
+# verify all
+```
+
 ## Getting started with Ansible GOTO tutorial_ansible
 
 
