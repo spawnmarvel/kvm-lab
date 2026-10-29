@@ -9,7 +9,7 @@
   - [Key Advantages](#key-advantages)
   - [Ansible Agentless Architecture Linux and Windows](#ansible-agentless-architecture-linux-and-windows)
 - [Install Ansible on host](#install-ansible-on-host)
-  - [](#)
+  - [Getting started with Ansible GOTO tutorial\_ansible](#getting-started-with-ansible-goto-tutorial_ansible)
 - [install online](#install-online)
   - [Install Mysql](#install-mysql)
   - [Install Zabbix](#install-zabbix)
@@ -53,7 +53,7 @@
 
 # Install Ansible on host
 
-##
+## Getting started with Ansible GOTO tutorial_ansible
 
 
 

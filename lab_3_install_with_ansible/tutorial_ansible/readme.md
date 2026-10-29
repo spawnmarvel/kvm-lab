@@ -8,6 +8,6 @@
 
 ## Getting started with Ansible
 
-Just do for fun
+Just do for fun and recap.
 
 https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
