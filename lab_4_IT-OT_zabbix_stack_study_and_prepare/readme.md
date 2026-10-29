@@ -16,6 +16,8 @@ In short, several standard tools exist for installing and managing Zabbix, but A
 2. Cloud-Init
 3. HashiCorp Packer
 4. Puppet / Chef
+   
+  
 ## 2. Is Ansible a Good Choice for Maintaining Ubuntu and Windows Hosts?
 
 
