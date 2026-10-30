@@ -180,10 +180,8 @@ PLAY RECAP *********************************************************************
 
 
 
-https://docs.ansible.com/projects/ansible/latest/getting_started/get_started_playbook.html
+## Ansible concepts todo
 
-## continue next sections
 
-Just do for fun and recap.
+https://docs.ansible.com/projects/ansible/latest/getting_started/basic_concepts.html
 
-https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
