@@ -159,7 +159,7 @@ nc -zv -w3 91.189.91.81 80
 # this is ip used from repo.zabbix.com
 sudo tracepath -n 178.128.6.101
 # If it stops at Hop 1 or 2: Your local router, home gateway, or your own local firewall is dropping the packet before it even leaves your network.
-
+# if it goes out 5+ hops and then displays no reply: Your traffic is leaving your network successfully, but a remote firewall (or a firewall right in front of the target server) is dropping your packet
 
 # Test Direct HTTP Request via Curl
 curl -I -m 5 --header "Host: archive.ubuntu.com" http://91.189.91.81/ubuntu/
