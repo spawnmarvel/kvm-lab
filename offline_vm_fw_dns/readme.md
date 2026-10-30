@@ -219,7 +219,8 @@ nc -zv -w3 archive.ubuntu.com 443
 ```
 
 * OK: Connection to archive.ubuntu.com 80 port [tcp/http] succeeded!
-* Error: Network is unreachable or Timed out The firewall is blocking the specific CDN IP address (ask the network team to allow the FQDN or Canonical IP ranges 91.189.88.0/21 and 185.125.188.0/22).
+* Error: Network is unreachable or Timed out.
+* The firewall is blocking the specific CDN IP address (ask the network team to allow the FQDN or Canonical IP ranges 91.189.88.0/21 and 185.125.188.0/22).
 
 
 ### 5. Workaround Layer 7 Firewall / DPI User-Agent Drops
