@@ -1395,6 +1395,10 @@ Continue from GOTO lab_1_install_online
 2. architecture & network flow scenario 2 all offline = 
 
 
+## Ansible install and recap tutorial
+
+GOTO ansible/tutorial
+
 ## Lab 3 install with ansible and why use ansible
 
 GOTO lab_3_install_with_ansible
