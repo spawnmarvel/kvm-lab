@@ -128,12 +128,61 @@ A unit of code or binary that Ansible runs on managed nodes. Ansible modules are
 pwd
 /home/espenk/ansible_quickstart
 
-
+sudo nano playbook.yaml
 
 ``` 
+
+Create a file named playbook.yaml in your ansible_quickstart directory, that you created earlier, with the following content:
+
+
+```yml
+- name: My first play
+  hosts: myhosts
+  tasks:
+   - name: Ping my hosts
+     ansible.builtin.ping:
+
+   - name: Print message
+     ansible.builtin.debug:
+       msg: Hello world
+
+```
+
+Run it
+
+```bash
+ansible-playbook -i inventory.ini playbook.yaml 
+
+```
+
+Result
+
+```txt
+PLAY [First playbook] **************************************************************************
+
+TASK [Gathering Facts] *************************************************************************
+TASK [Ping my hosts] ***************************************************************************
+ok: [10.68.68.51]
+ok: [10.68.68.50]
+
+TASK [Print message] ***************************************************************************
+ok: [10.68.68.50] => {
+    "msg": "Hello world"
+}
+ok: [10.68.68.51] => {
+    "msg": "Hello world"
+}
+
+PLAY RECAP *************************************************************************************
+
+
+```
+
+
+
 https://docs.ansible.com/projects/ansible/latest/getting_started/get_started_playbook.html
 
-## continue
+## continue next sections
 
 Just do for fun and recap.
 
