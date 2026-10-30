@@ -149,6 +149,18 @@ Because resolvectl query archive.ubuntu.com returned IP addresses, your system's
 nc -zv -w3 91.189.91.81 80
 # Success Output: Connection to 91.189.91.81 443 port [tcp/https] succeeded!
 
+# Connection refused: The packet made it to the destination server, 
+# but a firewall on that server (like ufw or iptables) or the service itself rejected it.
+
+# Connection timed out: The packet was dropped entirely. 
+# This usually means a network firewall along the path (like a corporate firewall, cloud security group, or router) is silently ignoring your traffic.
+
+# Ubuntu comes with a built-in alternative called tracepath
+# this is ip used from repo.zabbix.com
+sudo tracepath -n 178.128.6.101
+# If it stops at Hop 1 or 2: Your local router, home gateway, or your own local firewall is dropping the packet before it even leaves your network.
+
+
 # Test Direct HTTP Request via Curl
 curl -I -m 5 --header "Host: archive.ubuntu.com" http://91.189.91.81/ubuntu/
 # curl -I -m 5 --header "Host: archive.ubuntu.com" http://91.189.91.81/ubuntu/
