@@ -1,5 +1,7 @@
 # Ansible
 
+Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy. Avoid writing scripts or custom code to deploy and update your applications— automate in a language that approaches plain English, using SSH, with no agents to install on remote systems.
+
 ## Table of content
 
 - [Ansible](#ansible)
@@ -55,10 +57,31 @@
 
 ```bash
 # install all
-
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible
 
 # verify all
+ansible --version
+
+ansible [core 2.21.5]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/espenk/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /home/espenk/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0] (/usr/bin/python3)
+  jinja version = 3.1.6
+  pyyaml version = 6.0.3 (with libyaml v0.2.5)
+
 ```
+
+Installing Ansible on Ubuntu
+
+Ubuntu provides Ansible packages through a Personal Package Archive (PPA) that contains more recent versions than the standard repositories.
+
+https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html
 
 ## Getting started with Ansible GOTO tutorial_ansible
 

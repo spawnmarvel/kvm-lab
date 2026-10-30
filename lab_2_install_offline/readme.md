@@ -414,6 +414,48 @@ Go to https://10.68.68.50/zabbix
 ![zabbix02 proxy](https://github.com/spawnmarvel/kvm-lab/blob/main/images/zabbix02_proxy.png)
 
 
+### Step 3 Monitor zabbix02 with agent2
+
+```bash
+# On online server (10.68.68.50)
+mkdir -p ~/zabbix_offline_agent && cd ~/zabbix_offline_agent
+
+sudo apt-get download zabbix-agent2 zabbix-agent2-plugin-*
+
+scp -r ~/zabbix_offline_agent proxyman@10.68.68.51:/tmp/
+
+# On proxy server (10.68.68.51)
+cd /tmp/zabbix_offline_agent
+sudo dpkg -i *.deb
+
+sudo su
+
+# Update or uncomment Server directive
+sudo sed -i -E 's|^#?\s*Server=.*|Server=127.0.0.1|' /etc/zabbix/zabbix_agent2.conf
+
+# Update or uncomment ServerActive directive
+sudo sed -i -E 's|^#?\s*ServerActive=.*|ServerActive=10.68.68.50|' /etc/zabbix/zabbix_agent2.conf
+
+# Update or uncomment Hostname directive
+sudo sed -i -E 's|^#?\s*Hostname=.*|Hostname=zabbix02|' /etc/zabbix/zabbix_agent2.conf
+
+# check it
+sudo grep -E '^(Server|ServerActive|Hostname)=' /etc/zabbix/zabbix_agent2.conf
+
+# enable and restart
+sudo systemctl enable zabbix-agent2
+sudo systemctl restart zabbix-agent2
+```
+
+Go to zabbix management
+
+1. Add host zabbix02
+2. Virtual machine group
+3. Template, Linux by Zabbix agent active. Since only 10051 is allowed
+
+
+![zabbix02 agent](https://github.com/spawnmarvel/kvm-lab/blob/main/images/zabbix02_agent.png)
+
 ## architecture & network flow scenario 2 all offline
 
 
