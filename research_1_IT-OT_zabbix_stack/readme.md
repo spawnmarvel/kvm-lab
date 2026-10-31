@@ -16,7 +16,8 @@
     - [4. Toplogy for POC to build with KVM](#4-toplogy-for-poc-to-build-with-kvm)
     - [4.1 Day-2 management](#41-day-2-management)
     - [4.1 Leg 2 complies with the Purdue Model and IEC 62443 / ISA-95 standards](#41-leg-2-complies-with-the-purdue-model-and-iec-62443--isa-95-standards)
-    - [4. 3 Teoretical steps for ansiblectr01](#4-3-teoretical-steps-for-ansiblectr01)
+    - [4.3 Teoretical steps for ansiblectr01](#43-teoretical-steps-for-ansiblectr01)
+    - [4.4 Step-by-Step Flow: Manual Commands vs. Automated apt-cacher-ng](#44-step-by-step-flow-manual-commands-vs-automated-apt-cacher-ng)
     - [GOTO run\_research\_1\_IT-OT\_zabbix\_stack](#goto-run_research_1_it-ot_zabbix_stack)
 
 
@@ -174,7 +175,7 @@ Leg 2 complies with the Purdue Model and IEC 62443 / ISA-95 standards because th
 * Controlled & Audited Conduit: The firewall permits downward traffic strictly from the single source IP of ansiblectr01 to specific target host IPs on port 22/5985, rather than opening blanket access into Zone 2.
 * Decoupled Sessions: The SSH session from Level 3.5 to ansiblectr01 and the SSH/WinRM connection from ansiblectr01 to Zone 2 hosts are entirely separate TCP sessions. No direct packet forwarding or routing occurs between Level 3.5 and Zone 2.
 
-### 4. 3 Teoretical steps for ansiblectr01
+### 4.3 Teoretical steps for ansiblectr01
 
 1. Log into ansiblectr01 using the initial credentials provided by the datacenter build team.
 2. Configure the static IP address (10.68.68.10) and set the system hostname to ansiblectr01.
@@ -188,6 +189,37 @@ Leg 2 complies with the Purdue Model and IEC 62443 / ISA-95 standards because th
 10. Populate the Ansible inventory file (inventory.ini) with the host IP addresses and credentials for zabbix01, mysql01, zabbix02, and the Windows VMs.
 11. Stage the deployment and maintenance playbooks (zabbix-deploy.yml, patch-ubuntu.yml, and patch-windows.yml) on the filesystem.
 12. Test SSH and WinRM connectivity from ansiblectr01 to all target hosts across Zone 2.5 and Zone 2.
+
+The package distribution mechanism
+
+The package distribution mechanism differs between Linux nodes and Windows VMs for specific technical reasons:
+
+* Linux Nodes (zabbix01, mysql01, zabbix02): Handled on-demand by apt-cacher-ng. 
+* When Ansible executes apt install zabbix-server-mysql on zabbix01, apt routes the request through http://ansiblectr01:3142. apt-cacher-ng automatically fetches the required .deb files from repo.zabbix.com or archive.ubuntu.com over ansiblectr01's whitelisted egress, caches them in /var/cache/apt-cacher-ng, and streams them to the target server.
+
+* Windows VMs: Windows Server does not natively integrate with apt or apt-cacher-ng. 
+* Ansible's win_package module requires an HTTP endpoint to pull installation media, which is why only the static .msi installer is hosted in Apache at [http://10.68.68.10/packages/zabbix_agent2.msi](http://10.68.68.10/packages/zabbix_agent2.msi).
+
+### 4.4 Step-by-Step Flow: Manual Commands vs. Automated apt-cacher-ng
+
+
+```txt
+[ Manual Online Steps ]                     [ Automated Ansible + apt-cacher-ng Flow ]
+
+ 1. wget zabbix-release.deb           ──────>  zabbix01 fetches repository key/list via ansiblectr01:3142
+ 2. dpkg -i zabbix-release.deb        ──────>  zabbix01 registers repo.zabbix.com in /etc/apt/sources.list.d/
+ 3. apt update                        ──────>  zabbix01 requests package indexes through ansiblectr01:3142
+ 4. apt install zabbix-server-mysql   ──────>  apt-cacher-ng downloads & caches the .deb files, then serves zabbix01
+```
+
+> [!NOTE] 
+
+Stage 1: Registering the Zabbix Repository on zabbix01
+
+What zabbix-release...deb actually is: It is not Zabbix Server itself. It is a 10 KB configuration package that contains zabbix.list (the URL pointing to repo.zabbix.com) and the official GPG signing key.
+
+How it routes: When zabbix01 fetches this zabbix-release package, it routes through http://ansiblectr01:3142. ansiblectr01 passes it out to repo.zabbix.com, caches the 10 KB file, and hands it to zabbix01.
+
 
 ![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot.jpeg)
 
