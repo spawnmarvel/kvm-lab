@@ -1411,6 +1411,7 @@ GOTO research_1_IT-OT_zabbix_stack
 
 1. Ansible selected
 2. Scenario & Core Requirements Summary
+- Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
 3. Firewall
 4. Topology
 5. No code just concepts and purdue
@@ -1421,7 +1422,11 @@ GOTO run_1_lab_1_IT-OT_zabbix_stack
 
 1. Implement the research
 2. Make POC with KVM
-3. Build zones and run the scenario
+3. Build zones ande vms
+4. Run the scenario
+5. Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
+6. Automate day 2 and all other days
+
 
 
 
