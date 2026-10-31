@@ -1,4 +1,13 @@
-# Firewall Rule Matrix (Purdue / ISA-95 Architecture)
+# Firewall
+
+## Table of content
+
+- [Firewall](#firewall)
+  - [Table of content](#table-of-content)
+  - [Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#firewall-rule-matrix-purdue--isa-95-architecture)
+  - [1. Executive Summary \& Security Standard Alignment](#1-executive-summary--security-standard-alignment)
+
+## Firewall Rule Matrix (Purdue / ISA-95 Architecture)
 
 | Rule ID | Source Host | Source Zone | Destination FQDN / Host | Destination Zone | Protocol / Port | Purpose |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

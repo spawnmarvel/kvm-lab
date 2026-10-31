@@ -4,7 +4,11 @@
 
 - [Getting started with Ansible](#getting-started-with-ansible)
   - [Table of content](#table-of-content)
-  - [Getting started with Ansible](#getting-started-with-ansible-1)
+- [Getting started with Ansible](#getting-started-with-ansible-1)
+  - [1. Start automating with Ansible ssh keys](#1-start-automating-with-ansible-ssh-keys)
+  - [2. Building an inventory with users production-grade](#2-building-an-inventory-with-users-production-grade)
+  - [3. Creating a playbook](#3-creating-a-playbook)
+  - [Ansible concepts todo](#ansible-concepts-todo)
 
 # Getting started with Ansible
 

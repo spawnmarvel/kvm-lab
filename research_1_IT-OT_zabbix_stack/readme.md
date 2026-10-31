@@ -8,6 +8,12 @@
   - [1. Available Automation Tools for Installing Zabbix](#1-available-automation-tools-for-installing-zabbix)
   - [2. Is Ansible a Good Choice for Maintaining Ubuntu and Windows Hosts?](#2-is-ansible-a-good-choice-for-maintaining-ubuntu-and-windows-hosts)
   - [3. No docker in a strict Purdue Model](#3-no-docker-in-a-strict-purdue-model)
+  - [Scenario 1](#scenario-1)
+    - [1. Scenario \& Core Requirements Summary](#1-scenario--core-requirements-summary)
+    - [2. Why apt-cacher-ng Was Selected](#2-why-apt-cacher-ng-was-selected)
+    - [3. Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#3-firewall-rule-matrix-purdue--isa-95-architecture)
+      - [3.1 Firewall rules and diagram](#31-firewall-rules-and-diagram)
+    - [4. Toplogy for POC to build with KVM](#4-toplogy-for-poc-to-build-with-kvm)
 
 
 ## The 5-Level Hierarchy (Shared by Purdue & ISA-95)

@@ -2,7 +2,7 @@
 
 ## Table of content
 
-- [kvm-lab](#kvm-lab)
+- [kvm-lab and ansible](#kvm-lab-and-ansible)
   - [Table of content](#table-of-content)
   - [Kernel Virtual Machine](#kernel-virtual-machine)
   - [Azure vs KVM](#azure-vs-kvm)
@@ -43,12 +43,13 @@
   - [Analyzing Your Current DNS Setup](#analyzing-your-current-dns-setup)
     - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
   - [Backup, edit and restore](#backup-edit-and-restore)
-  - [Remember deb-mirror or aptly](#remember-deb-mirror-or-aptly)
-  - [Lab 1 install online](#lab-1-install-online)
-  - [Lab 2 install offline 2 scenarios with scp cmd](#lab-2-install-offline-2-scenarios-with-scp-cmd)
-  - [Lab 3 install with ansible and why use ansible](#lab-3-install-with-ansible-and-why-use-ansible)
-  - [lab\_4\_IT-OT\_zabbix\_stack\_study\_and\_prepare](#lab_4_it-ot_zabbix_stack_study_and_prepare)
-  - [lab\_5\_IT-OT\_zabbix\_stack\_with\_ansible](#lab_5_it-ot_zabbix_stack_with_ansible)
+  - [Remember deb-mirror or aptly or apt-cacher-ng](#remember-deb-mirror-or-aptly-or-apt-cacher-ng)
+  - [lab\_1\_install\_online = 100%](#lab_1_install_online--100)
+  - [lab\_2\_install\_offline 2 scenarios with scp cmd = 50%](#lab_2_install_offline-2-scenarios-with-scp-cmd--50)
+- [lab\_3\_ansible/tutorial\_ansible install and recap = 10%](#lab_3_ansibletutorial_ansible-install-and-recap--10)
+- [IT/OT POC](#itot-poc)
+  - [research\_1\_IT-OT\_zabbix\_stack and why use ansible = 100%](#research_1_it-ot_zabbix_stack-and-why-use-ansible--100)
+- [run\_research\_1\_IT-OT\_zabbix\_stack= 0 %](#run_research_1_it-ot_zabbix_stack-0-)
 
 ## Kernel Virtual Machine
 
@@ -1398,6 +1399,8 @@ Continue from GOTO lab_1_install_online
 # lab_3_ansible/tutorial_ansible install and recap = 10%
 
 GOTO ansible/tutorial
+
+# IT/OT POC
 
 ## research_1_IT-OT_zabbix_stack and why use ansible = 100%
 
