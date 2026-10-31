@@ -44,10 +44,11 @@
     - [Order of Precedence in Ubuntu DN](#order-of-precedence-in-ubuntu-dn)
   - [Backup, edit and restore](#backup-edit-and-restore)
   - [Remember deb-mirror or aptly or apt-cacher-ng](#remember-deb-mirror-or-aptly-or-apt-cacher-ng)
-  - [lab\_1\_install\_online = 100%](#lab_1_install_online--100)
-  - [lab\_2\_install\_offline 2 scenarios with scp cmd = 50%](#lab_2_install_offline-2-scenarios-with-scp-cmd--50)
+  - [lab\_1\_install\_online manual = 100%](#lab_1_install_online-manual--100)
+  - [lab\_2\_install\_offline 2 scenarios with scp cmd manual = 50%](#lab_2_install_offline-2-scenarios-with-scp-cmd-manual--50)
+- [Ansible](#ansible)
 - [lab\_3\_ansible/tutorial\_ansible install and recap = 10%](#lab_3_ansibletutorial_ansible-install-and-recap--10)
-- [IT/OT POC](#itot-poc)
+- [IT/OT POC with Ansible](#itot-poc-with-ansible)
   - [research\_1\_IT-OT\_zabbix\_stack and why use ansible = 100%](#research_1_it-ot_zabbix_stack-and-why-use-ansible--100)
 - [run\_research\_1\_IT-OT\_zabbix\_stack= 0 %](#run_research_1_it-ot_zabbix_stack-0-)
 
@@ -1380,13 +1381,13 @@ ubuntu-test.txt
 
 This is for offline repos internal and online DMZ with repos data
 
-## lab_1_install_online = 100%
+## lab_1_install_online manual = 100%
 
 GOTO lab_1_install_online
 
 1. Zabbix and Mysql (witch is avliable default) on one host = Done
 
-## lab_2_install_offline 2 scenarios with scp cmd = 50%
+## lab_2_install_offline 2 scenarios with scp cmd manual = 50%
 
 GOTO lab_2_install_offline
 
@@ -1396,20 +1397,23 @@ Continue from GOTO lab_1_install_online
 2. architecture & network flow scenario 2 all offline = 
 
 
+# Ansible
+
 # lab_3_ansible/tutorial_ansible install and recap = 10%
 
 GOTO ansible/tutorial
 
-# IT/OT POC
+# IT/OT POC with Ansible
 
 ## research_1_IT-OT_zabbix_stack and why use ansible = 100%
 
 GOTO research_1_IT-OT_zabbix_stack
 
-1. Scenario & Core Requirements Summary
-2. Firewall
-3. Topology
-4. No code just concepts and purdue
+1. Ansible selected
+2. Scenario & Core Requirements Summary
+3. Firewall
+4. Topology
+5. No code just concepts and purdue
 
 # run_research_1_IT-OT_zabbix_stack= 0 %
 
