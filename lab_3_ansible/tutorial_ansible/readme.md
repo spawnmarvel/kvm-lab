@@ -13,9 +13,10 @@
     - [4.1 Why This Is the Correct Security Model](#41-why-this-is-the-correct-security-model)
   - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
   - [KVM snapshots and environment](#kvm-snapshots-and-environment)
-  - [Working with playbooks Gemini Research Purdue Model 3 ways automation](#working-with-playbooks-gemini-research-purdue-model-3-ways-automation)
-  - [TBD Ansible tips and tricks documentation](#tbd-ansible-tips-and-tricks-documentation)
-  - [What more do we need to learn Gemini?](#what-more-do-we-need-to-learn-gemini)
+  - [Working with playbooks Gemini Research Purdue Model 3 ways automation = in progress](#working-with-playbooks-gemini-research-purdue-model-3-ways-automation--in-progress)
+    - [You use ansible.builtin.file almost 100% of the time in production playbook](#you-use-ansiblebuiltinfile-almost-100-of-the-time-in-production-playbook)
+  - [Ansible tips and tricks documentation TODO READ](#ansible-tips-and-tricks-documentation-todo-read)
+  - [What more do we need to learn Gemini? TODO](#what-more-do-we-need-to-learn-gemini-todo)
 
 # Getting started with Ansible
 
@@ -331,9 +332,129 @@ Name       MAC address          Protocol     Address
 vnet1      52:54:00:11:22:34    ipv4         10.68.68.51/24
 ```
 
-## Working with playbooks Gemini Research Purdue Model 3 ways automation TODO
+## Working with playbooks Gemini Research Purdue Model 3 ways automation = in progress
 
-## TBD Ansible tips and tricks documentation TODO READ
+GOTO Playbooks
+
+```bash
+# ubuntu-zabbix02 has ufw enabled to behave like offline
+ssh proxyman@10.68.68.51
+# Disable it for this test
+sudo ufw disable
+
+cd ansible_quickstart/
+
+# View inventory
+ansible-inventory -i inventory.ini --list
+
+# ping the host
+ansible myhost -m ping -i inventory.ini 
+
+# Playbook ping
+ansible-playbook -i inventory.ini ping_hosts.yml
+
+# Version: 1.0.0
+# Description: Installs baseline tools and ensures timezone is set across sandbox nodes
+ansible-playbook -i inventory.ini install_baseline_tools.yml
+
+# Version: 1.0.0
+# Description: Executes the system date command on target hosts and displays the output.
+ansible-playbook -i inventory.ini get_date.yml
+
+```
+
+
+Add a folder
+
+```bash
+ansible-playbook -i inventory.ini add_folder.yml
+```
+
+The task failed the second time with a red error because raw Linux commands like mkdir are not idempotent. When mkdir /op_ansible executes on a host where /op_ansible already exists, the Linux system returns an error code (rc: 1), causing Ansible to report a task failure.
+
+```yml
+# Version: 1.0.0
+# Description: Executes the mkdir command on target hosts and displays the output.
+
+- name: Get Target System Date
+  hosts: myhost
+  become: true
+  tasks:
+    - name: Execute mkdir command
+      ansible.builtin.command: mkdir /op_ansible
+      register: system_date
+
+    - name: Print folder creation message to console
+      ansible.builtin.debug:
+        msg: "Folder created on {{ inventory_hostname }}"
+```
+
+To get clean, green (ok) output when re-running playbooks, replace raw shell commands with native Ansible modules like ansible.builtin.file. Native modules inspect the target system first: if the directory already exists, Ansible makes no changes and reports ok (green) instead of crashing.
+
+```yml
+# Version: 1.1.0
+# Description: Ensures directory exists idempotently using the native file module
+
+- name: Manage Target System Directory
+  hosts: myhost
+  become: true
+  tasks:
+    - name: Ensure /op_ansible directory exists
+      ansible.builtin.file:
+        path: /op_ansible
+        state: directory
+        mode: '0755'
+```
+
+Add a folder
+
+```bash
+ansible-playbook -i inventory.ini add_folder.yml
+```
+
+Log
+
+```txt
+PLAY [Manage Target System Directory] **********************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+ok: [10.68.68.51]
+ok: [10.68.68.50]
+
+TASK [Ensure /op_ansible directory exists] *****************************************************************************
+ok: [10.68.68.51]
+ok: [10.68.68.50]
+
+PLAY RECAP *************************************************************************************************************
+10.68.68.50                : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.68.68.51                : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+```
+
+### You use ansible.builtin.file almost 100% of the time in production playbook
+
+You use ansible.builtin.file almost 100% of the time in production playbooks, while ansible.builtin.command is reserved for specific edge cases.
+
+* Use ansible.builtin.file whenever you need to create, modify, or remove files, directories, or symlinks.
+
+
+```bash
+# combine folder and file
+# add a txt file to the folder we created
+
+# That combination is standard production practice.
+ansible-playbook -i inventory.ini add_folder_op_and_file.yml
+
+```
+
+
+
+
+
+
+## Ansible tips and tricks documentation TODO READ
+
+1.  Keep them lowercase, descriptive, and consistent; hyphens are a good choice. A clear pattern is verb + target or purpose, ending in .yml
 
 https://docs.ansible.com/projects/ansible/latest/tips_tricks/index.html#playbooks-best-practices
 

@@ -1,0 +1,13 @@
+# Version: 1.0.0
+# Description: Executes the system date command on target hosts and displays the output.
+
+- name: Get Target System Date
+  hosts: myhost
+  tasks:
+    - name: Execute date command
+      ansible.builtin.command: date
+      register: system_date
+
+    - name: Print current date to console
+      ansible.builtin.debug:
+        msg: "Current date on {{ inventory_hostname }} is {{ system_date.stdout }}"

@@ -1,0 +1,22 @@
+# Version: 1.0.0
+# Description: Ensures /op_ansible/file.txt exists with specified text content using the copy module
+
+- name: Manage Target System File
+  hosts: myhost
+  become: true
+  tasks:
+    - name: Ensure /op_ansible directory exists
+      ansible.builtin.file:
+        path: /op_ansible
+        state: directory
+        mode: '0755'
+        
+    - name: Ensure /op_ansible/file.txt exists with content
+      ansible.builtin.copy:
+        dest: /op_ansible/file.txt
+        content: "hello world\n"
+        # update the file only if the content has changed
+        # Ansible calculates the SHA1 checksum of "hello world\n" 
+        # and compares it to the file on disk. Because the checksums do not match, 
+        # Ansible overwrites /op_ansible/file.txt with "hello world\n"
+        mode: '0644'

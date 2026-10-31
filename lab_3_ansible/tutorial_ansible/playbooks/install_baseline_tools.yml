@@ -1,0 +1,19 @@
+# Version: 1.0.0
+# Description: Installs baseline tools and ensures timezone is set across sandbox nodes
+
+- name: Configure Sandbox Baseline
+  hosts: myhost
+  become: true
+  tasks:
+    - name: Ensure standard administration tools are present
+      ansible.builtin.apt:
+        name:
+          - curl
+          - htop
+          - net-tools
+        state: present
+        update_cache: yes
+
+    - name: Ensure timezone is set to UTC
+      community.general.timezone:
+        name: UTC

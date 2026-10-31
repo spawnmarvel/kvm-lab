@@ -10,6 +10,7 @@
   - [install proxy and allow verfify tcp out](#install-proxy-and-allow-verfify-tcp-out)
     - [Step 1: Check ARP Cache \& Layer 2 MAC Discovery (fix Explicitly Allow Outbound Traffic UFW)](#step-1-check-arp-cache--layer-2-mac-discovery-fix-explicitly-allow-outbound-traffic-ufw)
     - [Step 2: Step 1: Test Disabling UFW on zabbix02 (fix Explicitly Allow Outbound Traffic UFW)](#step-2-step-1-test-disabling-ufw-on-zabbix02-fix-explicitly-allow-outbound-traffic-ufw)
+    - [Step 3 Monitor zabbix02 with agent2](#step-3-monitor-zabbix02-with-agent2)
   - [architecture \& network flow scenario 2 all offline](#architecture--network-flow-scenario-2-all-offline)
 
 
