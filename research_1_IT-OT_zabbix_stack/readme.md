@@ -18,6 +18,7 @@
     - [4.1 Leg 2 complies with the Purdue Model and IEC 62443 / ISA-95 standards](#41-leg-2-complies-with-the-purdue-model-and-iec-62443--isa-95-standards)
     - [4.3 Teoretical steps for ansiblectr01](#43-teoretical-steps-for-ansiblectr01)
     - [4.4 Step-by-Step Flow: Manual Commands vs. Automated apt-cacher-ng](#44-step-by-step-flow-manual-commands-vs-automated-apt-cacher-ng)
+    - [4.5 Topology](#45-topology)
     - [GOTO run\_research\_1\_IT-OT\_zabbix\_stack](#goto-run_research_1_it-ot_zabbix_stack)
 
 
@@ -264,6 +265,8 @@ Windows Agent2: Needs apache2 on ansiblectr01 hosting zabbix_agent2.msi because 
 
 Linux Nodes (zabbix01, mysql01, zabbix02): Use apt-cacher-ng for everything. You add the repository once, and apt dynamically fetches all .deb packages through ansiblectr01 without manual file management.
 
+
+### 4.5 Topology
 
 ![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot.jpeg)
 
