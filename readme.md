@@ -1,7 +1,23 @@
 # kvm-lab and ansible. 
 
-* Day 1: infrastructure with kvm
-* Day 2 to day n: automate install, update and support operations with ansible
+* Day 1: infrastructure with kvm team 1.
+* Day 2 to day n: automate install, update and support operations with ansible team 2
+
+Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
+
+What will we learn here?
+
+* KVM and virsh
+* Ansible and yaml
+* Ubuntu and bash
+* Mysql, Zabbix
+* Network
+* Storage
+* Concepts
+* Automation
+* [...], and use a lot of brain power, we will fai sometimes, but this will work.
+
+![haha](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha.jpg)
 
 ## Table of content
 
