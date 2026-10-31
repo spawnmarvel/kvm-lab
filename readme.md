@@ -1379,13 +1379,13 @@ ubuntu-test.txt
 
 This is for offline repos internal and online DMZ with repos data
 
-## Lab 1 install online
+## lab_1_install_online = 100%
 
 GOTO lab_1_install_online
 
 1. Zabbix and Mysql (witch is avliable default) on one host = Done
 
-## Lab 2 install offline 2 scenarios with scp cmd
+## lab_2_install_offline 2 scenarios with scp cmd = 50%
 
 GOTO lab_2_install_offline
 
@@ -1395,32 +1395,26 @@ Continue from GOTO lab_1_install_online
 2. architecture & network flow scenario 2 all offline = 
 
 
-# Ansible install and recap tutorial
+# lab_3_ansible/tutorial_ansible install and recap = 10%
 
 GOTO ansible/tutorial
 
-## Lab 3 install with ansible and why use ansible
+## research_1_IT-OT_zabbix_stack and why use ansible = 100%
 
-GOTO lab_3_install_with_ansible
+GOTO research_1_IT-OT_zabbix_stack
 
-1. Tutorial ansible
-2. Install online
-3. Install offline
+1. Scenario & Core Requirements Summary
+2. Firewall
+3. Topology
+4. No code just concepts and purdue
 
-## lab_4_IT-OT_zabbix_stack_study_and_prepare
+## run_1_lab_1_IT-OT_zabbix_stack = 0 %
 
-GOTO lab_4_IT-OT_zabbix_stack_study_and_prepare
+GOTO run_1_lab_1_IT-OT_zabbix_stack
 
-1. Do a study on how to install, maintain zabbix stack in IT/OT environment
-2. Remember deb-mirror or aptly
-3. No code just concepts and purdue
+1. Implement the research
+2. Make POC with KVM
+3. Build zones and run the scenario
 
-
-## lab_5_IT-OT_zabbix_stack_with_ansible
-
-GOT0 lab_5_IT-OT_zabbix_stack_with_ansible
-
-1. lab_4_IT-OT_zabbix_stack_study_and_prepare
-2. Make working example
 
 
