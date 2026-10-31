@@ -4,22 +4,21 @@ Ansible is a radically simple IT automation platform that makes your application
 
 ## Table of content
 
-- [Ansible](#ansible)
+- [Ansible IT/OT zabbix stack poc](#ansible-itot-zabbix-stack-poc)
   - [Table of content](#table-of-content)
 - [Here's a quick guide to get you up to speed on Ansible](#heres-a-quick-guide-to-get-you-up-to-speed-on-ansible)
   - [Core Concepts](#core-concepts)
   - [Key Advantages](#key-advantages)
   - [Ansible Agentless Architecture Linux and Windows](#ansible-agentless-architecture-linux-and-windows)
-- [Install Ansible on host Ubuntu 26.04](#install-ansible-on-host-ubuntu-2604)
+- [Install Ansible on hostkvm-host-HP-ProDesk-600-G3-SFF Ubuntu 26.04](#install-ansible-on-hostkvm-host-hp-prodesk-600-g3-sff-ubuntu-2604)
   - [Getting started with Ansible GOTO tutorial\_ansible](#getting-started-with-ansible-goto-tutorial_ansible)
-- [install online](#install-online)
-  - [Install Mysql](#install-mysql)
-  - [Install Zabbix](#install-zabbix)
-  - [Install Zabbix proxy](#install-zabbix-proxy)
-- [install offline](#install-offline)
-  - [Install Mysql](#install-mysql-1)
-  - [Install Zabbix](#install-zabbix-1)
-  - [Install Zabbix proxy](#install-zabbix-proxy-1)
+- [Proof of Concept (PoC) Operational Runbook](#proof-of-concept-poc-operational-runbook)
+  - [1. Environment and Tools Baseline](#1-environment-and-tools-baseline)
+  - [2. Phase 1: Host Virtualization \& Isolated Network Configuration](#2-phase-1-host-virtualization--isolated-network-configuration)
+  - [3. Phase 2: Guest Image Staging and Volume Provisioning](#3-phase-2-guest-image-staging-and-volume-provisioning)
+  - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
+  - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
+- [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
 
 # Here's a quick guide to get you up to speed on Ansible
 

@@ -14,6 +14,7 @@
     - [3. Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#3-firewall-rule-matrix-purdue--isa-95-architecture)
       - [3.1 Firewall rules and diagram](#31-firewall-rules-and-diagram)
     - [4. Toplogy for POC to build with KVM](#4-toplogy-for-poc-to-build-with-kvm)
+    - [GOTO run\_research\_1\_IT-OT\_zabbix\_stack](#goto-run_research_1_it-ot_zabbix_stack)
 
 
 ## The 5-Level Hierarchy (Shared by Purdue & ISA-95)
@@ -139,4 +140,9 @@ Firewall Rule Matrix (Purdue / ISA-95 Architecture)
 ### 4. Toplogy for POC to build with KVM
 
 ![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot.jpeg)
+
+
+### GOTO run_research_1_IT-OT_zabbix_stack
+
+
 
