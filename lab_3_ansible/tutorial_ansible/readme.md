@@ -12,6 +12,7 @@
   - [4. Quick sandbox playbook or a cheatsheet of essential ad-hoc commands tuned for your hybrid Linux/Windows environment](#4-quick-sandbox-playbook-or-a-cheatsheet-of-essential-ad-hoc-commands-tuned-for-your-hybrid-linuxwindows-environment)
     - [4.1 Why This Is the Correct Security Model](#41-why-this-is-the-correct-security-model)
   - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
+  - [KVM snapshots](#kvm-snapshots)
   - [TBD Working with playbooks](#tbd-working-with-playbooks)
   - [TBD Ansible tips and tricks](#tbd-ansible-tips-and-tricks)
 
@@ -297,6 +298,35 @@ cd ansible_quickstart
 
 https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_intro.html#playbooks-intro
 
+
+
+## KVM snapshots
+
+```bash
+sudo virsh snapshot-list ubuntu-zabbix01
+Name                            Creation Time               State
+----------------------------------------------------------------------
+clean_install_zabbix_with_ssl   2026-10-24 01:03:17 +0200   running
+ 
+ 
+sudo virsh domifaddr ubuntu-zabbix01
+Name       MAC address          Protocol     Address
+-------------------------------------------------------------------------------
+vnet0      52:54:00:11:22:33    ipv4         10.68.68.50/24
+
+# 
+
+sudo virsh snapshot-list ubuntu-zabbix02
+Name                         Creation Time               State
+-------------------------------------------------------------------
+clean-install                2026-10-23 17:31:04 +0200   running
+clean_install_zabbix_proxy   2026-10-31 13:35:10 +0100   running
+
+sudo virsh domifaddr ubuntu-zabbix02
+Name       MAC address          Protocol     Address
+-------------------------------------------------------------------------------
+vnet1      52:54:00:11:22:34    ipv4         10.68.68.51/24
+```
 
 ## TBD Working with playbooks
 
