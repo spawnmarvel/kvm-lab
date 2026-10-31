@@ -76,10 +76,10 @@ The scenario, if you do not want to read the full journey go to the scenario and
   - [lab\_1\_install\_online manual = 100%](#lab_1_install_online-manual--100)
   - [lab\_2\_install\_offline 2 scenarios with scp cmd manual = 50%](#lab_2_install_offline-2-scenarios-with-scp-cmd-manual--50)
 - [Ansible](#ansible)
-- [lab\_3\_ansible/tutorial\_ansible install and recap = 15%](#lab_3_ansibletutorial_ansible-install-and-recap--15)
 - [IT/OT POC with Ansible](#itot-poc-with-ansible)
   - [research\_1\_IT-OT\_zabbix\_stack and why use ansible = 100%](#research_1_it-ot_zabbix_stack-and-why-use-ansible--100)
-- [run\_research\_1\_IT-OT\_zabbix\_stack= 0 %](#run_research_1_it-ot_zabbix_stack-0-)
+  - [lab\_3\_ansible/tutorial\_ansible install and recap = 15%](#lab_3_ansibletutorial_ansible-install-and-recap--15)
+  - [run\_research\_1\_IT-OT\_zabbix\_stack= 0 %](#run_research_1_it-ot_zabbix_stack-0-)
 
 ## Kernel Virtual Machine
 
@@ -1428,10 +1428,6 @@ Continue from GOTO lab_1_install_online
 
 # Ansible
 
-# lab_3_ansible/tutorial_ansible install and recap = 15%
-
-GOTO ansible/tutorial
-
 # IT/OT POC with Ansible
 
 ## research_1_IT-OT_zabbix_stack and why use ansible = 100%
@@ -1445,7 +1441,15 @@ GOTO research_1_IT-OT_zabbix_stack
 4. Topology
 5. No code just concepts and purdue
 
-# run_research_1_IT-OT_zabbix_stack= 0 %
+## lab_3_ansible/tutorial_ansible install and recap = 15%
+
+GOTO ansible/tutorial
+
+We use our scenario for recap learning on ansible.
+
+Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
+
+## run_research_1_IT-OT_zabbix_stack= 0 %
 
 GOTO run_1_lab_1_IT-OT_zabbix_stack
 
