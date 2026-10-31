@@ -1,8 +1,11 @@
-# kvm-lab and ansible
+# kvm-lab and ansible. 
+
+* Day 1: infrastructure with kvm
+* Day 2 to day n: automate install, update and support operations with ansible
 
 ## Table of content
 
-- [kvm-lab and ansible](#kvm-lab-and-ansible)
+- [kvm-lab and ansible.](#kvm-lab-and-ansible)
   - [Table of content](#table-of-content)
   - [Kernel Virtual Machine](#kernel-virtual-machine)
   - [Azure vs KVM](#azure-vs-kvm)
