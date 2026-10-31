@@ -15,7 +15,7 @@ What will we learn here?
 * Storage
 * Concepts
 * Automation
-* [...], and use a lot of brain power, we will fai sometimes, but this will work.
+* [...], and use a lot of brain power, we will fail at some steps and use a lot fo time, but this will work.
 
 ![haha](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha.jpg)
 
