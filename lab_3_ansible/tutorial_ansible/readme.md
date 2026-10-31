@@ -5,6 +5,7 @@
 - [Getting started with Ansible](#getting-started-with-ansible)
   - [Table of content](#table-of-content)
 - [Getting started with Ansible](#getting-started-with-ansible-1)
+  - [ssh espenk@192.168.10.70](#ssh-espenk1921681070)
   - [1. Start automating with Ansible ssh keys](#1-start-automating-with-ansible-ssh-keys)
   - [2. Building an inventory with users production-grade](#2-building-an-inventory-with-users-production-grade)
   - [3. Creating a playbook](#3-creating-a-playbook)
@@ -26,6 +27,10 @@ We have the two following host from the previous build.
 ssh proxyman@10.68.68.51
 ssh master@10.68.68.50
 ```  
+
+## ssh espenk@192.168.10.70
+
+The KVM host
 
 ## 1. Start automating with Ansible ssh keys
 
