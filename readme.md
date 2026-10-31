@@ -17,7 +17,7 @@ What will we learn here?
 * Automation
 * [...], and use a lot of brain power, we will fail at some steps and use a lot fo time, but this will work.
 
-![haha](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha.jpg)
+![haha](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha.png)
 
 What we will prove.
 
