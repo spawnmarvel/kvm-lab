@@ -1375,7 +1375,7 @@ ls
 ubuntu-test.txt
 ```
 
-## Remember deb-mirror or aptly
+## Remember deb-mirror or aptly or apt-cacher-ng
 
 This is for offline repos internal and online DMZ with repos data
 
