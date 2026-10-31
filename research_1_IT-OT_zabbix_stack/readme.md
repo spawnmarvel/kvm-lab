@@ -115,3 +115,5 @@ Or https://github.com/spawnmarvel/kvm-lab/blob/main/research_1_IT-OT_zabbix_stac
 
 ### 4. Toplogy for POC to build with KVM
 
+! [topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot.jpeg)
+
