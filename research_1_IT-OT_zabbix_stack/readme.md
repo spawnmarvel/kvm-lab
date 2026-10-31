@@ -268,7 +268,7 @@ Linux Nodes (zabbix01, mysql01, zabbix02): Use apt-cacher-ng for everything. You
 
 ### 4.5 Topology
 
-![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot.jpeg)
+![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot2.jpeg)
 
 
 ### GOTO run_research_1_IT-OT_zabbix_stack

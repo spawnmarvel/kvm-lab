@@ -21,7 +21,7 @@ What will we learn here?
 
 What we will prove.
 
-![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot.jpeg)
+![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot2.jpeg)
 
 The scenario, if you do not want to read the full journey go to the scenario and research:
 
