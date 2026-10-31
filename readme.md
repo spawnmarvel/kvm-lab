@@ -1421,11 +1421,15 @@ GOTO research_1_IT-OT_zabbix_stack
 GOTO run_1_lab_1_IT-OT_zabbix_stack
 
 1. Implement the research
-2. Make POC with KVM
-3. Build zones ande vms
-4. Run the scenario
-5. Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
-6. Automate day 2 and all other days
+2. Build infrastructure with KVM
+3. Build zones, vms and firewall rules
+
+Scenario:
+
+1. Datacenter Handover: 
+- The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. 
+- Day-2 automation begins immediately after IP and credential handover.
+2. Automate day 2 and all other days
 
 
 
