@@ -14,7 +14,7 @@
   - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
   - [KVM snapshots and environment](#kvm-snapshots-and-environment)
   - [Working with playbooks Gemini Research Purdue Model 3 ways automation](#working-with-playbooks-gemini-research-purdue-model-3-ways-automation)
-  - [TBD Ansible tips and tricks](#tbd-ansible-tips-and-tricks)
+  - [TBD Ansible tips and tricks documentation](#tbd-ansible-tips-and-tricks-documentation)
   - [What more do we eneed to learn Gemini?](#what-more-do-we-eneed-to-learn-gemini)
 
 # Getting started with Ansible
@@ -333,7 +333,7 @@ vnet1      52:54:00:11:22:34    ipv4         10.68.68.51/24
 
 ## Working with playbooks Gemini Research Purdue Model 3 ways automation
 
-## TBD Ansible tips and tricks
+## TBD Ansible tips and tricks documentation
 
 https://docs.ansible.com/projects/ansible/latest/tips_tricks/index.html#playbooks-best-practices
 
