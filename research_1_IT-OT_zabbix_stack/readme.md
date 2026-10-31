@@ -77,7 +77,6 @@ Excluded Items:
 
 * WSUS is omitted for this iteration.
 
-Firewall requirements.
 
 ### 2. Why apt-cacher-ng Was Selected
 
