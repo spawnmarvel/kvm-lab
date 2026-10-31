@@ -144,5 +144,8 @@ Firewall Rule Matrix (Purdue / ISA-95 Architecture)
 
 ### GOTO run_research_1_IT-OT_zabbix_stack
 
+GOTO run_research_1_IT-OT_zabbix_stack
+
+or https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_1_IT-OT_zabbix_stack/readme.md
 
 
