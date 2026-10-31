@@ -13,7 +13,7 @@
     - [4.1 Why This Is the Correct Security Model](#41-why-this-is-the-correct-security-model)
   - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
   - [KVM snapshots](#kvm-snapshots)
-  - [TBD Working with playbooks](#tbd-working-with-playbooks)
+  - [Working with playbooks Gemini Research Purdue Model 3 ways automation](#working-with-playbooks-gemini-research-purdue-model-3-ways-automation)
   - [TBD Ansible tips and tricks](#tbd-ansible-tips-and-tricks)
 
 # Getting started with Ansible
@@ -328,7 +328,7 @@ Name       MAC address          Protocol     Address
 vnet1      52:54:00:11:22:34    ipv4         10.68.68.51/24
 ```
 
-## TBD Working with playbooks
+## Working with playbooks Gemini Research Purdue Model 3 ways automation
 
 ## TBD Ansible tips and tricks
 
