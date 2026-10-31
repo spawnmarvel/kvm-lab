@@ -1,5 +1,9 @@
 # Getting started with Ansible
 
+We use our scenario for recap learning on ansible.
+
+Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
+
 ## Table of content
 
 - [Getting started with Ansible](#getting-started-with-ansible)
