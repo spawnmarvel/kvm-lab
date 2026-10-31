@@ -102,6 +102,11 @@ Summary Recommendation
 
 ### 3. Firewall Rule Matrix (Purdue / ISA-95 Architecture)
 
+
+This security defense proposal outlines the architectural justification for the Day-2 Zabbix monitoring and Ansible configuration management stack deployed across Zone 2.5 (iDMZ) and Zone 2 (Control/OT).
+
+#### 3.1 Firewall rules and diagram
+
 GOTO research_1_IT-OT_zabbix_stack/firewall_rule_matrix.md
 
 

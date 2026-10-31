@@ -15,3 +15,40 @@
 | **FW-09** | `zabbix02` | Zone 2 (Control/OT) | `zabbix01` | Zone 2.5 (iDMZ) | TCP 10051 | Active Proxy metric data push |
 | **FW-10** | Windows VMs | Zone 2 (Control/OT) | `zabbix02` | Zone 2 (Control/OT) | TCP 10051 | Zabbix Agent2 active metric submission |
 | **FW-11** | Admin Workstations | Level 3.5 (IT) | `zabbix01` | Zone 2.5 (iDMZ) | TCP 80, 443 | Zabbix Web Frontend user interface access |
+
+
+1. Executive Summary & Security Standard Alignment
+
+This security defense proposal outlines the architectural justification for the Day-2 Zabbix monitoring and Ansible configuration management stack deployed across Zone 2.5 (iDMZ) and Zone 2 (Control/OT).
+
+The proposed firewall architecture enforces Zero-Trust boundary defense and aligns directly with key industrial cybersecurity standards:
+
+* IEC 62443-3-3 / ISA-95: Strict Zone and Conduit segmentation separating industrial operations from enterprise networks and external entities.
+
+* NIST SP 800-82 Rev. 3 (Guide to OT Security): Implementation of an iDMZ barrier to prevent direct communication between lower OT control zones and higher-level networks or public endpoints.
+
+* CIS Controls v8: Strict inventory control, software update management, and defensive network configuration.
+
+
+```txt
+┌──────────────────────────────────────────┐
+                  │ External / Internet (Explicit FQDNs)     │
+                  └────────────────────▲─────────────────────┘
+                                       │
+                                       │ Outbound HTTPS/HTTP (TCP 443/80)
+                                       │ Explicit FQDN Whitelist ONLY
+┌──────────────────────────────────────┴──────────────────────────────────┐
+│ Zone 2.5 (iDMZ)                                                         │
+│  ├── [ ansiblectr01 ] ── Single Outbound Egress & Internal APT Cacher   │
+│  ├── [ zabbix01 ]     ── Zabbix Server & Web Interface                  │
+│  └── [ mysql01 ]      ── MySQL 8.4 LTS (Isolated Data Drive)            │
+└──────────────────────────────────────▲──────────────────────────────────┘
+                                       │
+                                       │ Stateful Outbound Push (TCP 10051)
+                                       │ NO Inbound Connections into Zone 2
+┌──────────────────────────────────────┴──────────────────────────────────┐
+│ Zone 2 (Control / OT Network)                                           │
+│  ├── [ zabbix02 ]     ── Zabbix Active Proxy (SQLite3)                  │
+│  └── [ Windows VMs ]  ── Monitored Endpoints (Read-Only Metrics)        │
+└─────────────────────────────────────────────────────────────────────────┘
+```
