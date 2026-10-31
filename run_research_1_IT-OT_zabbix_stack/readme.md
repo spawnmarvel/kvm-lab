@@ -94,28 +94,46 @@ GOTO ansible/tutorial_ansible
 
 # Proof of Concept (PoC) Operational Runbook
 
-1. Environment and Tools Baseline
+## 1. Environment and Tools Baseline
 
 This PoC runs on an HP ProDesk 600 G3 SFF functioning as the virtualization node:
 
-    Physical Host: kvm-host-HP-ProDesk-600-G3-SFF
+Physical Host: kvm-host-HP-ProDesk-600-G3-SFF
 
-    Operating System: Linux 7.0.0-42-generic #42-Ubuntu SMP PREEMPT_DYNAMIC (x86_64)
+Operating System: Linux 7.0.0-42-generic #42-Ubuntu SMP PREEMPT_DYNAMIC (x86_64)
 
-    Processor: Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz (8 vCPUs)
+Processor: Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz (8 vCPUs)
 
-    System Memory: 24 GB DDR4 RAM
+System Memory: 24 GB DDR4 RAM
 
-    Hypervisor Stack:
+Hypervisor Stack:
 
-        virsh (libvirt) version: 12.0.0
+virsh (libvirt) version: 12.0.0
 
-        API version: QEMU 12.0.0
+API version: QEMU 12.0.0
 
-        Hypervisor: QEMU 10.2.1
+Hypervisor: QEMU 10.2.1
 
-    Internet Status: The physical host has no outbound firewall restrictions, allowing it to host and pull base images and tool dependencies. However, VM-level routing will enforce a single egress path on ansiblectr01 to ensure a realistic Purdue model simulation.
+Internet Status: The physical host has no outbound firewall restrictions, allowing it to host and pull base images and tool dependencies. However, VM-level routing will enforce a single egress path on ansiblectr01 to ensure a realistic Purdue model simulation.
 
 
+## 2. Phase 1: Host Virtualization & Isolated Network Configuration
+
+Before deploying the target stack, isolated virtual networks must be established on the physical host to separate the iDMZ (Zone 2.5) from the OT Control network (Zone 2) while designating ansiblectr01 as the sole gateway.
+
+## 3. Phase 2: Guest Image Staging and Volume Provisioning
+
+Deploy the VM disk files and provision the secondary 60GB disk volume datadrive1 designated for mysql01 database use.
+
+## 4. Phase 3: Bootstrap and Automation Execution
+
+With the target hosts running, ansiblectr01 acts as the single egress point to fetch dependencies and distribute updates internally.
+
+## 5. Phase 4: Validation and Compliance Assurance
+
+Ensure the deployment meets your strict security goals before handing over the system for monitoring:
+
+
+# Run Proof of Concept (PoC) Operational Runbook
 
 
