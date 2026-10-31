@@ -1,0 +1,20 @@
+# Version: 1.0.0
+# Description: Ensures a package is installed and its systemd service is started and enabled on boot
+
+- name: Manage Package and Service State
+  hosts: myhost
+  become: true
+  tasks:
+    - name: Ensure package is installed
+      ansible.builtin.apt:
+        name: zabbix-agent2
+        # checks if the package is already installed and installs it if not
+        state: present
+        update_cache: yes
+
+    - name: Ensure systemd service is started and enabled
+      ansible.builtin.systemd:
+        name: zabbix-agent2
+        # checks if the service is running and starts it if not, also enables it to start on boot
+        state: started
+        enabled: true

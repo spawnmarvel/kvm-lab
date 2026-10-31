@@ -14,7 +14,8 @@
   - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
   - [KVM snapshots and environment](#kvm-snapshots-and-environment)
   - [Working with playbooks Gemini Research Purdue Model 3 ways automation = in progress](#working-with-playbooks-gemini-research-purdue-model-3-ways-automation--in-progress)
-    - [You use ansible.builtin.file almost 100% of the time in production playbook](#you-use-ansiblebuiltinfile-almost-100-of-the-time-in-production-playbook)
+    - [1. You use ansible.builtin.file almost 100% of the time in production playbook](#1-you-use-ansiblebuiltinfile-almost-100-of-the-time-in-production-playbook)
+    - [2. To ensure a package is installed and its service is active and enabled on boot](#2-to-ensure-a-package-is-installed-and-its-service-is-active-and-enabled-on-boot)
   - [Ansible tips and tricks documentation TODO READ](#ansible-tips-and-tricks-documentation-todo-read)
   - [What more do we need to learn Gemini? TODO](#what-more-do-we-need-to-learn-gemini-todo)
 
@@ -431,7 +432,7 @@ PLAY RECAP *********************************************************************
 
 ```
 
-### You use ansible.builtin.file almost 100% of the time in production playbook
+### 1. You use ansible.builtin.file almost 100% of the time in production playbook
 
 You use ansible.builtin.file almost 100% of the time in production playbooks, while ansible.builtin.command is reserved for specific edge cases.
 
@@ -448,6 +449,16 @@ ansible-playbook -i inventory.ini add_folder_op_and_file.yml
 ```
 
 
+### 2. To ensure a package is installed and its service is active and enabled on boot
+
+```bash
+
+# Version: 1.0.0
+# Description: Ensures a package is installed and its systemd service is started and enabled on boot
+ansible-playbook -i inventory.ini ensure_zabbix_agent2.yml
+
+
+```
 
 
 
