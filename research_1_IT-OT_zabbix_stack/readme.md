@@ -79,12 +79,6 @@ Excluded Items:
 
 Firewall requirements.
 
-1. ansiblectr01 port 80, 443 to ?
-2. zabbix01 ?
-3. mysql01 ?
-4. zabbix02 ?
-
-
 ### 2. Why apt-cacher-ng Was Selected
 
 
@@ -105,4 +99,12 @@ Summary Recommendation
 * Stick with apt-cacher-ng: It gives you the exact single-egress control required by your Purdue security design without wasting 300 GB of storage or creating ongoing mirror management tasks on ansiblectr01
 
 * Use aptly or debmirror only if: The datacenter network is completely air-gapped (no outbound internet at all, even on ansiblectr01), forcing you to import entire package repositories via physical media.
+
+### 3. Firewall Rule Matrix (Purdue / ISA-95 Architecture)
+
+GOTO research_1_IT-OT_zabbix_stack/firewall_rule_matrix.md
+
+
+Or https://github.com/spawnmarvel/kvm-lab/blob/main/research_1_IT-OT_zabbix_stack/firewall_rule_matrix.md
+
 
