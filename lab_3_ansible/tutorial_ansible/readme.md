@@ -9,7 +9,11 @@
   - [1. Start automating with Ansible ssh keys](#1-start-automating-with-ansible-ssh-keys)
   - [2. Building an inventory with users production-grade](#2-building-an-inventory-with-users-production-grade)
   - [3. Creating a playbook](#3-creating-a-playbook)
-  - [Ansible concepts todo](#ansible-concepts-todo)
+  - [4. Quick sandbox playbook or a cheatsheet of essential ad-hoc commands tuned for your hybrid Linux/Windows environment](#4-quick-sandbox-playbook-or-a-cheatsheet-of-essential-ad-hoc-commands-tuned-for-your-hybrid-linuxwindows-environment)
+    - [4.1 Why This Is the Correct Security Model](#41-why-this-is-the-correct-security-model)
+  - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
+  - [TBD Working with playbooks](#tbd-working-with-playbooks)
+  - [TBD Ansible tips and tricks](#tbd-ansible-tips-and-tricks)
 
 # Getting started with Ansible
 
@@ -190,9 +194,111 @@ PLAY RECAP *********************************************************************
 ```
 
 
+## 4. Quick sandbox playbook or a cheatsheet of essential ad-hoc commands tuned for your hybrid Linux/Windows environment
 
-## Ansible concepts todo
+That is a flawless execution! Getting SUCCESS => {"ping": "pong"} across those targets proves you have successfully crossed the three most common hurdles in Ansible:
+
+* Host Connectivity: Network routing between the nodes is wide open.
+* Authentication: Your non-root custom users (master, proxyman) are correctly mapped via inventory.ini, and SSH keys (ssh-copy-id) are actively bypassing password prompts securely.
+* Internal Dependencies: The hosts successfully found and executed Python (/usr/bin/python3.14 in Ubuntu 26.04/Noble or local sandbox build), which Ansible requires on the target.
 
 
-https://docs.ansible.com/projects/ansible/latest/getting_started/basic_concepts.html
+Ensure your custom users can scale up to administrative privileges (required for installing packages and configuring storage).
+
+
+* SSH Key Authentication (ssh-copy-id): Grants permission to open an SSH session to the host as master or proxyman without entering an SSH password. This is why ansible myhost -m ping succeeds.
+* Privilege Escalation (--become): Asks the Linux operating system inside the target host to elevate master or proxyman to root via sudo
+
+To allow --become to run seamlessly alongside your SSH keys, grant NOPASSWD privileges in /etc/sudoers.d/ansible on each target host.
+
+* On 10.68.68.50:
+
+```bash
+echo "master ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ansible
+sudo chmod 0440 /etc/sudoers.d/ansible
+```
+
+On 10.68.68.51:
+
+```bash
+echo "proxyman ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ansible
+sudo chmod 0440 /etc/sudoers.d/ansible
+```
+
+on 192.168.10.70:
+
+```bash
+cd ansible_quickstart
+
+ansible myhost -m command -a "whoami" -i inventory.ini --become
+```
+
+Log
+
+```log
+[WARNING]: Host '10.68.68.51' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+10.68.68.51 | CHANGED | rc=0 >>
+root
+[WARNING]: Host '10.68.68.50' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+10.68.68.50 | CHANGED | rc=0 >>
+root
+```
+### 4.1 Why This Is the Correct Security Model
+
+1. Direct Root SSH Login Is Disabled: You connect over SSH as a standard, unprivileged user (master on 10.68.68.50 and proxyman on 10.68.68.51). This allows you to enforce PermitRootLogin no in SSH configurations across Zone 2.5 and Zone 2.
+2. Elevated Execution on Demand: When you pass --become, Ansible connects as your unprivileged user and executes the task elevated via sudo. The whoami command running inside that elevated context correctly reports root
+3. Required for System Provisioning: Day-2 tasks—such as formatting datadrive1, modifying AppArmor rules, running apt-get, and configuring zabbix-proxy systemd services—require root privileges on the target hosts.
+
+Supress warning
+
+```bash
+# Version: 1.0.0
+# Description: Configures target hosts and explicit Python interpreter path in inventory.ini
+
+cat << 'EOF' > inventory.ini
+[myhost]
+10.68.68.50 ansible_user=master ansible_python_interpreter=/usr/bin/python3
+10.68.68.51 ansible_user=proxyman ansible_python_interpreter=/usr/bin/python3
+EOF
+```
+
+```bash
+ansible myhost -m command -a "whoami" -i inventory.ini --become
+```
+
+Log
+```log
+10.68.68.51 | CHANGED | rc=0 >>
+root
+10.68.68.50 | CHANGED | rc=0 >>
+root
+```
+
+
+Check the actual Ubuntu OS version and system specs gathered on-the-fly:
+
+```bash
+ansible myhost -m setup -a "filter=ansible_distribution*" -i inventory.ini
+```
+
+Ensure you can check syslog/journalctl activity ad-hoc:
+
+```bash
+ansible myhost -m command -a "tail -n 3 /var/log/syslog" -i inventory.ini --become
+```
+
+## 5. Ansible playbooks Start building playbooks for real world scenarios TODO
+
+
+```bash
+cd ansible_quickstart
+
+```
+
+https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_intro.html#playbooks-intro
+
+
+## TBD Working with playbooks
+
+## TBD Ansible tips and tricks
 
