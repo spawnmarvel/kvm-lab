@@ -87,9 +87,35 @@ https://docs.ansible.com/projects/ansible/latest/installation_guide/installation
 
 Do a new recap of the tutorial so you are up to speed.
 
+This must be done before you start.
+
 GOTO ansible/tutorial_ansible
 
-# install online
+
+# Proof of Concept (PoC) Operational Runbook
+
+1. Environment and Tools Baseline
+
+This PoC runs on an HP ProDesk 600 G3 SFF functioning as the virtualization node:
+
+    Physical Host: kvm-host-HP-ProDesk-600-G3-SFF
+
+    Operating System: Linux 7.0.0-42-generic #42-Ubuntu SMP PREEMPT_DYNAMIC (x86_64)
+
+    Processor: Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz (8 vCPUs)
+
+    System Memory: 24 GB DDR4 RAM
+
+    Hypervisor Stack:
+
+        virsh (libvirt) version: 12.0.0
+
+        API version: QEMU 12.0.0
+
+        Hypervisor: QEMU 10.2.1
+
+    Internet Status: The physical host has no outbound firewall restrictions, allowing it to host and pull base images and tool dependencies. However, VM-level routing will enforce a single egress path on ansiblectr01 to ensure a realistic Purdue model simulation.
+
 
 
 

@@ -1408,7 +1408,7 @@ GOTO research_1_IT-OT_zabbix_stack
 3. Topology
 4. No code just concepts and purdue
 
-## run_1_lab_1_IT-OT_zabbix_stack = 0 %
+## run_research_1_IT-OT_zabbix_stack= 0 %
 
 GOTO run_1_lab_1_IT-OT_zabbix_stack
 
