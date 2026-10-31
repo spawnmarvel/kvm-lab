@@ -14,6 +14,9 @@
     - [3. Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#3-firewall-rule-matrix-purdue--isa-95-architecture)
       - [3.1 Firewall rules and diagram](#31-firewall-rules-and-diagram)
     - [4. Toplogy for POC to build with KVM](#4-toplogy-for-poc-to-build-with-kvm)
+    - [4.1 Day-2 management](#41-day-2-management)
+    - [4.1 Leg 2 complies with the Purdue Model and IEC 62443 / ISA-95 standards](#41-leg-2-complies-with-the-purdue-model-and-iec-62443--isa-95-standards)
+    - [4. 3 Teoretical steps for ansiblectr01](#4-3-teoretical-steps-for-ansiblectr01)
     - [GOTO run\_research\_1\_IT-OT\_zabbix\_stack](#goto-run_research_1_it-ot_zabbix_stack)
 
 
@@ -138,6 +141,53 @@ Firewall Rule Matrix (Purdue / ISA-95 Architecture)
 
 
 ### 4. Toplogy for POC to build with KVM
+
+* Zero Direct IT-to-OT Access: Level 3.5 / IT networks connect only to zabbix01 (web UI) and ansiblectr01 (SSH). They have no direct connectivity to Zone 2 OT devices.
+
+* Push-Upward Monitoring: zabbix02 in Zone 2 connects outbound to zabbix01 in Zone 2.5 on TCP 10051. No inbound connection from Zone 2.5 into Zone 2 is required for monitoring.
+
+* Air-Gapped Operational Zone: No host in Zone 2 has internet access. All updates and binaries are fetched strictly from ansiblectr01 over internal protocols (TCP 3142 and TCP 80).
+
+### 4.1 Day-2 management
+
+To understand how Day-2 management traffic flows while honoring Purdue security boundaries, trace the four distinct communication legs involved in provisioning and operating zabbix02:
+
+* Leg 1: Administrative Access (Level 3.5 → Zone 2.5)
+  An administrator opens an SSH session (TCP 22) from a workstation in Level 3.5 directly to ansiblectr01 (10.68.68.10) inside Zone 2.5 (iDMZ). Level 3.5 never initiates connections directly into Zone 2 OT devices.
+
+* Leg 2: Automation Execution Push (Zone 2.5 → Zone 2)
+  From the interactive shell on ansiblectr01, you execute ansible-playbook -i inventory.ini zabbix-deploy.yml. ansiblectr01 acts as the execution bastion and opens an SSH connection (TCP 22) downward into zabbix02 (10.68.20.15) in Zone 2 to push configuration tasks.
+
+* Leg 3: Software Package Pull (Zone 2 → Zone 2.5)
+  When Ansible triggers apt install zabbix-proxy-sqlite3 on zabbix02, zabbix02 consults its local proxy file (/etc/apt/apt.conf.d/01proxy) and pulls the required .deb packages outbound from ansiblectr01:3142 (apt-cacher-ng) in Zone 2.5.
+
+* Leg 4: Steady-State Metric Telemetry (Zone 2 → Zone 2.5)
+  Once the zabbix-proxy service starts on zabbix02, it initiates stateful outbound connections upward over TCP 10051 to zabbix01 (10.68.68.50) in Zone 2.5 to deliver collected system metrics.
+
+
+### 4.1 Leg 2 complies with the Purdue Model and IEC 62443 / ISA-95 standards
+
+Leg 2 complies with the Purdue Model and IEC 62443 / ISA-95 standards because the iDMZ (Zone 2.5) serves as a mandatory protocol break and security buffer between enterprise IT (Level 3.5) and Control OT (Zone 2).
+
+* No Multi-Zone Bypass: The Purdue Model explicitly prohibits connections that jump across multiple zones (such as Level 3.5 directly to Zone 2). Level 3.5 traffic terminates at ansiblectr01.
+* iDMZ Bastion Function: Zone 2.5 is designed as the designated staging area for administrative control. Traversing downward from Zone 2.5 into Zone 2 over a single, tightly controlled management protocol (SSH TCP 22) is a recognized standard architecture for industrial configuration management.
+* Controlled & Audited Conduit: The firewall permits downward traffic strictly from the single source IP of ansiblectr01 to specific target host IPs on port 22/5985, rather than opening blanket access into Zone 2.
+* Decoupled Sessions: The SSH session from Level 3.5 to ansiblectr01 and the SSH/WinRM connection from ansiblectr01 to Zone 2 hosts are entirely separate TCP sessions. No direct packet forwarding or routing occurs between Level 3.5 and Zone 2.
+
+### 4. 3 Teoretical steps for ansiblectr01
+
+1. Log into ansiblectr01 using the initial credentials provided by the datacenter build team.
+2. Configure the static IP address (10.68.68.10) and set the system hostname to ansiblectr01.
+3. Generate SSH key pairs to enable automated management across target nodes.
+4. Update system package repositories using the whitelisted outbound internet connection.
+5. Install necessary core packages (ansible, apt-cacher-ng, apache2, curl, gpg, parted, e2fsprogs, and rsync).
+6. Configure apt-cacher-ng to allow HTTPS passthrough (PassThroughPattern: ^.*:443$).
+7. Enable and start the apt-cacher-ng and apache2 system services.
+8. Download the Windows Zabbix Agent2 .msi installer into the Apache web root directory (/var/www/html/packages/).
+9. Install required Ansible Galaxy collections (community.zabbix, ansible.windows, posix, and community.general).
+10. Populate the Ansible inventory file (inventory.ini) with the host IP addresses and credentials for zabbix01, mysql01, zabbix02, and the Windows VMs.
+11. Stage the deployment and maintenance playbooks (zabbix-deploy.yml, patch-ubuntu.yml, and patch-windows.yml) on the filesystem.
+12. Test SSH and WinRM connectivity from ansiblectr01 to all target hosts across Zone 2.5 and Zone 2.
 
 ![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot.jpeg)
 
