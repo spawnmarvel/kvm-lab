@@ -331,10 +331,10 @@ Name       MAC address          Protocol     Address
 vnet1      52:54:00:11:22:34    ipv4         10.68.68.51/24
 ```
 
-## Working with playbooks Gemini Research Purdue Model 3 ways automation
+## Working with playbooks Gemini Research Purdue Model 3 ways automation TODO
 
-## TBD Ansible tips and tricks documentation
+## TBD Ansible tips and tricks documentation TODO READ
 
 https://docs.ansible.com/projects/ansible/latest/tips_tricks/index.html#playbooks-best-practices
 
-## What more do we need to learn Gemini?
+## What more do we need to learn Gemini? TODO
