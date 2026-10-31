@@ -1,4 +1,4 @@
-# Ansible
+# Ansible IT/OT zabbix stack poc
 
 Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy. Avoid writing scripts or custom code to deploy and update your applications— automate in a language that approaches plain English, using SSH, with no agents to install on remote systems.
 
@@ -53,7 +53,7 @@ Ansible is a radically simple IT automation platform that makes your application
 * On Windows, Ansible connects over WinRM (Windows Remote Management) or WinSSHD, authenticates using NTLM, Kerberos, or CredSSP, and executes PowerShell scripts or .NET code directly in memory. Results are captured in JSON format and returned to the control node without leaving persistent software behind.
 
 
-# Install Ansible on host Ubuntu 26.04
+# Install Ansible on hostkvm-host-HP-ProDesk-600-G3-SFF Ubuntu 26.04 
 
 ```bash
 # install all
@@ -85,26 +85,11 @@ https://docs.ansible.com/projects/ansible/latest/installation_guide/installation
 
 ## Getting started with Ansible GOTO tutorial_ansible
 
+Do a new recap of the tutorial so you are up to speed.
 
+GOTO ansible/tutorial_ansible
 
 # install online
 
-## Install Mysql
-
-It is default 8.4 LTS on ubunut 26.04
-
-## Install Zabbix
-
-## Install Zabbix proxy
-
-# install offline
-
-## Install Mysql
-
-It is default 8.4 LTS on ubunut 26.04
-
-## Install Zabbix
-
-## Install Zabbix proxy
 
 

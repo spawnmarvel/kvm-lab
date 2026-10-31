@@ -17,7 +17,7 @@
 | **FW-11** | Admin Workstations | Level 3.5 (IT) | `zabbix01` | Zone 2.5 (iDMZ) | TCP 80, 443 | Zabbix Web Frontend user interface access |
 
 
-1. Executive Summary & Security Standard Alignment
+## 1. Executive Summary & Security Standard Alignment
 
 This security defense proposal outlines the architectural justification for the Day-2 Zabbix monitoring and Ansible configuration management stack deployed across Zone 2.5 (iDMZ) and Zone 2 (Control/OT).
 
@@ -52,3 +52,4 @@ The proposed firewall architecture enforces Zero-Trust boundary defense and alig
 │  └── [ Windows VMs ]  ── Monitored Endpoints (Read-Only Metrics)        │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
+

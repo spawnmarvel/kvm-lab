@@ -113,3 +113,5 @@ GOTO research_1_IT-OT_zabbix_stack/firewall_rule_matrix.md
 Or https://github.com/spawnmarvel/kvm-lab/blob/main/research_1_IT-OT_zabbix_stack/firewall_rule_matrix.md
 
 
+### 4. Toplogy for POC to build with KVM
+
