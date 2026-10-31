@@ -12,9 +12,10 @@
   - [4. Quick sandbox playbook or a cheatsheet of essential ad-hoc commands tuned for your hybrid Linux/Windows environment](#4-quick-sandbox-playbook-or-a-cheatsheet-of-essential-ad-hoc-commands-tuned-for-your-hybrid-linuxwindows-environment)
     - [4.1 Why This Is the Correct Security Model](#41-why-this-is-the-correct-security-model)
   - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
-  - [KVM snapshots](#kvm-snapshots)
+  - [KVM snapshots and environment](#kvm-snapshots-and-environment)
   - [Working with playbooks Gemini Research Purdue Model 3 ways automation](#working-with-playbooks-gemini-research-purdue-model-3-ways-automation)
   - [TBD Ansible tips and tricks](#tbd-ansible-tips-and-tricks)
+  - [What more do we eneed to learn Gemini?](#what-more-do-we-eneed-to-learn-gemini)
 
 # Getting started with Ansible
 
@@ -300,7 +301,9 @@ https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_intro.
 
 
 
-## KVM snapshots
+## KVM snapshots and environment
+
+A running environment with zabbix and mysql on one server and zabbix proxy on a different server.
 
 ```bash
 sudo virsh snapshot-list ubuntu-zabbix01
@@ -332,3 +335,6 @@ vnet1      52:54:00:11:22:34    ipv4         10.68.68.51/24
 
 ## TBD Ansible tips and tricks
 
+https://docs.ansible.com/projects/ansible/latest/tips_tricks/index.html#playbooks-best-practices
+
+## What more do we eneed to learn Gemini?
