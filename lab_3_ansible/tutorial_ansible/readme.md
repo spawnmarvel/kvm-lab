@@ -17,11 +17,12 @@ Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 
     - [4.1 Why This Is the Correct Security Model](#41-why-this-is-the-correct-security-model)
   - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
   - [KVM snapshots and environment](#kvm-snapshots-and-environment)
-  - [Working with playbooks Gemini Research Purdue Model 3 ways automation = in progress](#working-with-playbooks-gemini-research-purdue-model-3-ways-automation--in-progress)
-    - [1. You use ansible.builtin.file almost 100% of the time in production playbook](#1-you-use-ansiblebuiltinfile-almost-100-of-the-time-in-production-playbook)
+  - [Working with playbooks from Research Purdue Model day 2 operations with Ansible = in progress](#working-with-playbooks-from-research-purdue-model-day-2-operations-with-ansible--in-progress)
+    - [1. You use ansible.builtin.function almost 100% of the time in production playbook](#1-you-use-ansiblebuiltinfunction-almost-100-of-the-time-in-production-playbook)
+    - [1.1 To Ensures /op\_ansible/automation.log exists with user input for tracking changes on hosts](#11-to-ensures-op_ansibleautomationlog-exists-with-user-input-for-tracking-changes-on-hosts)
+    - [1.2 Test ansible playbook --check dry run mode](#12-test-ansible-playbook---check-dry-run-mode)
     - [2. To ensure a package is installed and its service is active and enabled on boot](#2-to-ensure-a-package-is-installed-and-its-service-is-active-and-enabled-on-boot)
-  - [Ansible tips and tricks documentation TODO READ](#ansible-tips-and-tricks-documentation-todo-read)
-  - [What more do we need to learn Gemini? TODO](#what-more-do-we-need-to-learn-gemini-todo)
+  - [5.3: Dynamic Configuration Management using Jinja2 Templates and Handlers](#53-dynamic-configuration-management-using-jinja2-templates-and-handlers)
 
 # Getting started with Ansible
 
@@ -337,7 +338,7 @@ Name       MAC address          Protocol     Address
 vnet1      52:54:00:11:22:34    ipv4         10.68.68.51/24
 ```
 
-## Working with playbooks Gemini Research Purdue Model 3 ways automation = in progress
+## Working with playbooks from Research Purdue Model day 2 operations with Ansible = in progress
 
 GOTO Playbooks
 
@@ -436,22 +437,70 @@ PLAY RECAP *********************************************************************
 
 ```
 
-### 1. You use ansible.builtin.file almost 100% of the time in production playbook
+### 1. You use ansible.builtin.function almost 100% of the time in production playbook
 
-You use ansible.builtin.file almost 100% of the time in production playbooks, while ansible.builtin.command is reserved for specific edge cases.
+You use ansible.builtin.function almost 100% of the time in production playbooks, while ansible.builtin.command is reserved for specific edge cases.
+
+Example:
 
 * Use ansible.builtin.file whenever you need to create, modify, or remove files, directories, or symlinks.
 
+### 1.1 To Ensures /op_ansible/automation.log exists with user input for tracking changes on hosts
 
 ```bash
-# combine folder and file
-# add a txt file to the folder we created
-
-# That combination is standard production practice.
-ansible-playbook -i inventory.ini add_folder_op_and_file.yml
+# Version: 1.0.0
+# Description: Ensures /op_ansible/automation.log exists with specified text content using the copy module
+# We update the file content to keep a log of the automation tasks performed on the target system. 
+# The copy module is used to create or update the file with the specified content.
+# We use a user prompt to allow the user to specify the log entry to be appended to the file.
+ansible-playbook -i inventory.ini track_automation_changes.yml
 
 ```
 
+### 1.2 Test ansible playbook --check dry run mode
+
+When you build a big playbook it is important to check it.
+
+To test an Ansible playbook, use the built-in --check mode to simulate changes without applying the
+
+```bash
+
+# Version: 1.0.0
+# Description: Ensures /op_ansible/automation.log exists with specified text content using the copy module
+# We update the file content to keep a log of the automation tasks performed on the target system. 
+# The copy module is used to create or update the file with the specified content.
+# We use a user prompt to allow the user to specify the log entry to be appended to the file.
+
+ansible-playbook -i inventory.ini track_automation_changes.yml --check
+
+```
+
+1. Native Modules (file, copy, apt): These modules support check mode natively. Ansible checks the current system state and predicts whether a change would happen without applying it.
+   
+2. Raw Shell Commands (shell, command): Because Ansible cannot predict what arbitrary bash commands (echo ... >> file) will do or whether they are safe to test, Ansible skips shell tasks by default during a --check run to avoid accidental modifications.
+
+If we tail the log on a host:
+
+```bash
+ssh proxyman@10.68.68.51
+
+cd op_automation
+
+sudo tail -f automation.log
+```
+
+Each time we run the playbook:
+
+```log
+2026-11-01T10:00:29Z test 1
+2026-11-01T10:00:49Z test 2, update text
+2026-11-01T10:01:19Z We are updating apache web server to 1.2
+2026-11-01T10:01:35Z We are updating apache web server to 1.3
+2026-11-01T10:04:48Z update netplan
+2026-11-01T10:05:24Z edit DNS to 10.12.13.15
+2026-11-01T10:05:45Z reboot server after patching
+2026-11-01T10:06:33Z rollback apache to 1.2
+```
 
 ### 2. To ensure a package is installed and its service is active and enabled on boot
 
@@ -465,12 +514,4 @@ ansible-playbook -i inventory.ini ensure_zabbix_agent2.yml
 ```
 
 
-
-
-## Ansible tips and tricks documentation TODO READ
-
-1.  Keep them lowercase, descriptive, and consistent; hyphens are a good choice. A clear pattern is verb + target or purpose, ending in .yml
-
-https://docs.ansible.com/projects/ansible/latest/tips_tricks/index.html#playbooks-best-practices
-
-## What more do we need to learn Gemini? TODO
+## 5.3: Dynamic Configuration Management using Jinja2 Templates and Handlers
