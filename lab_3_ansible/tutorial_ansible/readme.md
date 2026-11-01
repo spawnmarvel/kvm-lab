@@ -515,3 +515,6 @@ ansible-playbook -i inventory.ini ensure_zabbix_agent2.yml
 
 
 ## 5.3: Dynamic Configuration Management using Jinja2 Templates and Handlers
+
+Demonstrates how to distribute customized zabbix_agent2.conf or zabbix_proxy.conf files dynamically per host based on inventory variables, using notify handlers to restart services only when configuration files change.
+
