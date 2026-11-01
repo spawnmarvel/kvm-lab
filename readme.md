@@ -75,6 +75,7 @@ The scenario, if you do not want to read the full journey go to the scenario and
   - [Remember deb-mirror or aptly or apt-cacher-ng](#remember-deb-mirror-or-aptly-or-apt-cacher-ng)
   - [lab\_1\_install\_online manual = 100%](#lab_1_install_online-manual--100)
   - [lab\_2\_install\_offline 2 scenarios with scp cmd manual = 50%](#lab_2_install_offline-2-scenarios-with-scp-cmd-manual--50)
+  - [Rename kvm-host-HP-ProDesk-600-G3-SFF to kvm-host](#rename-kvm-host-hp-prodesk-600-g3-sff-to-kvm-host)
 - [Ansible](#ansible)
 - [IT/OT POC with Ansible](#itot-poc-with-ansible)
   - [research\_1\_IT-OT\_zabbix\_stack and why use ansible = 100%](#research_1_it-ot_zabbix_stack-and-why-use-ansible--100)
@@ -1425,6 +1426,20 @@ Continue from GOTO lab_1_install_online
 1. architecture & network flow scenario 1 proxy offline = done
 2. architecture & network flow scenario 2 all offline = 
 
+## Rename kvm-host-HP-ProDesk-600-G3-SFF to kvm-host
+
+```bash
+# Set new short hostname
+sudo hostnamectl set-hostname kvm-host
+
+# Replace old hostname with new hostname in /etc/hosts
+sudo sed -i 's/kvm-host-HP-ProDesk-600-G3-SFF/kvm-host/g' /etc/hosts
+
+# Check current system hostname
+hostnamectl
+
+# Log out of your SSH session or close your terminal and reconnect. Your shell prompt will now reflect the concise new prompt:
+```
 
 # Ansible
 
