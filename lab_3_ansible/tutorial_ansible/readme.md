@@ -14,7 +14,7 @@ Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 
   - [2. Building an inventory with users production-grade](#2-building-an-inventory-with-users-production-grade)
   - [3. Creating a playbook](#3-creating-a-playbook)
   - [4. Quick sandbox playbook or a cheatsheet of essential ad-hoc commands tuned for your hybrid Linux/Windows environment](#4-quick-sandbox-playbook-or-a-cheatsheet-of-essential-ad-hoc-commands-tuned-for-your-hybrid-linuxwindows-environment)
-    - [4.1 Why This Is the Correct Security Model](#41-why-this-is-the-correct-security-model)
+    - [4.1 Why This Is the Correct Security Model SSH keys and sudoers](#41-why-this-is-the-correct-security-model-ssh-keys-and-sudoers)
   - [5. Ansible playbooks Start building playbooks for real world scenarios](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios)
   - [KVM snapshots and environment](#kvm-snapshots-and-environment)
   - [Working with playbooks from Research Purdue Model day 2 operations with Ansible](#working-with-playbooks-from-research-purdue-model-day-2-operations-with-ansible)
@@ -252,7 +252,7 @@ root
 10.68.68.50 | CHANGED | rc=0 >>
 root
 ```
-### 4.1 Why This Is the Correct Security Model
+### 4.1 Why This Is the Correct Security Model SSH keys and sudoers
 
 1. Direct Root SSH Login Is Disabled: You connect over SSH as a standard, unprivileged user (master on 10.68.68.50 and proxyman on 10.68.68.51). This allows you to enforce PermitRootLogin no in SSH configurations across Zone 2.5 and Zone 2.
 2. Elevated Execution on Demand: When you pass --become, Ansible connects as your unprivileged user and executes the task elevated via sudo. The whoami command running inside that elevated context correctly reports root
