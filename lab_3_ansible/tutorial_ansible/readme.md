@@ -15,9 +15,9 @@ Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 
   - [3. Creating a playbook](#3-creating-a-playbook)
   - [4. Quick sandbox playbook or a cheatsheet of essential ad-hoc commands tuned for your hybrid Linux/Windows environment](#4-quick-sandbox-playbook-or-a-cheatsheet-of-essential-ad-hoc-commands-tuned-for-your-hybrid-linuxwindows-environment)
     - [4.1 Why This Is the Correct Security Model](#41-why-this-is-the-correct-security-model)
-  - [5. Ansible playbooks Start building playbooks for real world scenarios TODO](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios-todo)
+  - [5. Ansible playbooks Start building playbooks for real world scenarios](#5-ansible-playbooks-start-building-playbooks-for-real-world-scenarios)
   - [KVM snapshots and environment](#kvm-snapshots-and-environment)
-  - [Working with playbooks from Research Purdue Model day 2 operations with Ansible = in progress](#working-with-playbooks-from-research-purdue-model-day-2-operations-with-ansible--in-progress)
+  - [Working with playbooks from Research Purdue Model day 2 operations with Ansible](#working-with-playbooks-from-research-purdue-model-day-2-operations-with-ansible)
     - [1. You use ansible.builtin.function almost 100% of the time in production playbook](#1-you-use-ansiblebuiltinfunction-almost-100-of-the-time-in-production-playbook)
     - [1.1 To Ensures /op\_ansible/automation.log exists with user input for tracking changes on hosts](#11-to-ensures-op_ansibleautomationlog-exists-with-user-input-for-tracking-changes-on-hosts)
     - [1.2 Test ansible playbook --check dry run mode](#12-test-ansible-playbook---check-dry-run-mode)
@@ -296,7 +296,7 @@ Ensure you can check syslog/journalctl activity ad-hoc:
 ansible myhost -m command -a "tail -n 3 /var/log/syslog" -i inventory.ini --become
 ```
 
-## 5. Ansible playbooks Start building playbooks for real world scenarios TODO
+## 5. Ansible playbooks Start building playbooks for real world scenarios
 
 
 ```bash
@@ -338,7 +338,7 @@ Name       MAC address          Protocol     Address
 vnet1      52:54:00:11:22:34    ipv4         10.68.68.51/24
 ```
 
-## Working with playbooks from Research Purdue Model day 2 operations with Ansible = in progress
+## Working with playbooks from Research Purdue Model day 2 operations with Ansible
 
 GOTO Playbooks
 
