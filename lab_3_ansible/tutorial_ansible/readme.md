@@ -475,6 +475,29 @@ ansible-playbook -i inventory.ini track_automation_changes.yml --check
 
 ```
 
+Log
+```log
+Please enter the log entry to append to /op_ansible/automation.log:: Go fix your floor now it is sunday
+
+PLAY [Manage Target System File] *************************************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************************************************
+ok: [10.68.68.50]
+ok: [10.68.68.51]
+
+TASK [Ensure /op_ansible directory exists] ***************************************************************************************************************
+ok: [10.68.68.51]
+ok: [10.68.68.50]
+
+TASK [Append log entry directly to /op_ansible/automation.log] *******************************************************************************************
+changed: [10.68.68.50]
+changed: [10.68.68.51]
+
+PLAY RECAP ***********************************************************************************************************************************************
+10.68.68.50                : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.68.68.51                : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
 1. Native Modules (file, copy, apt): These modules support check mode natively. Ansible checks the current system state and predicts whether a change would happen without applying it.
    
 2. Raw Shell Commands (shell, command): Because Ansible cannot predict what arbitrary bash commands (echo ... >> file) will do or whether they are safe to test, Ansible skips shell tasks by default during a --check run to avoid accidental modifications.
@@ -500,6 +523,7 @@ Each time we run the playbook:
 2026-11-01T10:05:24Z edit DNS to 10.12.13.15
 2026-11-01T10:05:45Z reboot server after patching
 2026-11-01T10:06:33Z rollback apache to 1.2
+2026-11-01T10:16:08Z Go fix your floor now it is sunday
 ```
 
 ### 2. To ensure a package is installed and its service is active and enabled on boot
