@@ -22,7 +22,7 @@ Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 
     - [1.1 To Ensures /op\_ansible/automation.log exists with user input for tracking changes on hosts](#11-to-ensures-op_ansibleautomationlog-exists-with-user-input-for-tracking-changes-on-hosts)
     - [1.2 Test ansible playbook --check dry run mode](#12-test-ansible-playbook---check-dry-run-mode)
     - [2. To ensure a package is installed and its service is active and enabled on boot](#2-to-ensure-a-package-is-installed-and-its-service-is-active-and-enabled-on-boot)
-  - [5.3: Dynamic Configuration Management using Jinja2 Templates and Handlers](#53-dynamic-configuration-management-using-jinja2-templates-and-handlers)
+  - [5.3: Dynamic Configuration Management using Jinja2 Templates and Handlers todo](#53-dynamic-configuration-management-using-jinja2-templates-and-handlers-todo)
 
 # Getting started with Ansible
 
@@ -514,7 +514,7 @@ ansible-playbook -i inventory.ini ensure_zabbix_agent2.yml
 ```
 
 
-## 5.3: Dynamic Configuration Management using Jinja2 Templates and Handlers
+## 5.3: Dynamic Configuration Management using Jinja2 Templates and Handlers todo
 
 Demonstrates how to distribute customized zabbix_agent2.conf or zabbix_proxy.conf files dynamically per host based on inventory variables, using notify handlers to restart services only when configuration files change.
 
