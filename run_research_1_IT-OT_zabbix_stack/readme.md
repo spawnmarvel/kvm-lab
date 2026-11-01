@@ -14,6 +14,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Getting started with Ansible GOTO tutorial\_ansible](#getting-started-with-ansible-goto-tutorial_ansible)
 - [Proof of Concept (PoC) Operational Runbook](#proof-of-concept-poc-operational-runbook)
   - [1. Environment and Tools Baseline](#1-environment-and-tools-baseline)
+  - [1.1 Scenario \& Core Requirements Summary from research](#11-scenario--core-requirements-summary-from-research)
   - [2. Phase 1: Host Virtualization \& Isolated Network Configuration](#2-phase-1-host-virtualization--isolated-network-configuration)
   - [3. Phase 2: Guest Image Staging and Volume Provisioning](#3-phase-2-guest-image-staging-and-volume-provisioning)
   - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
@@ -115,6 +116,16 @@ Hypervisor: QEMU 10.2.1
 
 Internet Status: The physical host has no outbound firewall restrictions, allowing it to host and pull base images and tool dependencies. However, VM-level routing will enforce a single egress path on ansiblectr01 to ensure a realistic Purdue model simulation.
 
+
+## 1.1 Scenario & Core Requirements Summary from research
+
+Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
+
+1. Scenario & Core Requirements Summary
+2. Why apt-cacher-ng Was Selected
+3. Firewall Rule Matrix (Purdue / ISA-95 Architecture)
+
+https://github.com/spawnmarvel/kvm-lab/blob/main/research_1_IT-OT_zabbix_stack/readme.md#1-scenario--core-requirements-summary
 
 ## 2. Phase 1: Host Virtualization & Isolated Network Configuration
 
