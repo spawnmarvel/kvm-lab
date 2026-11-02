@@ -380,6 +380,9 @@ Id   Name           State
 
 ```
 
+![ot install](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ot_install_1.png)
+
+
 ## 4. Phase 3: Bootstrap and Automation Execution
 
 With the target hosts running, ansiblectr01 acts as the single egress point to fetch dependencies and distribute updates internally.
