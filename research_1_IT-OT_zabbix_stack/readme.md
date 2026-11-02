@@ -4,7 +4,7 @@
 ## Table of content
 - [IT/OT automation zabbix stack study and prepare](#itot-automation-zabbix-stack-study-and-prepare)
   - [Table of content](#table-of-content)
-  - [mermaid](#mermaid)
+  - [Topology](#topology)
   - [The 5-Level Hierarchy (Shared by Purdue \& ISA-95)](#the-5-level-hierarchy-shared-by-purdue--isa-95)
   - [1. Available Automation Tools for Installing Zabbix](#1-available-automation-tools-for-installing-zabbix)
   - [2. Is Ansible a Good Choice for Maintaining Ubuntu and Windows Hosts?](#2-is-ansible-a-good-choice-for-maintaining-ubuntu-and-windows-hosts)
@@ -24,7 +24,7 @@
 
 
 
-## mermaid
+## Topology
 
 ```mermaid
 
