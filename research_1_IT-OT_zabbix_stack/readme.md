@@ -26,6 +26,8 @@
 
 ## mermaid
 
+```mermaid
+
 %% Version: 1.0.0
 %% Description: Purdue Model Day-2 Architecture and Communication Matrix for Zabbix and Ansible Stack
 
@@ -83,7 +85,9 @@ flowchart TB
     class ADMIN adminStyle;
     class ANSIBLE,ZABBIX01,MYSQL01 idmzStyle;
     class ZABBIX02,WINVM otStyle;
-    
+
+
+```
 ## The 5-Level Hierarchy (Shared by Purdue & ISA-95)
 
 ## 1. Available Automation Tools for Installing Zabbix
