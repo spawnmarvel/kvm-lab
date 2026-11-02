@@ -22,6 +22,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [3. Phase 2: Guest Image Staging and Volume Provisioning](#3-phase-2-guest-image-staging-and-volume-provisioning)
     - [Create disks](#create-disks)
     - [Deploy vms](#deploy-vms)
+    - [Verify vms](#verify-vms)
   - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
   - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
 - [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
@@ -291,9 +292,17 @@ Log
 
 ```bash
 
-sudo nano create_vms_static.sh
-bash create_vms_static.sh
+sudo nano create_vms_static_ansiblectr01.sh
+bash create_vms_static_ansiblectr01.sh
 
+sudo nano create_vms_static_zabbix01.sh
+bash create_vms_static_zabbix01.sh
+
+sudo nano create_vms_static_mysql01.sh
+bash create_vms_static_mysql01.sh
+
+sudo nano create_vms_static_zabbix02.sh
+bash create_vms_static_zabbix02.sh
 ```
 
 5 minutes per VM is a very accurate estimate for stepping through the interactive Ubuntu Server installer over the serial console.
@@ -302,17 +311,35 @@ VM 1 (10.68.68.10 — Zone 2.5 iDMZ): 💥
 * Your server's name: ansiblectr01
 * Pick a username: master, justfortest
 
-VM 2 (10.68.68.50 — Zone 2.5 iDMZ):
+VM 2 (10.68.68.50 — Zone 2.5 iDMZ): 💥
 * Your server's name: zabbix01
 * Pick a username: master, justfortest
 
-VM 3 (10.68.68.52 — Zone 2.5 iDMZ):
+VM 3 (10.68.68.52 — Zone 2.5 iDMZ): 💥
 * Your server's name: mysql01
 Pick a username: master, justfortest
 
 VM 4 (10.68.20.15 — Zone 2 OT):
 * Your server's name: zabbix02
 * Pick a username: master, justfortest
+
+### Verify vms
+
+```bash
+sudo virsh list
+Id   Name           State
+------------------------------
+2    ansiblectr01   running
+4    zabbix01       running
+6    mysql01        running
+
+
+ssh master@10.68.68.10
+
+
+
+
+```
 
 ## 4. Phase 3: Bootstrap and Automation Execution
 
