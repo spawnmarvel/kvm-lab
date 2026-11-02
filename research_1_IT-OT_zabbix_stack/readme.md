@@ -26,10 +26,12 @@
 
 ## Scenario and case
 
-* Day 1: infrastructure with kvm team 1.
+* Day 1: Infrastructure build with kvm team 1.
 * Day 2 to day n: automate install, update and support operations with ansible team 2
 
-Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
+Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. 
+
+Day-2 automation begins immediately after IP and credential handover.
 
 What will we learn here?
 
