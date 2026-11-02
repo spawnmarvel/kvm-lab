@@ -111,6 +111,7 @@ Operational Goal:
 
 For this spesific scenario, out is internet.
 
+* Zone 3 (DMZ) is simulated with our host kvm-host
 * Zone 2.5 (iDMZ): 1 Ansible control node server (native Ubuntu 26.04 package) and apache (not Nginx), name ansiblectr01
 * ansiblectr01must be able to update zabbix01, mysql01 and zabbix02
 * MySQL 8.4 LTS Server datadrive name is datadrive1 and used for storing mysql
