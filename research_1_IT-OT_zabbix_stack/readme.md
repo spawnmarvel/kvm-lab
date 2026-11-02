@@ -4,6 +4,7 @@
 ## Table of content
 - [IT/OT automation zabbix stack study and prepare](#itot-automation-zabbix-stack-study-and-prepare)
   - [Table of content](#table-of-content)
+  - [mermaid](#mermaid)
   - [The 5-Level Hierarchy (Shared by Purdue \& ISA-95)](#the-5-level-hierarchy-shared-by-purdue--isa-95)
   - [1. Available Automation Tools for Installing Zabbix](#1-available-automation-tools-for-installing-zabbix)
   - [2. Is Ansible a Good Choice for Maintaining Ubuntu and Windows Hosts?](#2-is-ansible-a-good-choice-for-maintaining-ubuntu-and-windows-hosts)
@@ -22,6 +23,67 @@
     - [GOTO run\_research\_1\_IT-OT\_zabbix\_stack](#goto-run_research_1_it-ot_zabbix_stack)
 
 
+
+## mermaid
+
+%% Version: 1.0.0
+%% Description: Purdue Model Day-2 Architecture and Communication Matrix for Zabbix and Ansible Stack
+
+flowchart TB
+    subgraph EXT["External / Internet"]
+        WAN["Ubuntu & Zabbix Repos<br/>(archive.ubuntu.com / repo.zabbix.com)"]
+    end
+
+    subgraph L35["Level 3.5 - IT Network"]
+        ADMIN["Admin Workstation<br/>(IT Operations)"]
+    end
+
+    subgraph Z25["Zone 2.5 - iDMZ"]
+        ANSIBLE["ansiblectr01<br/>10.68.68.10<br/>(Ansible, apt-cacher-ng:3142, Apache:80)"]
+        ZABBIX01["zabbix01<br/>10.68.68.50<br/>(Zabbix Server 7.0)"]
+        MYSQL01["mysql01<br/>10.68.68.52<br/>(MySQL 8.4 / datadrive1)"]
+    end
+
+    subgraph Z2["Zone 2 - Control / OT Network (Air-Gapped)"]
+        ZABBIX02["zabbix02<br/>10.68.20.15<br/>(Zabbix Active Proxy)"]
+        WINVM["Windows VMs<br/>10.68.20.x<br/>(Zabbix Agent2)"]
+    end
+
+    %% Egress Connection
+    WAN <== "FW-01a/b/c: HTTP/HTTPS (TCP 80/443)" ==> ANSIBLE
+
+    %% Leg 1: Administration
+    ADMIN -- "Leg 1 / FW-11: SSH (TCP 22)" --> ANSIBLE
+    ADMIN -. "FW-11: Web UI (TCP 80/443)" .-> ZABBIX01
+
+    %% Leg 2: Automation Push
+    ANSIBLE -- "Leg 2 / FW-02: SSH (TCP 22)" --> ZABBIX01
+    ANSIBLE -- "Leg 2 / FW-02: SSH (TCP 22)" --> MYSQL01
+    ANSIBLE -- "Leg 2 / FW-03: SSH (TCP 22)" --> ZABBIX02
+    ANSIBLE -- "Leg 2 / FW-04: WinRM (TCP 5985/5986)" --> WINVM
+
+    %% Leg 3 & 4: Package Pulls
+    ZABBIX01 -. "Leg 3 / FW-05: APT Proxy (TCP 3142)" .-> ANSIBLE
+    MYSQL01 -. "Leg 3 / FW-05: APT Proxy (TCP 3142)" .-> ANSIBLE
+    ZABBIX02 -. "Leg 3 / FW-06: APT Proxy (TCP 3142)" .-> ANSIBLE
+    WINVM -. "Leg 4 / FW-07: MSI Download (TCP 80)" .-> ANSIBLE
+
+    %% Data & Telemetry Flow
+    ZABBIX01 -- "FW-08: Database Traffic (TCP 3306)" --> MYSQL01
+    WINVM -- "FW-10: Metric Push (TCP 10051)" --> ZABBIX02
+    ZABBIX02 -- "Leg 4 / FW-09: Active Proxy Push (TCP 10051)" --> ZABBIX01
+
+    %% Custom Styling
+    classDef extStyle fill:#f9f9f9,stroke:#666,stroke-width:2px;
+    classDef idmzStyle fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
+    classDef otStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px;
+    classDef adminStyle fill:#e8f5e9,stroke:#388e3c,stroke-width:2px;
+
+    class WAN extStyle;
+    class ADMIN adminStyle;
+    class ANSIBLE,ZABBIX01,MYSQL01 idmzStyle;
+    class ZABBIX02,WINVM otStyle;
+    
 ## The 5-Level Hierarchy (Shared by Purdue & ISA-95)
 
 ## 1. Available Automation Tools for Installing Zabbix
