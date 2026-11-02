@@ -296,6 +296,8 @@ bash create_vms_static.sh
 
 ```
 
+5 minutes per VM is a very accurate estimate for stepping through the interactive Ubuntu Server installer over the serial console.
+
 VM 1 (10.68.68.10 — Zone 2.5 iDMZ): 💥
 * Your server's name: ansiblectr01
 * Pick a username: master, justfortest

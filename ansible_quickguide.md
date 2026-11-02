@@ -8,6 +8,8 @@
   - [Core Concepts](#core-concepts)
   - [Key Advantages](#key-advantages)
   - [Ansible Agentless Architecture Linux and Windows](#ansible-agentless-architecture-linux-and-windows)
+  - [Essential Ansible concepts](#essential-ansible-concepts)
+  - [Getting Started with Ansible: A Beginner’s Guide](#getting-started-with-ansible-a-beginners-guide)
   - [Inventory](#inventory)
   - [SSH key-based authentication](#ssh-key-based-authentication)
   - [Ansible Ad-hoc commands](#ansible-ad-hoc-commands)
@@ -46,6 +48,13 @@ https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
 
 * On Windows, Ansible connects over WinRM (Windows Remote Management) or WinSSHD, authenticates using NTLM, Kerberos, or CredSSP, and executes PowerShell scripts or .NET code directly in memory. Results are captured in JSON format and returned to the control node without leaving persistent software behind.
 
+## Essential Ansible concepts
+
+https://developers.redhat.com/learning/learn:ansible:foundations-ansible/resource/resources:essential-ansible-concepts
+
+## Getting Started with Ansible: A Beginner’s Guide
+
+https://dev.to/anushree_gm/getting-started-with-ansible-a-beginners-guide-3deh
 
 ## Inventory
 
@@ -54,3 +63,7 @@ https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
 ## Ansible Ad-hoc commands
 
 ## Playbooks
+
+
+
+
