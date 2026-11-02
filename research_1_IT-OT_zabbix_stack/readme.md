@@ -28,8 +28,9 @@
 
 ```mermaid
 
-%% Version: 1.0.0
-%% Description: Purdue Model Day-2 Architecture and Communication Matrix for Zabbix and Ansible Stack
+
+%% Version: 1.0.1
+%% Description: Fixed Mermaid syntax for GitHub rendering
 
 flowchart TB
     subgraph EXT["External / Internet"]
@@ -52,28 +53,28 @@ flowchart TB
     end
 
     %% Egress Connection
-    WAN <== "FW-01a/b/c: HTTP/HTTPS (TCP 80/443)" ==> ANSIBLE
+    WAN <==>|FW-01a/b/c: HTTP/HTTPS TCP 80/443| ANSIBLE
 
     %% Leg 1: Administration
-    ADMIN -- "Leg 1 / FW-11: SSH (TCP 22)" --> ANSIBLE
-    ADMIN -. "FW-11: Web UI (TCP 80/443)" .-> ZABBIX01
+    ADMIN -->|Leg 1 / FW-11: SSH TCP 22| ANSIBLE
+    ADMIN -.->|FW-11: Web UI TCP 80/443| ZABBIX01
 
     %% Leg 2: Automation Push
-    ANSIBLE -- "Leg 2 / FW-02: SSH (TCP 22)" --> ZABBIX01
-    ANSIBLE -- "Leg 2 / FW-02: SSH (TCP 22)" --> MYSQL01
-    ANSIBLE -- "Leg 2 / FW-03: SSH (TCP 22)" --> ZABBIX02
-    ANSIBLE -- "Leg 2 / FW-04: WinRM (TCP 5985/5986)" --> WINVM
+    ANSIBLE -->|Leg 2 / FW-02: SSH TCP 22| ZABBIX01
+    ANSIBLE -->|Leg 2 / FW-02: SSH TCP 22| MYSQL01
+    ANSIBLE -->|Leg 2 / FW-03: SSH TCP 22| ZABBIX02
+    ANSIBLE -->|Leg 2 / FW-04: WinRM TCP 5985/5986| WINVM
 
     %% Leg 3 & 4: Package Pulls
-    ZABBIX01 -. "Leg 3 / FW-05: APT Proxy (TCP 3142)" .-> ANSIBLE
-    MYSQL01 -. "Leg 3 / FW-05: APT Proxy (TCP 3142)" .-> ANSIBLE
-    ZABBIX02 -. "Leg 3 / FW-06: APT Proxy (TCP 3142)" .-> ANSIBLE
-    WINVM -. "Leg 4 / FW-07: MSI Download (TCP 80)" .-> ANSIBLE
+    ZABBIX01 -.->|Leg 3 / FW-05: APT Proxy TCP 3142| ANSIBLE
+    MYSQL01 -.->|Leg 3 / FW-05: APT Proxy TCP 3142| ANSIBLE
+    ZABBIX02 -.->|Leg 3 / FW-06: APT Proxy TCP 3142| ANSIBLE
+    WINVM -.->|Leg 4 / FW-07: MSI Download TCP 80| ANSIBLE
 
     %% Data & Telemetry Flow
-    ZABBIX01 -- "FW-08: Database Traffic (TCP 3306)" --> MYSQL01
-    WINVM -- "FW-10: Metric Push (TCP 10051)" --> ZABBIX02
-    ZABBIX02 -- "Leg 4 / FW-09: Active Proxy Push (TCP 10051)" --> ZABBIX01
+    ZABBIX01 -->|FW-08: Database Traffic TCP 3306| MYSQL01
+    WINVM -->|FW-10: Metric Push TCP 10051| ZABBIX02
+    ZABBIX02 -->|Leg 4 / FW-09: Active Proxy Push TCP 10051| ZABBIX01
 
     %% Custom Styling
     classDef extStyle fill:#f9f9f9,stroke:#666,stroke-width:2px;
@@ -85,7 +86,6 @@ flowchart TB
     class ADMIN adminStyle;
     class ANSIBLE,ZABBIX01,MYSQL01 idmzStyle;
     class ZABBIX02,WINVM otStyle;
-
 
 ```
 ## The 5-Level Hierarchy (Shared by Purdue & ISA-95)
