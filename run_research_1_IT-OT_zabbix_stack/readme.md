@@ -13,6 +13,7 @@ Ansible is a radically simple IT automation platform that makes your application
 - [Install Ansible on hostkvm-host-HP-ProDesk-600-G3-SFF Ubuntu 26.04](#install-ansible-on-hostkvm-host-hp-prodesk-600-g3-sff-ubuntu-2604)
   - [Getting started with Ansible](#getting-started-with-ansible)
 - [Proof of Concept (PoC) Operational Runbook](#proof-of-concept-poc-operational-runbook)
+  - [Topology](#topology)
   - [1. Environment and Tools Baseline](#1-environment-and-tools-baseline)
   - [1.1 Scenario \& Core Requirements Summary from research](#11-scenario--core-requirements-summary-from-research)
   - [2. Phase 1: Host Virtualization \& Isolated Network Configuration](#2-phase-1-host-virtualization--isolated-network-configuration)
@@ -93,6 +94,10 @@ GOTO ansible/tutorial_ansible or use and build the quickguide as we walk. /ansib
 
 
 # Proof of Concept (PoC) Operational Runbook
+
+## Topology
+
+![topolgy it ot](https://github.com/spawnmarvel/kvm-lab/blob/main/images/topology_io_ot2.jpeg)
 
 ## 1. Environment and Tools Baseline
 
