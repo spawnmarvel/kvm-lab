@@ -11,7 +11,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Key Advantages](#key-advantages)
   - [Ansible Agentless Architecture Linux and Windows](#ansible-agentless-architecture-linux-and-windows)
 - [Install Ansible on hostkvm-host-HP-ProDesk-600-G3-SFF Ubuntu 26.04](#install-ansible-on-hostkvm-host-hp-prodesk-600-g3-sff-ubuntu-2604)
-  - [Getting started with Ansible GOTO tutorial\_ansible](#getting-started-with-ansible-goto-tutorial_ansible)
+  - [Getting started with Ansible](#getting-started-with-ansible)
 - [Proof of Concept (PoC) Operational Runbook](#proof-of-concept-poc-operational-runbook)
   - [1. Environment and Tools Baseline](#1-environment-and-tools-baseline)
   - [1.1 Scenario \& Core Requirements Summary from research](#11-scenario--core-requirements-summary-from-research)
@@ -83,13 +83,13 @@ Ubuntu provides Ansible packages through a Personal Package Archive (PPA) that c
 
 https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html
 
-## Getting started with Ansible GOTO tutorial_ansible
+## Getting started with Ansible
 
 Do a new recap of the tutorial so you are up to speed.
 
 This must be done before you start.
 
-GOTO ansible/tutorial_ansible
+GOTO ansible/tutorial_ansible or use and build the quickguide as we walk. /ansible_quickguide.md
 
 
 # Proof of Concept (PoC) Operational Runbook
@@ -130,6 +130,8 @@ https://github.com/spawnmarvel/kvm-lab/blob/main/research_1_IT-OT_zabbix_stack/r
 ## 2. Phase 1: Host Virtualization & Isolated Network Configuration
 
 Before deploying the target stack, isolated virtual networks must be established on the physical host to separate the iDMZ (Zone 2.5) from the OT Control network (Zone 2) while designating ansiblectr01 as the sole gateway.
+
+
 
 ## 3. Phase 2: Guest Image Staging and Volume Provisioning
 
