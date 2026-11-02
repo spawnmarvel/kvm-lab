@@ -447,6 +447,8 @@ Example:
 
 ### 1.1 To Ensures /op_ansible/automation.log exists with user input for tracking changes on hosts
 
+We need to track changes on localhost, what has been done and when
+
 ```bash
 # Version: 1.0.0
 # Description: Ensures /op_ansible/automation.log exists with specified text content using the copy module
