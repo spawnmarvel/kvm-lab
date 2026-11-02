@@ -1,6 +1,6 @@
 #!/bin/bash
-# Version: 1.0.0
-# Description: Registers static DHCP reservation and launches mysql01 VM installation with secondary volume
+# Version: 1.1.0
+# Description: Registers static DHCP reservation and launches mysql01 installation with primary OS disk only
 
 ISO_PATH="/var/lib/libvirt/images/ubuntu-26.04-server.iso"
 
@@ -13,7 +13,6 @@ sudo virt-install \
   --ram 3072 \
   --vcpus 2 \
   --disk path=/mnt/datadrive1/qemu/images/mysql01.qcow2,bus=virtio,format=qcow2 \
-  --disk path=/mnt/datadrive1/qemu/images/mysql01-datadrive1.qcow2,bus=virtio,format=qcow2 \
   --os-variant ubuntu24.04 \
   --network network=zone25-idmz,model=virtio,mac=52:54:00:68:68:52 \
   --graphics none \

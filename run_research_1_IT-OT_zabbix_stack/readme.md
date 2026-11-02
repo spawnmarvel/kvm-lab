@@ -26,6 +26,14 @@ Ansible is a radically simple IT automation platform that makes your application
   - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
   - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
 - [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
+  - [1. Inventory](#1-inventory)
+  - [2. SSH key-based authentication](#2-ssh-key-based-authentication)
+  - [3. Ansible Ad-hoc commands](#3-ansible-ad-hoc-commands)
+  - [4. Playbooks](#4-playbooks)
+    - [4.1 Make tracking folder](#41-make-tracking-folder)
+    - [4.2 Install MySQL](#42-install-mysql)
+    - [4.3 Install Zabbix](#43-install-zabbix)
+    - [4.4 Install Zabbix proxy](#44-install-zabbix-proxy)
 
 # Here's a quick guide to get you up to speed on Ansible
 
@@ -185,7 +193,7 @@ This network omits the <forward> tag entirely, creating a strictly isolated inte
 
 ```bash
 ssh espenk@192.168.10.70
-mkdir io_ot_lab
+mkdir io_ot_lab_build
 sudo nano create_network.sh
 bash create_network.sh
 
@@ -226,7 +234,7 @@ Resource Allocation Summary
 * ansiblectr01: 2 vCPU, 4 GB RAM (Zone 2.5 iDMZ)
 * zabbix01: 2 vCPU, 3 GB RAM (Zone 2.5 iDMZ)
 * mysql01: 2 vCPU, 3 GB RAM (Zone 2.5 iDMZ)
-* zabbix02: 2 vCPU, 2 GB RAM (Zone 2 OT Proxy)
+* zabbix02: 2 vCPU, 3 GB RAM (Zone 2 OT Proxy)
 
 
 
@@ -287,7 +295,12 @@ Log
 | `ansiblectr01` | zone25-idmz | 10.68.68.10 | 52:54:00:68:68:10 | 4 GB / 2 vCPU | ansiblectr01.qcow2 (20GB)                              |
 | `zabbix01`     | zone25-idmz | 10.68.68.50 | 52:54:00:68:68:50 | 3 GB / 2 vCPU | zabbix01.qcow2 (20GB)                                  |
 | `mysql01`      | zone25-idmz | 10.68.68.52 | 52:54:00:68:68:52 | 3 GB / 2 vCPU | mysql01.qcow2 (20GB) + mysql01-datadrive1.qcow2 (30GB) |
-| `zabbix02`     | zone2-ot    | 10.68.20.15 | 52:54:00:68:20:15 | 2 GB / 2 vCPU | zabbix02.qcow2 (20GB)                                  |
+| `zabbix02`     | zone2-ot    | 10.68.20.15 | 52:54:00:68:20:15 | 3 GB / 2 vCPU | zabbix02.qcow2 (20GB)                                  |
+
+* 1 GB: $1 x 1024 = 1024 MB
+* 2 GB: $2 x 1024 = 2048 MB
+* 3 GB: $3 x 1024 = 3072 MB
+* 4 GB: $4 x 1024 = 4096 MB
 
 
 ```bash
@@ -295,14 +308,46 @@ Log
 sudo nano create_vms_static_ansiblectr01.sh
 bash create_vms_static_ansiblectr01.sh
 
+ssh master@10.68.68.10
+# master@ansiblectr01:~$
+
 sudo nano create_vms_static_zabbix01.sh
 bash create_vms_static_zabbix01.sh
+
+ssh master@10.68.68.50
+# master@zabbix01:~$
 
 sudo nano create_vms_static_mysql01.sh
 bash create_vms_static_mysql01.sh
 
+# The standard solution is to install Ubuntu with only the primary OS disk attached, 
+# verify SSH access, and then attach the secondary 30 GB volume to the domain.
+
+# Attach Secondary Data Disk to Domain, Attach the 30 GB volume to mysql01 as persistent virtual target vdb:
+# Version: 1.0.0
+# Description: Attaches secondary 30GB qcow2 volume to running mysql01 instance and updates libvirt XML configuration
+sudo virsh attach-disk mysql01 /mnt/datadrive1/qemu/images/mysql01-datadrive1.qcow2 vdb --config --live --subdriver qcow2
+
+Disk attached successfully
+
+ssh master@10.68.68.52
+
+# Running lsblk inside mysql01 via SSH shows /dev/vda (20G) and /dev/vdb (30G).
+lsblk
+NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sr0                        11:0    1 1024M  1 rom
+vda                       253:0    0   20G  0 disk
+├─vda1                    253:1    0    1M  0 part
+├─vda2                    253:2    0  1.8G  0 part /boot
+└─vda3                    253:3    0 18.2G  0 part
+  └─ubuntu--vg-ubuntu--lv 252:0    0   10G  0 lvm  /
+vdb                       253:16   0   30G  0 disk
+
 sudo nano create_vms_static_zabbix02.sh
 bash create_vms_static_zabbix02.sh
+
+ssh master@10.68.20.15
+
 ```
 
 5 minutes per VM is a very accurate estimate for stepping through the interactive Ubuntu Server installer over the serial console.
@@ -333,12 +378,6 @@ Id   Name           State
 4    zabbix01       running
 6    mysql01        running
 
-
-ssh master@10.68.68.10
-
-
-
-
 ```
 
 ## 4. Phase 3: Bootstrap and Automation Execution
@@ -351,5 +390,26 @@ Ensure the deployment meets your strict security goals before handing over the s
 
 
 # Run Proof of Concept (PoC) Operational Runbook
+
+## 1. Inventory
+
+```bash
+ssh espenk@192.168.10.70
+mkdir mkdir io_ot_lab_build
+```
+
+## 2. SSH key-based authentication
+
+## 3. Ansible Ad-hoc commands
+
+## 4. Playbooks
+
+### 4.1 Make tracking folder
+
+### 4.2 Install MySQL
+
+### 4.3 Install Zabbix
+
+### 4.4 Install Zabbix proxy
 
 

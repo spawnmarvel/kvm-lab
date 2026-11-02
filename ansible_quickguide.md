@@ -58,6 +58,11 @@ https://dev.to/anushree_gm/getting-started-with-ansible-a-beginners-guide-3deh
 
 ## Inventory
 
+```bash
+ssh espenk@192.168.10.70
+mkdir mkdir io_ot_lab_build
+```
+
 ## SSH key-based authentication
 
 ## Ansible Ad-hoc commands
