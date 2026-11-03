@@ -1633,6 +1633,8 @@ Yes, this configuration is fully correct and will survive a reboot of the KVM ho
 * 1-2 weeks with IT/OT study and research
 * 1-3 Days with lab setup simulatating team 1
 
+To build and configure that architecture from scratch—navigating Purdue model network zoning, diagnosing and rewriting libvirt network definitions from isolated to routed mode, resolving MAC/IP address conflicts, configuring bridge forwarding rules, establishing host firewall persistence via iptables-persistent, and provisioning an internal APT caching proxy across segmented zones—is a heavy lift.
+
 ### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01
 
 At last, we are ready for only working on ansiblectr01:
