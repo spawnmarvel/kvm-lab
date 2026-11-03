@@ -1642,7 +1642,7 @@ Gemini and I.
 
 ```bash
 espenk@kvm-host:~$ uptime
- 16:44:53 up 4 min,  2 users,  load average: 1.08, 1.75, 0.88
+16:44:53 up 4 min,  2 users,  load average: 1.08, 1.75, 0.88
 
 ssh master@10.68.68.10
 
