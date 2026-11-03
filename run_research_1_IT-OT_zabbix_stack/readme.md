@@ -561,6 +561,15 @@ Filesystem      Size  Used Avail Use% Mounted on
 /dev/sda1       458G   26G  409G   6% /mnt/datadrive1
 ```
 
+| VM Name          | Assigned Cap (`balloon.current`) | Host RAM Consumed (`balloon.rss`) | Free RAM Inside Guest (`balloon.usable`) | Real Guest Active Use |
+| :--------------- | :------------------------------- | :-------------------------------- | :--------------------------------------- | :-------------------- |
+| **zabbix02**     | ~3.00 GiB                        | ~944 MiB (0.92 GiB)               | ~2.20 GiB                                | ~250 MiB              |
+| **ansiblectr01** | ~3.00 GiB                        | ~1,197 MiB (1.17 GiB)             | ~2.20 GiB                                | ~250 MiB              |
+| **zabbix01**     | ~3.00 GiB                        | ~1,433 MiB (1.40 GiB)             | ~2.20 GiB                                | ~250 MiB              |
+| **mysql01**      | ~3.00 GiB                        | ~1,448 MiB (1.41 GiB)             | ~2.20 GiB                                | ~250 MiB              |
+
+
+
 kvm-host is handling all four active virtual machines (ansiblectr01, zabbix01, mysql01, zabbix02) cleanly without any hardware bottlenecks or memory pressure.
 
 | Resource                             | Metric     | Total Available | Currently Used / Allocated                         | Headroom / Remaining               | Health Status                  |
