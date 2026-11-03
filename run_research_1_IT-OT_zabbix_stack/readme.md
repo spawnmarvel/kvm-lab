@@ -1580,6 +1580,11 @@ sudo apt update completes successfully across all nodes using the internal cachi
 
 Establishing the underlying network topology, static DHCP leases, bridge interfaces (virbr25 and virbr20), and KVM host forwarding rules (iptables and persistence) falls squarely under Team 1's infrastructure and network zoning responsibilities.
 
+Network changed
+
+
+![network forwarded](https://github.com/spawnmarvel/kvm-lab/blob/main/images/network_forwarded.png)
+
 ### 6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)
 
 Log into your KVM host and run the following commands:
@@ -1618,10 +1623,7 @@ The grep output confirms that your forwarding rules
 
 Yes, this configuration is fully correct and will survive a reboot of the KVM host.
 
-Network changed
 
-
-![network forwarded](https://github.com/spawnmarvel/kvm-lab/blob/main/images/network_forwarded.png)
 
 
 ### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01
