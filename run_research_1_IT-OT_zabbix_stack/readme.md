@@ -277,7 +277,7 @@ done
 
 Log
 
-```txt
+```console
 === Storage Pool: boot ===
  Name   Path
 --------------
