@@ -23,6 +23,8 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Create disks](#create-disks)
     - [Deploy vms](#deploy-vms)
     - [Verify vms](#verify-vms)
+    - [Use all full disk](#use-all-full-disk)
+    - [View zones](#view-zones)
   - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
   - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
 - [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
@@ -331,6 +333,7 @@ sudo virsh attach-disk mysql01 /mnt/datadrive1/qemu/images/mysql01-datadrive1.qc
 Disk attached successfully
 
 ssh master@10.68.68.52
+#master@mysql01:~$
 
 # Running lsblk inside mysql01 via SSH shows /dev/vda (20G) and /dev/vdb (30G).
 lsblk
@@ -364,7 +367,7 @@ VM 3 (10.68.68.52 — Zone 2.5 iDMZ): 💥
 * Your server's name: mysql01
 Pick a username: master, justfortest
 
-VM 4 (10.68.20.15 — Zone 2 OT):
+VM 4 (10.68.20.15 — Zone 2 OT): 💥
 * Your server's name: zabbix02
 * Pick a username: master, justfortest
 
@@ -382,6 +385,60 @@ Id   Name           State
 
 ![ot install](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ot_install_1.png)
 
+
+### Use all full disk
+
+
+```bash
+
+ssh master@10.68.68.10
+# master@ansiblectr01:~$
+# ssh: connect to host 10.68.68.10 port 22: Network is unreachable
+
+ssh master@10.68.68.50
+# master@zabbix01:~$
+
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv -r
+df -h /
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  4.9G   13G  29% /
+
+ssh master@10.68.68.52
+#master@mysql01:~$
+
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv -r
+df -h /
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  4.9G   13G  29% 
+
+ssh master@10.68.20.15
+# master@zabbix02:~$
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv -r
+df -h /
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  4.5G   13G  27% /
+
+```
+
+### View zones
+
+```bash
+
+# Version: 1.0.0
+# Description: Checks active DHCP lease status for ansiblectr01 on zone25-idmz
+sudo virsh net-dhcp-leases zone25-idmz
+Expiry Time           MAC address         Protocol   IP address       Hostname   Client ID or DUID
+--------------------------------------------------------------------------------------------------------------------------------------------
+2026-11-03 09:15:06   52:54:00:68:68:50   ipv4       10.68.68.50/24   zabbix01   ff:56:50:4d:98:00:02:00:00:ab:11:96:a3:ef:6e:d9:63:3e:e1
+2026-11-03 09:15:13   52:54:00:68:68:52   ipv4       10.68.68.52/24   mysql01    ff:56:50:4d:98:00:02:00:00:ab:11:29:c1:56:8b:ac:65:be:0f
+
+
+sudo virsh net-dhcp-leases zone2-ot
+Expiry Time           MAC address         Protocol   IP address       Hostname   Client ID or DUID
+--------------------------------------------------------------------------------------------------------------------------------------------
+2026-11-03 09:11:55   52:54:00:68:20:15   ipv4       10.68.20.15/24   zabbix02   ff:56:50:4d:98:00:02:00:00:ab:11:5a:12:e9:9d:3a:a0:68:ee
+
+```
 
 ## 4. Phase 3: Bootstrap and Automation Execution
 
