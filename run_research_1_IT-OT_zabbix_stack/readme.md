@@ -28,9 +28,9 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Auto boot](#auto-boot)
     - [4 vms](#4-vms)
     - [Check kvm-host health](#check-kvm-host-health)
-  - [4. Phase 3: Bootstrap and Automation Execution Team 2 starts](#4-phase-3-bootstrap-and-automation-execution-team-2-starts)
+  - [4. Phase 3: Bootstrap and Automation Execution Team 2](#4-phase-3-bootstrap-and-automation-execution-team-2)
   - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
-- [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
+- [Run Proof of Concept (PoC) Operational Runbook Team 2 starts](#run-proof-of-concept-poc-operational-runbook-team-2-starts)
   - [1. Inventory](#1-inventory)
   - [2. SSH key-based authentication](#2-ssh-key-based-authentication)
   - [3. Ansible Ad-hoc commands](#3-ansible-ad-hoc-commands)
@@ -580,7 +580,7 @@ kvm-host is handling all four active virtual machines (ansiblectr01, zabbix01, m
 
 
 
-## 4. Phase 3: Bootstrap and Automation Execution Team 2 starts
+## 4. Phase 3: Bootstrap and Automation Execution Team 2
 
 With the target hosts running, ansiblectr01 acts as the single egress point to fetch dependencies and distribute updates internally.
 
@@ -589,7 +589,7 @@ With the target hosts running, ansiblectr01 acts as the single egress point to f
 Ensure the deployment meets your strict security goals before handing over the system for monitoring:
 
 
-# Run Proof of Concept (PoC) Operational Runbook
+# Run Proof of Concept (PoC) Operational Runbook Team 2 starts
 
 ## 1. Inventory
 
