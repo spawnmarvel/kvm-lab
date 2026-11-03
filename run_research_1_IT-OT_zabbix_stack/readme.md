@@ -484,7 +484,7 @@ Id   Name           State
 
 ### 4 vms
 
-! [4_vms](https://github.com/spawnmarvel/kvm-lab/blob/main/images/4vms.png)
+![4_vms](https://github.com/spawnmarvel/kvm-lab/blob/main/images/4vms.png)
 
 ## 4. Phase 3: Bootstrap and Automation Execution
 
