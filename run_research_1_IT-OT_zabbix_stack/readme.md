@@ -54,7 +54,7 @@ Ansible is a radically simple IT automation platform that makes your application
       - [Verify apt-cacher-ng playbook](#verify-apt-cacher-ng-playbook)
     - [6.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#61-lab-is-fully-up-and-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
     - [6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)](#61-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
-  - [Now we can automate with Ansible and step 6 starts from team 2](#now-we-can-automate-with-ansible-and-step-6-starts-from-team-2)
+  - [Now we can automate with Ansible and step 6 starts for team 2](#now-we-can-automate-with-ansible-and-step-6-starts-for-team-2)
     - [Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01](#step-6-deploy-mysql-84-lts-on-mysql01-playbooks-ansiblectr01)
     - [Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks](#step-7-deploy-zabbix-server-70-lts-on-zabbix01-playbooks)
     - [Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks](#step-8-deploy-zabbix-active-proxy-sqlite3-on-zabbix02-zone-2-ot-playbooks)
@@ -1627,7 +1627,7 @@ The grep output confirms that your forwarding rules
 Yes, this configuration is fully correct and will survive a reboot of the KVM host.
 
 
-## Now we can automate with Ansible and step 6 starts from team 2
+## Now we can automate with Ansible and step 6 starts for team 2
 
 ### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01
 
