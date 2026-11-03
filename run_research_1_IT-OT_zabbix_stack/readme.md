@@ -12,7 +12,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Ansible Agentless Architecture Linux and Windows](#ansible-agentless-architecture-linux-and-windows)
 - [Install Ansible on hostkvm-host-HP-ProDesk-600-G3-SFF Ubuntu 26.04](#install-ansible-on-hostkvm-host-hp-prodesk-600-g3-sff-ubuntu-2604)
   - [Getting started with Ansible](#getting-started-with-ansible)
-- [Proof of Concept (PoC) Operational Runbook](#proof-of-concept-poc-operational-runbook)
+- [Proof of Concept (PoC) Operational Runbook intro and team 1](#proof-of-concept-poc-operational-runbook-intro-and-team-1)
   - [Topology](#topology)
   - [1. Environment and Tools Baseline](#1-environment-and-tools-baseline)
   - [1.1 Scenario \& Core Requirements Summary from research](#11-scenario--core-requirements-summary-from-research)
@@ -114,7 +114,7 @@ This must be done before you start.
 GOTO ansible/tutorial_ansible or use and build the quickguide as we walk. /ansible_quickguide.md
 
 
-# Proof of Concept (PoC) Operational Runbook
+# Proof of Concept (PoC) Operational Runbook intro and team 1
 
 ## Topology
 
