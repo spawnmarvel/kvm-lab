@@ -40,6 +40,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Step 3: Generate \& Distribute SSH Keys across Managed Targets](#step-3-generate--distribute-ssh-keys-across-managed-targets)
       - [Production-grade standards, you should keep become = True, Privilege escalation](#production-grade-standards-you-should-keep-become--true-privilege-escalation)
     - [Step 4: Setup apt-cacher-ng \& Apache on ansiblectr01](#step-4-setup-apt-cacher-ng--apache-on-ansiblectr01)
+      - [Whitelisted repo](#whitelisted-repo-1)
     - [Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook](#step-5-route-apt-traffic-on-managed-nodes-via-apt-cacher-ng-playbook)
     - [Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks](#step-6-deploy-mysql-84-lts-on-mysql01-playbooks)
     - [Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks](#step-7-deploy-zabbix-server-70-lts-on-zabbix01-playbooks)
@@ -723,12 +724,16 @@ ansible [core 2.21.5]
   pyyaml version = 6.0.3 (with libyaml v0.2.5)
 
 
+sudo apt update
+sudo apt upgrade
+
 ```
 #### Whitelisted repo
 
-| Rule ID   | Source Host    | Source Zone     | Destination FQDN / Host                          | Destination Zone    | Protocol / Port | Purpose                                                           |
-| :-------- | :------------- | :-------------- | :----------------------------------------------- | :------------------ | :-------------- | :---------------------------------------------------------------- |
-| **FW-01** | `ansiblectr01` | Zone 2.5 (iDMZ) | `ppa.launchpadcontent.net`, `galaxy.ansible.com` | External / Internet | TCP 80, 443     | Package and collection repository access for Ansible control node |
+| Rule ID    | Source Host    | Source Zone     | Destination FQDN / Host                          | Destination Zone    | Protocol / Port | Purpose                                                            |
+| :--------- | :------------- | :-------------- | :----------------------------------------------- | :------------------ | :-------------- | :----------------------------------------------------------------- |
+| **FW-01a** | `ansiblectr01` | Zone 2.5 (iDMZ) | `archive.ubuntu.com`, `security.ubuntu.com`      | External / Internet | TCP 80, 443     | Ubuntu base OS packages, security patches, and system dependencies |
+| **FW-01b** | `ansiblectr01` | Zone 2.5 (iDMZ) | `ppa.launchpadcontent.net`, `galaxy.ansible.com` | External / Internet | TCP 80, 443     | Ansible PPA repository and Ansible Galaxy collection access        |
 
 ### Step 2: Initialize Ansible Project & Inventory Structure (~/ansible-idmz-ot) ansiblectr01
 
@@ -947,6 +952,19 @@ ssh is ready.
 ![ssh_ready](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ssh_ready.png)
 
 ### Step 4: Setup apt-cacher-ng & Apache on ansiblectr01
+
+1. Install Packages
+Run the following commands on ansiblectr01 to install the caching proxy and web server:
+
+```bash
+sudo apt update
+sudo apt install -y apt-cacher-ng apache2
+
+```
+
+![apt_cache yes](https://github.com/spawnmarvel/kvm-lab/blob/main/images/apt_cache_yes.png)
+
+#### Whitelisted repo
 
 ### Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook
 
