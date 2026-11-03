@@ -877,12 +877,15 @@ Configuring sudoers on 10.68.68.52...
 [sudo: authenticate] Password:
 Configuring sudoers on 10.68.20.15...
 [sudo: authenticate] Password:
+
+# check it
+ansible purdue_lab -m shell -a "whoami"
 ```
 
 log
 
 ```console
- ansible purdue_lab -m shell -a "whoami"
+
 [WARNING]: Host 'ansiblectr01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
 ansiblectr01 | CHANGED | rc=0 >>
 root
@@ -898,6 +901,36 @@ root
 ```
 
 Privilege escalation is now fully configured and functional. All four hosts (ansiblectr01, mysql01, zabbix01, and zabbix02) successfully execute tasks as root via Ansible without requiring interactive password prompts.
+
+
+Run the playbook for ping
+
+```bash
+ ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml
+```
+
+Log
+
+```console
+PLAY [Verify Connectivity Across Purdue Lab Nodes] *********************************************************************
+
+TASK [Ping all inventory hosts] ****************************************************************************************
+[WARNING]: Host 'ansiblectr01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [ansiblectr01]
+[WARNING]: Host 'zabbix01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix01]
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [mysql01]
+[WARNING]: Host 'zabbix02' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix02]
+
+PLAY RECAP *************************************************************************************************************
+ansiblectr01               : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+mysql01                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
 
 
 ### Step 4: Setup apt-cacher-ng & Apache on ansiblectr01
