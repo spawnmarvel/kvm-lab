@@ -682,6 +682,8 @@ You are ready to officially hand over the environment to Team 2 to begin Phase 1
 
 # Team 2 starts
 
+![haha](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha.png)
+
 # Run Proof of Concept (PoC) Operational Runbook with Ansible Team 2 starts
 
 
