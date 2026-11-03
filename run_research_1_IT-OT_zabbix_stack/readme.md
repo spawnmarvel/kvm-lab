@@ -1629,6 +1629,10 @@ Yes, this configuration is fully correct and will survive a reboot of the KVM ho
 
 ## Now we can automate with Ansible and step 6 starts for team 2
 
+* 1-2 weeks with kvm
+* 1-2 weeks with IT/OT study and research
+* 1-3 Days with lab setup simulatating team 1
+
 ### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01
 
 At last, we are ready for only working on ansiblectr01:
