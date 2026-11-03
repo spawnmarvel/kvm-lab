@@ -550,8 +550,8 @@ Max memory:     3145728 KiB
 Used memory:    3145728 KiB
 === ansiblectr01 ===
 CPU(s):         2
-Max memory:     3145728 KiB
-Used memory:    3145728 KiB
+Max memory:     4194304 KiB
+Used memory:    4194304 KiB
 
 # Version: 1.0.0
 # Description: Displays filesystem storage usage for host root and data drive mounts
@@ -564,20 +564,19 @@ Filesystem      Size  Used Avail Use% Mounted on
 | VM Name          | Assigned Cap (`balloon.current`) | Host RAM Consumed (`balloon.rss`) | Free RAM Inside Guest (`balloon.usable`) | Real Guest Active Use |
 | :--------------- | :------------------------------- | :-------------------------------- | :--------------------------------------- | :-------------------- |
 | **zabbix02**     | ~3.00 GiB                        | ~944 MiB (0.92 GiB)               | ~2.20 GiB                                | ~250 MiB              |
-| **ansiblectr01** | ~3.00 GiB                        | ~1,197 MiB (1.17 GiB)             | ~2.20 GiB                                | ~250 MiB              |
+| **ansiblectr01** | ~4.00 GiB                        | ~1,197 MiB (1.17 GiB)             | ~3.20 GiB                                | ~250 MiB              |
 | **zabbix01**     | ~3.00 GiB                        | ~1,433 MiB (1.40 GiB)             | ~2.20 GiB                                | ~250 MiB              |
 | **mysql01**      | ~3.00 GiB                        | ~1,448 MiB (1.41 GiB)             | ~2.20 GiB                                | ~250 MiB              |
 
 
-
 kvm-host is handling all four active virtual machines (ansiblectr01, zabbix01, mysql01, zabbix02) cleanly without any hardware bottlenecks or memory pressure.
 
-| Resource                             | Metric     | Total Available | Currently Used / Allocated                         | Headroom / Remaining               | Health Status                  |
-| :----------------------------------- | :--------- | :-------------- | :------------------------------------------------- | :--------------------------------- | :----------------------------- |
-| **System RAM**                       | Memory     | 22 GiB          | 6.1 GiB host physical (12.2 GiB VM max allocation) | 16 GiB available (including cache) | Optimal (0% swap pressure)     |
-| **CPU Idle**                         | Processing | 100%            | 12.0% active (Load Avg: 0.31)                      | 88.0% idle capacity                | Optimal (Low contention)       |
-| **Data Storage (`/mnt/datadrive1`)** | Disk       | 458 GiB         | 26 GiB (6% used)                                   | 409 GiB free space                 | Optimal (Significant headroom) |
-| **Root Storage (`/`)**               | Disk       | 233 GiB         | 24 GiB (11% used)                                  | 198 GiB free space                 | Optimal                        |
+| Resource                        | Parameter  | Host Physical Capacity | Total VM Allocation | Usable Headroom                     | Status            |
+| :------------------------------ | :--------- | :--------------------- | :------------------ | :---------------------------------- | :---------------- |
+| **System RAM**                  | Memory     | 22 GiB                 | 13.6 GiB (Max Cap)  | ~17.3 GiB Usable (incl. Buff/Cache) | Optimal (0% Swap) |
+| **CPU Cores**                   | Processing | Physical Host CPU      | 8 vCPUs (2 per VM)  | >95% Idle Capacity                  | Optimal           |
+| **Storage (`/mnt/datadrive1`)** | Disk       | 458 GiB                | ~26 GiB Active      | 409 GiB Available                   | Optimal           |
+| **Host System Root (`/`)**      | Disk       | 233 GiB                | ~24 GiB Active      | 198 GiB Available                   | Optimal           |
 
 
 
