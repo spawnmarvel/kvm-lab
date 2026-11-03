@@ -27,6 +27,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [View zones](#view-zones)
     - [Auto boot](#auto-boot)
     - [4 vms](#4-vms)
+    - [Check kvm-host health](#check-kvm-host-health)
   - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
   - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
 - [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
@@ -485,6 +486,91 @@ Id   Name           State
 ### 4 vms
 
 ![4_vms](https://github.com/spawnmarvel/kvm-lab/blob/main/images/4vms.png)
+
+
+### Check kvm-host health
+
+
+```bash
+# Version: 1.0.0
+# Description: Displays host memory usage and running QEMU process resource consumption
+free -h
+top -bn1 | head -n 20
+               total        used        free      shared  buff/cache   available
+Mem:            22Gi       6.1Gi       6.4Gi       259Mi        10Gi        16Gi
+Swap:          4.0Gi       1.2Mi       4.0Gi
+top - 09:33:50 up 3 days, 11 min,  2 users,  load average: 0.31, 0.34, 0.55
+Tasks: 304 total,   1 running, 303 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  5.4 us,  6.5 sy,  0.0 ni, 88.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :  23390.2 total,   6527.8 free,   6277.0 used,  11233.1 buff/cache
+MiB Swap:   4096.0 total,   4094.8 free,      1.2 used.  17113.2 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+ 139895 espenk    20   0   13376   5884   3820 R  16.7   0.0   0:00.03 top
+   6615 polkitd   20   0  389812  13012   8364 S   8.3   0.1   0:10.26 polkitd
+   8598 espenk     9 -11  126912  25120   9040 S   8.3   0.1   1:08.76 pipewire
+      1 root      20   0   27260  16800  10128 S   0.0   0.1   0:20.83 systemd
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.32 kthreadd
+      3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_wo+
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+      6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+      7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+      8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+     10 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+     13 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker+
+
+
+# Version: 1.0.0
+# Description: Summarizes vCPU and RAM allocations across all running domains
+sudo virsh list --all
+for vm in $(sudo virsh list --name --state-running); do
+  echo "=== $vm ==="
+  sudo virsh dominfo $vm | grep -E "(CPU\(s\)|Max memory|Used memory)"
+done
+
+ Id   Name           State
+------------------------------
+ 14   zabbix02       running
+ 15   zabbix01       running
+ 16   mysql01        running
+ 19   ansiblectr01   running
+
+=== zabbix02 ===
+CPU(s):         2
+Max memory:     3121152 KiB
+Used memory:    3121152 KiB
+=== zabbix01 ===
+CPU(s):         2
+Max memory:     3145728 KiB
+Used memory:    3145728 KiB
+=== mysql01 ===
+CPU(s):         2
+Max memory:     3145728 KiB
+Used memory:    3145728 KiB
+=== ansiblectr01 ===
+CPU(s):         2
+Max memory:     3145728 KiB
+Used memory:    3145728 KiB
+
+# Version: 1.0.0
+# Description: Displays filesystem storage usage for host root and data drive mounts
+df -h / /mnt/datadrive1
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p2  233G   24G  198G  11% /
+/dev/sda1       458G   26G  409G   6% /mnt/datadrive1
+```
+
+kvm-host is handling all four active virtual machines (ansiblectr01, zabbix01, mysql01, zabbix02) cleanly without any hardware bottlenecks or memory pressure.
+
+| Resource                             | Metric     | Total Available | Currently Used / Allocated                         | Headroom / Remaining               | Health Status                  |
+| :----------------------------------- | :--------- | :-------------- | :------------------------------------------------- | :--------------------------------- | :----------------------------- |
+| **System RAM**                       | Memory     | 22 GiB          | 6.1 GiB host physical (12.2 GiB VM max allocation) | 16 GiB available (including cache) | Optimal (0% swap pressure)     |
+| **CPU Idle**                         | Processing | 100%            | 12.0% active (Load Avg: 0.31)                      | 88.0% idle capacity                | Optimal (Low contention)       |
+| **Data Storage (`/mnt/datadrive1`)** | Disk       | 458 GiB         | 26 GiB (6% used)                                   | 409 GiB free space                 | Optimal (Significant headroom) |
+| **Root Storage (`/`)**               | Disk       | 233 GiB         | 24 GiB (11% used)                                  | 198 GiB free space                 | Optimal                        |
+
+
 
 ## 4. Phase 3: Bootstrap and Automation Execution
 
