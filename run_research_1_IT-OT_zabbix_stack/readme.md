@@ -54,7 +54,7 @@ Ansible is a radically simple IT automation platform that makes your application
       - [Verify apt-cacher-ng playbook](#verify-apt-cacher-ng-playbook)
     - [6.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#61-lab-is-fully-up-and-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
     - [6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)](#61-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
-  - [Now we can automate with Ansible and step 6 starts for team 2](#now-we-can-automate-with-ansible-and-step-6-starts-for-team-2)
+  - [Now we can automate with Ansible and step 6 starts for team 2. But restart kvm-host first](#now-we-can-automate-with-ansible-and-step-6-starts-for-team-2-but-restart-kvm-host-first)
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
     - [Step 7: To Ensures /op\_ansible/automation.log exists with user input for tracking changes on hosts](#step-7-to-ensures-op_ansibleautomationlog-exists-with-user-input-for-tracking-changes-on-hosts)
     - [Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks](#step-8-deploy-mysql-84-lts-on-mysql01-playbooks)
@@ -1629,7 +1629,7 @@ The grep output confirms that your forwarding rules
 Yes, this configuration is fully correct and will survive a reboot of the KVM host.
 
 
-## Now we can automate with Ansible and step 6 starts for team 2
+## Now we can automate with Ansible and step 6 starts for team 2. But restart kvm-host first
 
 * 1-2 weeks with kvm
 * 1-2 weeks with IT/OT study and research
@@ -1638,6 +1638,35 @@ Yes, this configuration is fully correct and will survive a reboot of the KVM ho
 To build and configure that architecture from scratch—navigating Purdue model network zoning, diagnosing and rewriting libvirt network definitions from isolated to routed mode, resolving MAC/IP address conflicts, configuring bridge forwarding rules, establishing host firewall persistence via iptables-persistent, and provisioning an internal APT caching proxy across segmented zones—is a heavy lift.
 
 Gemini and I.
+
+
+```bash
+espenk@kvm-host:~$ uptime
+ 16:44:53 up 4 min,  2 users,  load average: 1.08, 1.75, 0.88
+
+ssh master@10.68.68.10
+
+master@ansiblectr01:~$ cd io_ot_lab/
+master@ansiblectr01:~/io_ot_lab$ ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml
+
+
+```
+Amazing output
+
+```console
+
+PLAY [Verify Connectivity Across Purdue Lab Nodes] *********************************************************************
+TASK [Ping all inventory hosts] ****************************************************************************************
+ok: [ansiblectr01]
+ok: [zabbix01]
+ok: [zabbix02]
+
+PLAY RECAP *************************************************************************************************************
+ansiblectr01               : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+mysql01                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
 
 
 ### Step 6 Verify current 2 playbooks on ansiblectr01
