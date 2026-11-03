@@ -16,7 +16,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Topology](#topology)
   - [1. Environment and Tools Baseline](#1-environment-and-tools-baseline)
   - [1.1 Scenario \& Core Requirements Summary from research](#11-scenario--core-requirements-summary-from-research)
-  - [2. Phase 1: Host Virtualization \& Isolated Network Configuration](#2-phase-1-host-virtualization--isolated-network-configuration)
+  - [2. Phase 1: Host Virtualization \& Isolated Network Configuration Team 1 starts](#2-phase-1-host-virtualization--isolated-network-configuration-team-1-starts)
     - [1. Zone 2.5 iDMZ Network Definition (zone25-idmz.xml)](#1-zone-25-idmz-network-definition-zone25-idmzxml)
     - [2. Zone 2 OT Control Network Definition (zone2-ot.xml)](#2-zone-2-ot-control-network-definition-zone2-otxml)
   - [3. Phase 2: Guest Image Staging and Volume Provisioning](#3-phase-2-guest-image-staging-and-volume-provisioning)
@@ -28,7 +28,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Auto boot](#auto-boot)
     - [4 vms](#4-vms)
     - [Check kvm-host health](#check-kvm-host-health)
-  - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
+  - [4. Phase 3: Bootstrap and Automation Execution Team 2 starts](#4-phase-3-bootstrap-and-automation-execution-team-2-starts)
   - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
 - [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
   - [1. Inventory](#1-inventory)
@@ -150,7 +150,7 @@ Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 
 
 https://github.com/spawnmarvel/kvm-lab/blob/main/research_1_IT-OT_zabbix_stack/readme.md#1-scenario--core-requirements-summary
 
-## 2. Phase 1: Host Virtualization & Isolated Network Configuration
+## 2. Phase 1: Host Virtualization & Isolated Network Configuration Team 1 starts
 
 Before deploying the target stack, isolated virtual networks must be established on the physical host to separate the iDMZ (Zone 2.5) from the OT Control network (Zone 2) while designating ansiblectr01 as the sole gateway.
 
@@ -580,7 +580,7 @@ kvm-host is handling all four active virtual machines (ansiblectr01, zabbix01, m
 
 
 
-## 4. Phase 3: Bootstrap and Automation Execution
+## 4. Phase 3: Bootstrap and Automation Execution Team 2 starts
 
 With the target hosts running, ansiblectr01 acts as the single egress point to fetch dependencies and distribute updates internally.
 
