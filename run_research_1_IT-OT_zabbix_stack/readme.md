@@ -1645,8 +1645,13 @@ ls
 ansible.cfg  inventory  playbooks  roles  test
 
 # Test our 2 playbooks
+
+# Version: 1.0.1
+# Description: Ping validation playbook with privilege escalation explicitly disabled
 ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml
 
+# Version: 1.0.2
+# Description: Configures APT HTTP and HTTPS proxy settings for internal caching across iDMZ and OT nodes.
 ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
 ```
 
