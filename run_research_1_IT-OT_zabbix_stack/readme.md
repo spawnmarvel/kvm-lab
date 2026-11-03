@@ -835,7 +835,7 @@ ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml
 
 Log
 
-```txt
+```console
 PLAY [Verify Connectivity Across Purdue Lab Nodes] *********************************************************************
 
 TASK [Ping all inventory hosts] ****************************************************************************************
