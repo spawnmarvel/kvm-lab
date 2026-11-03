@@ -55,9 +55,9 @@ Ansible is a radically simple IT automation platform that makes your application
     - [6.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#61-lab-is-fully-up-and-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
     - [6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)](#61-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
   - [Now we can automate with Ansible and step 6 starts for team 2](#now-we-can-automate-with-ansible-and-step-6-starts-for-team-2)
-    - [Step 6 Verify current 2 playbooks](#step-6-verify-current-2-playbooks)
+    - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
     - [Step 7: To Ensures /op\_ansible/automation.log exists with user input for tracking changes on hosts](#step-7-to-ensures-op_ansibleautomationlog-exists-with-user-input-for-tracking-changes-on-hosts)
-    - [Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01](#step-8-deploy-mysql-84-lts-on-mysql01-playbooks-ansiblectr01)
+    - [Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks](#step-8-deploy-mysql-84-lts-on-mysql01-playbooks)
     - [Step 9: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks](#step-9-deploy-zabbix-server-70-lts-on-zabbix01-playbooks)
     - [Step 10: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks](#step-10-deploy-zabbix-active-proxy-sqlite3-on-zabbix02-zone-2-ot-playbooks)
 
@@ -1640,7 +1640,7 @@ To build and configure that architecture from scratch—navigating Purdue model 
 Gemini and I.
 
 
-### Step 6 Verify current 2 playbooks
+### Step 6 Verify current 2 playbooks on ansiblectr01
 
 At last, we are ready for only working on ansiblectr01:
 ```bash
@@ -1685,7 +1685,7 @@ cd io_ot_lab/
 sudo nano playbooks/track_automation_changes.yml
 ```
 
-### Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01
+### Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks
 
 ### Step 9: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks
 
