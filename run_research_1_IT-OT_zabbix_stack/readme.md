@@ -28,17 +28,19 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Auto boot](#auto-boot)
     - [4 vms](#4-vms)
     - [Check kvm-host health](#check-kvm-host-health)
-  - [4. Phase 3: Bootstrap and Automation Execution Team 2](#4-phase-3-bootstrap-and-automation-execution-team-2)
-  - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
-- [Run Proof of Concept (PoC) Operational Runbook Team 2 starts](#run-proof-of-concept-poc-operational-runbook-team-2-starts)
-  - [1. Inventory](#1-inventory)
-  - [2. SSH key-based authentication](#2-ssh-key-based-authentication)
-  - [3. Ansible Ad-hoc commands](#3-ansible-ad-hoc-commands)
-  - [4. Playbooks](#4-playbooks)
-    - [4.1 Make tracking folder](#41-make-tracking-folder)
-    - [4.2 Install MySQL](#42-install-mysql)
-    - [4.3 Install Zabbix](#43-install-zabbix)
-    - [4.4 Install Zabbix proxy](#44-install-zabbix-proxy)
+  - [4. Phase 3: Firewall Execution (team1)](#4-phase-3-firewall-execution-team1)
+  - [5. Phase 4: Validation and Compliance Assurance (team 1)](#5-phase-4-validation-and-compliance-assurance-team-1)
+- [Run Proof of Concept (PoC) Operational Runbook with Ansible Team 2 starts](#run-proof-of-concept-poc-operational-runbook-with-ansible-team-2-starts)
+  - [Phase 1: Bootstrap and Automation Execution](#phase-1-bootstrap-and-automation-execution)
+    - [Step 1: Install Ansible on ansiblectr01](#step-1-install-ansible-on-ansiblectr01)
+    - [Step 2: Initialize Ansible Project \& Inventory Structure (~/ansible-idmz-ot) ansiblectr01](#step-2-initialize-ansible-project--inventory-structure-ansible-idmz-ot-ansiblectr01)
+    - [Step 3: Generate \& Distribute SSH Keys across Managed Targets](#step-3-generate--distribute-ssh-keys-across-managed-targets)
+      - [Production-grade standards, you should keep become = True, Privilege escalation](#production-grade-standards-you-should-keep-become--true-privilege-escalation)
+    - [Step 4: Setup apt-cacher-ng \& Apache on ansiblectr01](#step-4-setup-apt-cacher-ng--apache-on-ansiblectr01)
+    - [Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng](#step-5-route-apt-traffic-on-managed-nodes-via-apt-cacher-ng)
+    - [Step 6: Deploy MySQL 8.4 LTS on mysql01](#step-6-deploy-mysql-84-lts-on-mysql01)
+    - [Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01](#step-7-deploy-zabbix-server-70-lts-on-zabbix01)
+    - [Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT)](#step-8-deploy-zabbix-active-proxy-sqlite3-on-zabbix02-zone-2-ot)
 
 # Here's a quick guide to get you up to speed on Ansible
 
@@ -580,36 +582,334 @@ kvm-host is handling all four active virtual machines (ansiblectr01, zabbix01, m
 
 
 
-## 4. Phase 3: Bootstrap and Automation Execution Team 2
+## 4. Phase 3: Firewall Execution (team1)
+
+As part of the initial infrastructure build, Team 1 must implement firewall filtering on kvm-host before handing over the environment to Team 2. This enforces the single-egress architecture (ansiblectr01) while keeping Zone 2 OT isolated.
 
 With the target hosts running, ansiblectr01 acts as the single egress point to fetch dependencies and distribute updates internally.
 
-## 5. Phase 4: Validation and Compliance Assurance
+* Single Egress Point (FW-01): Internet NAT/Forwarding is restricted strictly to ansiblectr01 (10.68.68.10).
 
-Ensure the deployment meets your strict security goals before handing over the system for monitoring:
+* Air-Gapped Zone 2 OT (FW-06, FW-07, FW-10): zabbix02 (10.68.20.15) and Zone 2 OT targets cannot route out to the internet directly.
 
+* Controlled Inter-Zone Access: Only approved management (SSH 22), repository caching (apt-cacher-ng 3142), web downloads (Apache 80), database queries (MySQL 3306), and active proxy metrics (Zabbix 10051) are permitted.
 
-# Run Proof of Concept (PoC) Operational Runbook Team 2 starts
-
-## 1. Inventory
 
 ```bash
-ssh espenk@192.168.10.70
-mkdir mkdir io_ot_lab_build
+cd io_ot_lab/
+sudo nano create_firewall.sh
+
+bash create_firewall.sh
+Applying Team 1 firewall policy...
+Firewall policy successfully applied.
+
+# Version: 1.0.0
+# Description: Saves current iptables configuration to netfilter-persistent storage
+sudo apt-get install -y iptables-persistent netfilter-persistent
+sudo iptables-save | sudo tee /etc/iptables/rules.v4 > /dev/null
+sudo systemctl enable netfilter-persistent
+
+
+# Version: 1.0.0
+# Description: Pre-seeds debconf and enables netfilter-persistent for active iptables rules
+echo "iptables-persistent iptables-persistent/auto-save-v4 boolean true" | sudo debconf-set-selections
+echo "iptables-persistent iptables-persistent/auto-save-v6 boolean true" | sudo debconf-set-selections
+sudo NEEDRESTART_MODE=a DEBIAN_FRONTEND=noninteractive apt-get install -y iptables-persistent netfilter-persistent
+
+sudo iptables-save | sudo tee /etc/iptables/rules.v4 > /dev/null
+sudo systemctl enable netfilter-persistent
+
+sudo systemctl is-enabled netfilter-persistent
+enabled
+
+# Version: 1.0.0
+# Description: Tests firewall rejection of direct internet traffic on zabbix01
+ssh master@10.68.68.50 "curl -I --connect-timeout 3 https://archive.ubuntu.com" || echo "PASS: zabbix01 internet blocked"
+master@10.68.68.50's password:
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+  0      0   0      0   0      0      0      0           00:02              0
+curl: (28) Connection timed out after 3001 milliseconds
+PASS: zabbix01 internet blocked
 ```
 
-## 2. SSH key-based authentication
+Team 1 runs these automated tests on kvm-host to verify compliance before notifying Team 2.
 
-## 3. Ansible Ad-hoc commands
+```bash
+Team 1 runs these automated tests on kvm-host to verify compliance before notifying Team 2.
 
-## 4. Playbooks
 
-### 4.1 Make tracking folder
+# Version: 1.0.0
+# Description: Automated security compliance verification suite executed by Team 1
 
-### 4.2 Install MySQL
+echo "=== Test 1: Confirm ansiblectr01 Egress (FW-01 Allowed) ==="
+ssh master@10.68.68.10 "curl -I --connect-timeout 5 https://archive.ubuntu.com" && echo "PASS: ansiblectr01 internet egress active"
+# Test 1 (ansiblectr01): PASS — Outbound internet egress active (HTTP/1.1 200 OK).
 
-### 4.3 Install Zabbix
+echo "=== Test 2: Confirm zabbix01 Internet Egress Blocked (FW-01 Blocked) ==="
+ssh master@10.68.68.50 "curl -I --connect-timeout 3 https://archive.ubuntu.com" || echo "PASS: zabbix01 internet blocked"
+# Test 2 (zabbix01): PASS — Outbound connection timed out (Direct internet blocked).
 
-### 4.4 Install Zabbix proxy
+echo "=== Test 3: Confirm mysql01 Internet Egress Blocked (FW-01 Blocked) ==="
+ssh master@10.68.68.52 "curl -I --connect-timeout 3 https://archive.ubuntu.com" || echo "PASS: mysql01 internet blocked"
+# Test 3 (mysql01): PASS — Outbound connection timed out (Direct internet blocked).
+
+echo "=== Test 4: Confirm Zone 2 OT zabbix02 Internet Egress Blocked (FW-01 Blocked) ==="
+ssh master@10.68.20.15 "curl -I --connect-timeout 3 https://archive.ubuntu.com" || echo "PASS: zabbix02 OT internet blocked"
+# Test 4 (zabbix02): PASS — Outbound DNS/connection failed (Zone 2 OT internet blocked).
+
+echo "=== Test 5: Confirm SSH Management from ansiblectr01 (FW-02/FW-03 Allowed) ==="
+ssh master@10.68.68.10 "ssh -o BatchMode=yes master@10.68.20.15 hostname" && echo "PASS: SSH reachability verified"
+# Test 5 (ansiblectr01 -> zabbix02 SSH): FAILED (Host key verification failed)
+# When ansiblectr01 attempts to connect to zabbix02 (10.68.20.15), its SSH client checks ~/.ssh/known_hosts. 
+# Because the host key for 10.68.20.15 has not yet been accepted or saved inside ansiblectr01, 
+# non-interactive SSH with BatchMode=yes rejects the unverified fingerprint and closes the connection.
+
+
+```
+
+When Team 2 sets up SSH and runs the Ansible setup (or key distribution script), Ansible handles host key checking via host_key_checking = False in ansible.cfg or automatically populates known_hosts during key distribution.
+
+Since Team 1 has already verified that the firewall permits SSH traffic on TCP port 22 between ansiblectr01 and zabbix02 (it failed on host key verification, not connection timeout), Team 1's firewall compliance phase is complete!
+
+
+## 5. Phase 4: Validation and Compliance Assurance (team 1)
+
+Ensure the deployment meets your strict security goals before handing over the system for monitoring to team 2.
+
+You are ready to officially hand over the environment to Team 2 to begin Phase 1: Bootstrap and Automation Execution.
+
+# Run Proof of Concept (PoC) Operational Runbook with Ansible Team 2 starts
+
+
+## Phase 1: Bootstrap and Automation Execution
+
+### Step 1: Install Ansible on ansiblectr01
+
+Update Step 1 on ansiblectr01 to use the official Ansible PPA package installation as referenced in the Ansible Community Documentation:
+
+* https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html
+  
+```bash
+# Version: 1.0.0
+# Description: Installs Ansible package on the control node
+ssh master@10.68.68.10
+
+sudo apt update
+sudo apt install -y software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install -y ansible
+
+ansible --version
+ansible [core 2.21.5]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/master/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /home/master/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0] (/usr/bin/python3)
+  jinja version = 3.1.6
+  pyyaml version = 6.0.3 (with libyaml v0.2.5)
+
+
+```
+Whitelisted
+
+| Rule ID   | Source Host    | Source Zone     | Destination FQDN / Host                          | Destination Zone    | Protocol / Port | Purpose                                                           |
+| :-------- | :------------- | :-------------- | :----------------------------------------------- | :------------------ | :-------------- | :---------------------------------------------------------------- |
+| **FW-01** | `ansiblectr01` | Zone 2.5 (iDMZ) | `ppa.launchpadcontent.net`, `galaxy.ansible.com` | External / Internet | TCP 80, 443     | Package and collection repository access for Ansible control node |
+
+### Step 2: Initialize Ansible Project & Inventory Structure (~/ansible-idmz-ot) ansiblectr01
+
+Create the workspace and inventory first so that Ansible has a valid configuration and inventory target map before any key distribution or ad-hoc ping checks occur.
+
+```bash
+ssh master@10.68.68.10
+
+# Version: 1.0.0
+# Description: Initializes project workspace, configuration, and Purdue model inventory
+mkdir -p ~/ io_ot_lab/{inventory,playbooks,roles}
+cd ~/io_ot_lab
+
+```
+
+make inventory
+
+master@ansiblectr01:~/io_ot_lab$
+
+```bash
+
+# Write ansible.cfg
+cat <<'EOF' > ansible.cfg
+[defaults]
+inventory = ./inventory/hosts.ini
+remote_user = master
+private_key_file = ~/.ssh/id_ed25519
+host_key_checking = False
+retry_files_enabled = False
+stdout_callback = default
+
+[privilege_escalation]
+become = True
+become_method = sudo
+become_user = root
+become_ask_pass = False
+EOF
+
+# Write inventory/hosts.ini
+cat <<'EOF' > inventory/hosts.ini
+[control_node]
+ansiblectr01 ansible_host=10.68.68.10
+
+[zone25_idmz]
+zabbix01    ansible_host=10.68.68.50
+mysql01     ansible_host=10.68.68.52
+
+[zone2_ot]
+zabbix02    ansible_host=10.68.20.15
+
+[db_servers]
+mysql01     ansible_host=10.68.68.52
+
+[zabbix_servers]
+zabbix01    ansible_host=10.68.68.50
+
+[zabbix_proxies]
+zabbix02    ansible_host=10.68.20.15
+
+[purdue_lab:children]
+control_node
+zone25_idmz
+zone2_ot
+EOF
+```
+
+Verify
+
+```bash
+ls
+ansible.cfg  inventory  playbooks  roles
+
+ls -la inventory/hosts.ini ansible.cfg
+-rw-rw-r-- 1 master master 285 Nov  3 09:57 ansible.cfg
+-rw-rw-r-- 1 master master 409 Nov  3 09:57 inventory/hosts.ini
+```
+
+### Step 3: Generate & Distribute SSH Keys across Managed Targets
+
+Run the following script on ansiblectr01 from your ~/io_ot_lab directory:
+
+```bash
+
+
+# Version: 1.0.0
+# Description: Generates SSH key, populates known_hosts, and distributes public key to targets
+cd ~/io_ot_lab
+
+# Generate Ed25519 keypair if not already created
+if [ ! -f ~/.ssh/id_ed25519 ]; then
+  ssh-keygen -t ed25519 -C "ansiblectr01-master" -N "" -f ~/.ssh/id_ed25519
+fi
+
+# Clean and rescan fingerprints locally to avoid key verification prompts
+rm -f ~/.ssh/known_hosts
+ssh-keyscan -H 10.68.68.10 10.68.68.50 10.68.68.52 10.68.20.15 >> ~/.ssh/known_hosts
+chmod 600 ~/.ssh/known_hosts
+
+# Copy public key to all target nodes (Password: justfortest)
+for target in 10.68.68.10 10.68.68.50 10.68.68.52 10.68.20.15; do
+  ssh-copy-id -i ~/.ssh/id_ed25519.pub master@$target
+done
+
+```
+Verify ping with playbook
+
+```bash
+/home/master/io_ot_lab
+
+sudo nano playbooks/ping_host.yml
+
+ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml
+
+```
+
+Log
+
+```txt
+PLAY [Verify Connectivity Across Purdue Lab Nodes] *********************************************************************
+
+TASK [Ping all inventory hosts] ****************************************************************************************
+[WARNING]: Host 'ansiblectr01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [ansiblectr01]
+[WARNING]: Host 'zabbix02' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix02]
+[WARNING]: Host 'zabbix01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix01]
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [mysql01]
+
+PLAY RECAP *************************************************************************************************************
+ansiblectr01               : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+mysql01                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+
+#### Production-grade standards, you should keep become = True, Privilege escalation
+
+To align your lab with production-grade standards, you should keep become = True in your ansible.cfg (so your deployment playbooks for MySQL, Zabbix, and APT proxies run correctly with root privileges) and configure passwordless sudo for the master user across all managed targets.
+
+
+To align with your production-grade requirement of keeping become = True in ansible.cfg while avoiding interactive sudo password prompts during automated playbook runs, what is missing is configuring passwordless sudo (NOPASSWD) for the master user across all target nodes. Without this, any subsequent playbook task that invokes privilege escalation will fail due to missing sudo credentials.
+
+```bash
+# Description: Configures passwordless sudo non-interactively using sudo -S over SSH
+for host in 10.68.68.10 10.68.68.50 10.68.68.52 10.68.20.15; do
+  echo "Configuring sudoers on $host..."
+  ssh master@$host "echo 'justfortest' | sudo -S sh -c \"echo 'master ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/master && chmod 440 /etc/sudoers.d/master\""
+done
+Configuring sudoers on 10.68.68.10...
+[sudo: authenticate] Password:
+Configuring sudoers on 10.68.68.50...
+[sudo: authenticate] Password:
+Configuring sudoers on 10.68.68.52...
+[sudo: authenticate] Password:
+Configuring sudoers on 10.68.20.15...
+[sudo: authenticate] Password:
+```
+
+log
+
+```console
+ ansible purdue_lab -m shell -a "whoami"
+[WARNING]: Host 'ansiblectr01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ansiblectr01 | CHANGED | rc=0 >>
+root
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+mysql01 | CHANGED | rc=0 >>
+root
+[WARNING]: Host 'zabbix02' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+zabbix02 | CHANGED | rc=0 >>
+root
+[WARNING]: Host 'zabbix01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+zabbix01 | CHANGED | rc=0 >>
+root
+```
+
+Privilege escalation is now fully configured and functional. All four hosts (ansiblectr01, mysql01, zabbix01, and zabbix02) successfully execute tasks as root via Ansible without requiring interactive password prompts.
+
+
+### Step 4: Setup apt-cacher-ng & Apache on ansiblectr01
+
+### Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng
+
+### Step 6: Deploy MySQL 8.4 LTS on mysql01
+
+### Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01
+
+### Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT)
+
+
 
 

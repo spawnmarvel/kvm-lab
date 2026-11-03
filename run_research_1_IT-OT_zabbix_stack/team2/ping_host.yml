@@ -1,0 +1,10 @@
+---
+# Version: 1.0.1
+# Description: Ping validation playbook with privilege escalation explicitly disabled
+- name: Verify Connectivity Across Purdue Lab Nodes
+  hosts: purdue_lab
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Ping all inventory hosts
+      ansible.builtin.ping:

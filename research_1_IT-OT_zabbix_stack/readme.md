@@ -118,7 +118,7 @@ For this spesific scenario, out is internet.
 
 Excluded Items:
 
-* WSUS is omitted for this iteration.
+* WSUS and windows vms is omitted for this iteration.
 
 
 ### 2. Why apt-cacher-ng Was Selected
