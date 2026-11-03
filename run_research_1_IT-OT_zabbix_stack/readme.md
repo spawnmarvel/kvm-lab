@@ -123,7 +123,7 @@ GOTO ansible/tutorial_ansible or use and build the quickguide as we walk. /ansib
 
 ## Team 1
 
-![haha_2](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha_2.jpeg)
+![haha_2](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha_2.png)
 
 ## 1. Environment and Tools Baseline
 
