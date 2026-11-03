@@ -1,3 +1,5 @@
+# 03.11.2026
+
 espenk@kvm-host:~$ sudo iptables -L FORWARD -v -n --line-numbers
 [sudo: authenticate] Password:
 Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
@@ -139,3 +141,76 @@ zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    s
 zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 
+# boot hosts and verify that apt-cacher-ng is working and pings are successful
+espenk@kvm-host:~$ sudo shutdown -r now
+
+ssh espenk@192.168.10.70
+
+sudo virsh list
+[sudo: authenticate] Password:
+ Id   Name           State
+------------------------------
+ 1    zabbix02       running
+ 2    zabbix01       running
+ 3    mysql01        running
+ 4    ansiblectr01   running
+
+espenk@kvm-host:~$ ssh master@10.68.68.10
+master@10.68.68.10's password:
+
+
+espenk@kvm-host:~$ ssh master@10.68.68.50
+master@10.68.68.50's password:
+
+espenk@kvm-host:~$ ssh master@10.68.68.52
+master@10.68.68.52's password:
+
+espenk@kvm-host:~$ ssh master@10.68.20.15
+master@10.68.20.15's password:
+
+# seems fine, now let's test apt-cacher-ng by updating the apt cache on the hosts
+
+
+master@ansiblectr01:~$ cd io_ot_lab/
+
+master@ansiblectr01:~/io_ot_lab$ ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml
+
+PLAY [Verify Connectivity Across Purdue Lab Nodes] *********************************************************************
+
+TASK [Ping all inventory hosts] ****************************************************************************************
+[WARNING]: Host 'ansiblectr01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [ansiblectr01]
+[WARNING]: Host 'zabbix02' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix02]
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [mysql01]
+[WARNING]: Host 'zabbix01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix01]
+
+PLAY RECAP *************************************************************************************************************
+ansiblectr01               : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+mysql01                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+master@ansiblectr01:~/io_ot_lab$ ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+
+PLAY [Configure Internal APT Caching Proxy] ****************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [mysql01]
+[WARNING]: Host 'zabbix02' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix02]
+[WARNING]: Host 'zabbix01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix01]
+
+TASK [Set APT Proxy configuration file] ********************************************************************************
+ok: [mysql01]
+ok: [zabbix02]
+ok: [zabbix01]
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
