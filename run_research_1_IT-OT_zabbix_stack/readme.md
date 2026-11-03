@@ -829,6 +829,33 @@ ls -la inventory/hosts.ini ansible.cfg
 
 ### Step 3: Generate & Distribute SSH Keys across Managed Targets
 
+
+First login to each server from ansible, if you not done so already:
+
+```bash
+
+ssh master@10.68.68.10
+master@ansiblectr01:~$ whoami
+master
+
+#
+ssh master@10.68.68.50
+master@zabbix01:~$ whoami
+master
+
+# 
+ssh master@10.68.68.52
+master@mysql01:~$ whoami
+master
+
+#
+ssh master@10.68.20.15
+master@zabbix02:~$ whoami
+master
+
+
+```
+
 Run the following script on ansiblectr01 from your ~/io_ot_lab directory:
 
 ```bash
@@ -853,6 +880,10 @@ for target in 10.68.68.10 10.68.68.50 10.68.68.52 10.68.20.15; do
   ssh-copy-id -i ~/.ssh/id_ed25519.pub master@$target
 done
 
+# If you ever need to edit or chech the keys
+cd ~/.ssh/
+ls
+authorized_keys  id_ed25519  id_ed25519.pub  known_hosts  known_hosts.old
 ```
 Verify ping with playbook
 
