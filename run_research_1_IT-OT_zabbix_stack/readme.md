@@ -1687,6 +1687,8 @@ sudo nano playbooks/track_automation_changes.yml
 
 ### Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks
 
+It ships default with ubuntu 26.04
+
 ### Step 9: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks
 
 ### Step 10: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks
