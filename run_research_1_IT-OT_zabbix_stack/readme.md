@@ -31,7 +31,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Check kvm-host health](#check-kvm-host-health)
   - [4. Phase 3: Firewall Execution (team1)](#4-phase-3-firewall-execution-team1)
   - [5. Phase 4: Validation and Compliance Assurance (team 1)](#5-phase-4-validation-and-compliance-assurance-team-1)
-- [Team 2 starts](#team-2-starts)
+- [Team 2 starts with ansiblectr01](#team-2-starts-with-ansiblectr01)
 - [Run Proof of Concept (PoC) Operational Runbook with Ansible Team 2 starts](#run-proof-of-concept-poc-operational-runbook-with-ansible-team-2-starts)
   - [Phase 1: Bootstrap and Automation Execution](#phase-1-bootstrap-and-automation-execution)
     - [Step 1: Install Ansible on ansiblectr01](#step-1-install-ansible-on-ansiblectr01)
@@ -54,7 +54,7 @@ Ansible is a radically simple IT automation platform that makes your application
       - [Verify apt-cacher-ng playbook](#verify-apt-cacher-ng-playbook)
     - [6.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#61-lab-is-fully-up-and-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
     - [6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)](#61-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
-    - [Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks](#step-6-deploy-mysql-84-lts-on-mysql01-playbooks)
+    - [Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01](#step-6-deploy-mysql-84-lts-on-mysql01-playbooks-ansiblectr01)
     - [Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks](#step-7-deploy-zabbix-server-70-lts-on-zabbix01-playbooks)
     - [Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks](#step-8-deploy-zabbix-active-proxy-sqlite3-on-zabbix02-zone-2-ot-playbooks)
 
@@ -699,7 +699,7 @@ Ensure the deployment meets your strict security goals before handing over the s
 
 You are ready to officially hand over the environment to Team 2 to begin Phase 1: Bootstrap and Automation Execution.
 
-# Team 2 starts
+# Team 2 starts with ansiblectr01
 
 ![haha](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha.png)
 
@@ -1619,7 +1619,34 @@ The grep output confirms that your forwarding rules
 Yes, this configuration is fully correct and will survive a reboot of the KVM host.
 
 
-### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks
+### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01
+
+At last, we are ready for only working on ansiblectr01:
+```bash
+
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+ls
+ansible.cfg  inventory  playbooks  roles  test
+
+# Test our 2 playbooks
+ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml
+
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+```
+
+ping_host.yml
+
+![ping_pong_play](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ping_pong_play.png)
+
+
+configure_apt_proxy.yml
+
+![configure apt proxy play](https://github.com/spawnmarvel/kvm-lab/blob/main/images/configure_apt_proxy_play.png)
+
+
+
 
 ### Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks
 
