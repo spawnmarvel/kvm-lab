@@ -1578,6 +1578,7 @@ From zabbix02 to ansiblectr01 (10.68.68.10:3142): Connection succeeded
 
 sudo apt update completes successfully across all nodes using the internal caching proxy.
 
+Establishing the underlying network topology, static DHCP leases, bridge interfaces (virbr25 and virbr20), and KVM host forwarding rules (iptables and persistence) falls squarely under Team 1's infrastructure and network zoning responsibilities.
 
 ### 6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)
 
