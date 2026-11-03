@@ -175,6 +175,7 @@ This network enables NAT forwarding to allow ansiblectr01 outbound internet acce
 ```
 
 
+! [net_nat](https://github.com/spawnmarvel/kvm-lab/blob/main/images/net_nat.png)
 
 ### 2. Zone 2 OT Control Network Definition (zone2-ot.xml)
 
