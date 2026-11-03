@@ -30,6 +30,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Check kvm-host health](#check-kvm-host-health)
   - [4. Phase 3: Firewall Execution (team1)](#4-phase-3-firewall-execution-team1)
   - [5. Phase 4: Validation and Compliance Assurance (team 1)](#5-phase-4-validation-and-compliance-assurance-team-1)
+- [Team 2 starts](#team-2-starts)
 - [Run Proof of Concept (PoC) Operational Runbook with Ansible Team 2 starts](#run-proof-of-concept-poc-operational-runbook-with-ansible-team-2-starts)
   - [Phase 1: Bootstrap and Automation Execution](#phase-1-bootstrap-and-automation-execution)
     - [Step 1: Install Ansible on ansiblectr01](#step-1-install-ansible-on-ansiblectr01)
@@ -678,6 +679,8 @@ Since Team 1 has already verified that the firewall permits SSH traffic on TCP p
 Ensure the deployment meets your strict security goals before handing over the system for monitoring to team 2.
 
 You are ready to officially hand over the environment to Team 2 to begin Phase 1: Bootstrap and Automation Execution.
+
+# Team 2 starts
 
 # Run Proof of Concept (PoC) Operational Runbook with Ansible Team 2 starts
 
