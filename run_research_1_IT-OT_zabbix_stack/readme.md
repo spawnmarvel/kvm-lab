@@ -941,6 +941,7 @@ zabbix01                   : ok=1    changed=0    unreachable=0    failed=0    s
 zabbix02                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+ssh is ready.
 
 ![ssh_ready](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ssh_ready.png)
 
