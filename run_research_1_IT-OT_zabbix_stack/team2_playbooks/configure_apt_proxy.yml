@@ -1,0 +1,16 @@
+---
+# Version: 1.0.2
+# Description: Configures APT HTTP and HTTPS proxy settings for internal caching across iDMZ and OT nodes.
+- name: Configure Internal APT Caching Proxy
+  hosts: zone25_idmz:zone2_ot
+  become: true
+  tasks:
+    - name: Set APT Proxy configuration file
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/01proxy
+        content: |
+          Acquire::http::Proxy "http://10.68.68.10:3142/ubuntu/";
+          Acquire::https::Proxy "http://10.68.68.10:3142/ubuntu/";
+        owner: root
+        group: root
+        mode: '0644'

@@ -41,6 +41,19 @@ Ansible is a radically simple IT automation platform that makes your application
       - [Production-grade standards, you should keep become = True, Privilege escalation](#production-grade-standards-you-should-keep-become--true-privilege-escalation)
     - [Step 4: Setup apt-cacher-ng \& Apache on ansiblectr01](#step-4-setup-apt-cacher-ng--apache-on-ansiblectr01)
     - [Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook](#step-5-route-apt-traffic-on-managed-nodes-via-apt-cacher-ng-playbook)
+      - [Clean Up Conflicting Remaps in acng.conf](#clean-up-conflicting-remaps-in-acngconf)
+      - [Test Direct vs Proxied Fetch on zabbix02](#test-direct-vs-proxied-fetch-on-zabbix02)
+      - [Verify and Enable Local Mirror Backends on ansiblectr01](#verify-and-enable-local-mirror-backends-on-ansiblectr01)
+      - [Update playbook to last version](#update-playbook-to-last-version)
+      - [Test manual sudo apt update](#test-manual-sudo-apt-update)
+      - [This issue originates in Team 1's network zoning and inter-zone routing handoff step](#this-issue-originates-in-team-1s-network-zoning-and-inter-zone-routing-handoff-step)
+      - [Architectural Flaw in zone2-ot.xml](#architectural-flaw-in-zone2-otxml)
+      - [Corrected Libvirt Network Definition Script](#corrected-libvirt-network-definition-script)
+      - [Summary: What Team 1 Needed to Change](#summary-what-team-1-needed-to-change)
+      - [Verification of Inter-Zone Routing](#verification-of-inter-zone-routing)
+      - [Verify apt-cacher-ng playbook](#verify-apt-cacher-ng-playbook)
+    - [6.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#61-lab-is-fully-up-and-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
+    - [6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)](#61-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
     - [Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks](#step-6-deploy-mysql-84-lts-on-mysql01-playbooks)
     - [Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks](#step-7-deploy-zabbix-server-70-lts-on-zabbix01-playbooks)
     - [Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks](#step-8-deploy-zabbix-active-proxy-sqlite3-on-zabbix02-zone-2-ot-playbooks)
@@ -1000,7 +1013,20 @@ sudo systemctl status apt-cacher-ng
      Active: active (running) since Tue 2026-11-03 12:44:08 UTC; 6s ago
 ```
 
+Fix PassThroughPattern in apt-cacher-ng
 
+```bash
+# Version: 1.0.0
+# Description: Updates PassThroughPattern in acng.conf to support secure apt releases
+sudo bash -c 'echo "PassThroughPattern: .*" >> /etc/apt-cacher-ng/acng.conf'
+sudo systemctl restart apt-cacher-ng
+
+sudo systemctl status apt-cacher-ng
+● apt-cacher-ng.service - Apt-Cacher NG software download proxy
+     Loaded: loaded (/usr/lib/systemd/system/apt-cacher-ng.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2026-11-03 12:56:54 UTC; 5s ago
+
+```
 
 ### Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook
 
@@ -1008,10 +1034,18 @@ With apt-cacher-ng and Apache successfully configured and running on ansiblectr0
 
 Create and execute playbooks/configure_apt_proxy.yml from your workspace root (~/io_ot_lab):
 
+
+```bash
+pwd
+/home/master/io_ot_lab
+
+sudo nano playbooks/configure_apt_proxy.yml
+```
+File
+
 ```yml
 # Version: 1.0.0
 # Description: Enforces 01proxy APT configuration across managed targets
-cat <<'EOF' > playbooks/configure_apt_proxy.yml
 ---
 - name: Configure Internal APT Caching Proxy
   hosts: zone25_idmz:zone2_ot
@@ -1030,8 +1064,6 @@ cat <<'EOF' > playbooks/configure_apt_proxy.yml
     - name: Update APT package cache via proxy
       ansible.builtin.apt:
         update_cache: yes
-EOF
-
 ```
 
 Run it
@@ -1041,6 +1073,550 @@ ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
 ```
 
 Verification: The playbook completes successfully with ok status across all managed target nodes
+
+Log
+
+```console
+PLAY [Configure Internal APT Caching Proxy] ****************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+[WARNING]: Host 'zabbix01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix01]
+[WARNING]: Host 'zabbix02' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix02]
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [mysql01]
+
+TASK [Set APT Proxy to ansiblectr01] ***********************************************************************************
+ok: [mysql01]
+ok: [zabbix01]
+ok: [zabbix02]
+
+TASK [Update APT package cache via proxy] ******************************************************************************
+changed: [zabbix01]
+changed: [mysql01]
+[WARNING]: Failed to update cache after 1 retries due to W:Repositories should provide a clear-signed InRelease file, but none found at http://security.ubuntu.com/ubuntu/dists/resolute-security/InRelease.
+```
+
+Hm...
+
+#### Clean Up Conflicting Remaps in acng.conf
+
+```bash
+# Version: 1.0.0
+# Description: Removes conflicting custom Remap-ubuntu line to use native Remap-uburep
+sudo sed -i '/^Remap-ubuntu:/d' /etc/apt-cacher-ng/acng.conf
+
+# Version: 1.0.0
+# Description: Restarts apt-cacher-ng service
+sudo systemctl restart apt-cacher-ng
+
+
+sudo systemctl status apt-cacher-ng
+● apt-cacher-ng.service - Apt-Cacher NG software download proxy
+     Loaded: loaded (/usr/lib/systemd/system/apt-cacher-ng.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2026-11-03 13:01:02 UTC; 5s ago
+
+```
+
+Run it again
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+```
+
+
+#### Test Direct vs Proxied Fetch on zabbix02
+
+```bash
+# Log into ansiblectr01 and verify that apt-cacher-ng is running and able to communicate externally:
+sudo systemctl status apt-cacher-ng
+
+# Test Direct vs Proxied Fetch on zabbix02
+# Verify whether zabbix02 can refresh its cache when bypassing the proxy temporarily:
+ansible zabbix02 -m shell -a "sudo apt-get update -o Acquire::http::Proxy=false"
+
+```
+
+log
+
+```console
+zabbix02 | CHANGED | rc=0 >>
+Ign:1 http://security.ubuntu.com/ubuntu resolute-security InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu resolute InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+Ign:1 http://security.ubuntu.com/ubuntu resolute-security InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu resolute InRelease
+Ign:1 http://security.ubuntu.com/ubuntu resolute-security InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu resolute InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+Err:1 http://security.ubuntu.com/ubuntu resolute-security InRelease
+  Temporary failure resolving 'security.ubuntu.com'
+Err:4 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+  Temporary failure resolving 'archive.ubuntu.com'
+Err:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+  Temporary failure resolving 'archive.ubuntu.com'
+Err:2 http://archive.ubuntu.com/ubuntu resolute InRelease
+  Temporary failure resolving 'archive.ubuntu.com'
+Reading package lists...W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/resolute/InRelease  Temporary failure resolving 'archive.ubuntu.com'
+W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/resolute-updates/InRelease  Temporary failure resolving 'archive.ubuntu.com'
+W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/resolute-backports/InRelease  Temporary failure resolving 'archive.ubuntu.com'
+W: Failed to fetch http://security.ubuntu.com/ubuntu/dists/resolute-security/InRelease  Temporary failure resolving 'security.ubuntu.com'
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+```
+
+The Temporary failure resolving error proves that zabbix02 (in Zone 2 OT) is on an isolated network segment without direct internet or external DNS access. It must rely entirely on ansiblectr01 (in Zone 2.5 iDMZ) as its single-egress proxy and caching point.
+
+
+The reason the previous playbook failed through the proxy is that apt-cacher-ng on ansiblectr01 needs its client-facing remapping rules configured to accept requests via the standard proxy URI prefix (/ubuntu or / matching the proxy url scheme).
+
+
+Update your playbook so that the proxy URL in /etc/apt/apt.conf.d/01proxy points correctly to the apt-cacher-ng prefix ([http://10.68.68.10:3142/ubuntu/](http://10.68.68.10:3142/ubuntu/) or via standard prefix matching).
+
+Edit playbooks/configure_apt_proxy.yml to use the correct proxy URL format:
+
+```yml
+---
+- name: Configure Internal APT Caching Proxy
+  hosts: zone25_idmz:zone2_ot
+  become: true
+  tasks:
+    - name: Set APT Proxy to ansiblectr01 with prefix
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/01proxy
+        content: |
+          Acquire::http::Proxy "http://10.68.68.10:3142/";
+          Acquire::https::Proxy "http://10.68.68.10:3142/";
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Update APT package cache via proxy
+      ansible.builtin.apt:
+        update_cache: yes
+
+```
+#### Verify and Enable Local Mirror Backends on ansiblectr01
+
+Log into ansiblectr01 and ensure /etc/apt-cacher-ng/acng.conf has the correct backend mappings uncommented so it knows where to fetch packages externally when requested by proxy clients:
+
+```bash
+sudo bash -c 'cat <<EOF > /etc/apt-cacher-ng/acng.conf
+CacheDir: /var/cache/apt-cacher-ng
+LogDir: /var/log/apt-cacher-ng
+Port: 3142
+BindAddress: 0.0.0.0
+Remap-uburep: ubuntu_mirrors /ubuntu ; file:backends_ubuntu
+Remap-debsec: security.ubuntu.com /ubuntu-security ; http://security.ubuntu.com/ubuntu/
+PassThroughPattern: .*"
+EOF'
+sudo systemctl restart apt-cacher-ng
+```
+
+#### Update playbook to last version
+
+The issue is that ansiblectr01 (acting as the proxy server) does not have external internet connectivity to reach archive.ubuntu.com or security.ubuntu.com when requested by the managed nodes. Because the control node itself is in an isolated iDMZ/OT lab network segment without upstream internet routing, apt-cacher-ng fails to fetch the repository metadata (InRelease), resulting in the 502/500 proxy errors and subsequent APT cache update failures on zabbix02.
+
+In this offline lab environment, since external mirror retrieval is unavailable, the correct approach is to configure the proxy drop-in file and set up local repository access or bypass the remote cache update step during initial bootstrapping until local mirror repositories or offline packages are provisioned.
+
+
+
+
+Run it again
+
+```bash
+# update playbook
+sudo nano playbooks/configure_apt_proxy.yml
+
+```
+
+file
+
+```yml
+---
+- name: Configure Internal APT Caching Proxy
+  hosts: zone25_idmz:zone2_ot
+  become: true
+  tasks:
+    - name: Set APT Proxy configuration file
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/01proxy
+        content: |
+          Acquire::http::Proxy "http://10.68.68.10:3142/ubuntu/";
+          Acquire::https::Proxy "http://10.68.68.10:3142/ubuntu/";
+        owner: root
+        group: root
+        mode: '0644'
+```
+
+```bash
+
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+```
+
+log
+
+```console
+PLAY [Configure Internal APT Caching Proxy] ****************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+[WARNING]: Host 'zabbix01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix01]
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [mysql01]
+[WARNING]: Host 'zabbix02' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix02]
+
+TASK [Set APT Proxy configuration file] ********************************************************************************
+ok: [mysql01]
+ok: [zabbix02]
+ok: [zabbix01]
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=
+
+```
+
+#### Test manual sudo apt update
+
+zabbix01
+```bash
+ssh master@10.68.68.50
+
+sudo apt update
+Hit:1 http://no.archive.ubuntu.com/ubuntu resolute InRelease
+Hit:2 http://no.archive.ubuntu.com/ubuntu resolute-updates InRelease
+Hit:3 http://no.archive.ubuntu.com/ubuntu resolute-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu resolute-security InRelease
+80 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+```
+
+mysql01
+```bash
+ssh master@10.68.68.52
+
+sudo apt update
+Hit:1 http://no.archive.ubuntu.com/ubuntu resolute InRelease
+Hit:2 http://no.archive.ubuntu.com/ubuntu resolute-updates InRelease
+Hit:3 http://no.archive.ubuntu.com/ubuntu resolute-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu resolute-security InRelease
+80 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+```
+
+zabbix02
+```bash
+ssh master@10.68.20.15
+sudo apt update
+```
+
+log
+
+```console
+Ign:1 http://security.ubuntu.com/ubuntu resolute-security InRelease
+Err:2 http://security.ubuntu.com/ubuntu resolute-security Release
+  Cannot initiate the connection to 10.68.68.10:3142 (10.68.68.10). - connect (101: Network is unreachable)
+Ign:3 http://archive.ubuntu.com/ubuntu resolute InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Ign:5 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+Err:6 http://archive.ubuntu.com/ubuntu resolute Release
+  Cannot initiate the connection to 10.68.68.10:3142 (10.68.68.10). - connect (101: Network is unreachable)
+Err:7 http://archive.ubuntu.com/ubuntu resolute-updates Release
+  Cannot initiate the connection to 10.68.68.10:3142 (10.68.68.10). - connect (101: Network is unreachable)
+Err:8 http://archive.ubuntu.com/ubuntu resolute-backports Release
+  Cannot initiate the connection to 10.68.68.10:3142 (10.68.68.10). - connect (101: Network is unreachable)
+Error: The repository 'http://security.ubuntu.com/ubuntu resolute-security Release' no longer has a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+Error: The repository 'http://archive.ubuntu.com/ubuntu resolute Release' no longer has a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+Error: The repository 'http://archive.ubuntu.com/ubuntu resolute-updates Release' no longer has a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+Error: The repository 'http://archive.ubuntu.com/ubuntu resolute-backports Release' no longer has a Release file.
+Notice: Updating from such a repository can't be done securely, and is therefore disabled by default.
+Notice: See apt-secure(8) manpage for repository creation and user configuration details.
+```
+#### This issue originates in Team 1's network zoning and inter-zone routing handoff step
+
+This issue originates in Team 1's network zoning and inter-zone routing handoff step.
+
+While Team 1 successfully established external firewall whitelists for internet package repositories (FW-01), the inter-zone routing and firewall policy between Zone 2 (OT - 10.68.20.0/24) and Zone 2.5 (iDMZ - 10.68.68.0/24) was omitted. As a result, the lab gateway (10.68.20.1) drops or lacks a route for cross-subnet traffic between the OT segment and the control node (10.68.68.10).
+
+
+You can skip installing traceroute since the root cause is already visible in the routing table: DHCP assigned an on-link route to 10.68.20.1, but it did not configure it as the default gateway. Without a default route, the kernel drops traffic destined for any foreign subnet (10.68.68.0/24) with Network is unreachable.
+
+Add the default gateway route manually on zabbix02 to restore connectivity:
+
+```bash
+sudo ip route add default via 10.68.20.1 dev enp1s0
+
+nc -zv 10.68.68.10 3142
+Connection to 10.68.68.10 3142 port [tcp/*] succeeded!
+
+
+```
+
+We need to understand why
+
+```bash
+sudo ip route del default
+```
+
+#### Architectural Flaw in zone2-ot.xml
+
+Reviewing the provided build scripts reveals why zabbix02 lacked routing capability and failed to reach ansiblectr01 (10.68.68.10):
+
+* Missing <forward> Element: While zone25-idmz.xml explicitly defines <forward mode='nat'/>, zone2-ot.xml omits the <forward> tag entirely. In libvirt, omitting the forward mode defaults the network to isolated mode (mode='none').
+
+* Blocked Inter-Bridge Forwarding: In isolated mode, libvirt generates hypervisor firewall rules (iptables/nftables in the FORWARD chain) that drop any packet attempting to leave or enter the virbr20 bridge. As a result, even if a guest receives a gateway IP (10.68.20.1) via DHCP, the hypervisor kernel physically prevents traffic from traversing between the OT segment (10.68.20.0/24) and the iDMZ segment (10.68.68.0/24).
+
+To fix this in Team 1's build configuration, zone2-ot must be defined with routing enabled (mode='route' or mode='nat') so the hypervisor permits forwarding between zones.
+
+#### Corrected Libvirt Network Definition Script
+
+Update your network provisioning script to include proper forwarding for the OT segment:
+
+
+On kvm-host
+
+```bash
+ssh espenk@192.168.10.70
+cd io_ot_lab/
+
+sudo nano create_network_fix.sh
+```
+script
+
+```bash
+#!/bin/bash
+# Version: 1.0.1
+# Description: Defines networks with correct routing mode for Purdue model inter-zone communication
+
+cat << 'EOF' > zone25-idmz.xml
+<network>
+  <name>zone25-idmz</name>
+  <forward mode='nat'/>
+  <bridge name='virbr25' state='unknown'/>
+  <ip address='10.68.68.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='10.68.68.100' end='10.68.68.200'/>
+    </dhcp>
+  </ip>
+</network>
+EOF
+
+cat << 'EOF' > zone2-ot.xml
+<network>
+  <name>zone2-ot</name>
+  <forward mode='route'/>
+  <bridge name='virbr20' state='unknown'/>
+  <ip address='10.68.20.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='10.68.20.100' end='10.68.20.200'/>
+    </dhcp>
+  </ip>
+</network>
+EOF
+
+# Stop and undefine existing networks if already active
+sudo virsh net-destroy zone25-idmz 2>/dev/null || true
+sudo virsh net-undefine zone25-idmz 2>/dev/null || true
+sudo virsh net-destroy zone2-ot 2>/dev/null || true
+sudo virsh net-undefine zone2-ot 2>/dev/null || true
+
+# Define, start, and enable autostart
+sudo virsh net-define zone25-idmz.xml
+sudo virsh net-start zone25-idmz
+sudo virsh net-autostart zone25-idmz
+
+sudo virsh net-define zone2-ot.xml
+sudo virsh net-start zone2-ot
+sudo virsh net-autostart zone2-ot
+
+```
+
+```bash
+bash create_network_fix.sh
+
+```
+
+Confirm in virsh 
+
+```bash
+sudo virsh net-dumpxml zone2-ot
+<network>
+  <name>zone2-ot</name>
+  <uuid>0bb04325-7553-4789-bfc4-9aeaa8713045</uuid>
+  <forward mode='route'/>
+  <bridge name='virbr20' stp='on' delay='0'/>
+  <mac address='52:54:00:5e:62:0a'/>
+  <ip address='10.68.20.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='10.68.20.100' end='10.68.20.200'/>
+    </dhcp>
+  </ip>
+</network>
+```
+
+Reboot zabbix02 and list all
+
+```bash
+# boot
+sudo virsh reboot zabbix02
+Domain 'zabbix02' is being rebooted
+
+ sudo virsh list
+ Id   Name           State
+------------------------------
+ 14   zabbix02       running
+ 15   zabbix01       running
+ 16   mysql01        running
+ 20   ansiblectr01   running
+
+```
+
+#### Summary: What Team 1 Needed to Change
+
+To make sudo apt update work seamlessly on zabbix02 within the Purdue model architecture, Team 1 needed to address two foundational configuration gaps:
+
+Libvirt Network Forwarding Mode:
+The zone2-ot network definition lacked a <forward mode='route'/> element. Without an explicit forwarding mode, libvirt defaults to isolated mode (mode='none'), causing the hypervisor kernel (iptables/nftables) to drop any cross-subnet traffic attempting to traverse between virbr20 (Zone 2 OT) and virbr25 (Zone 2.5 iDMZ).
+
+Static DHCP and Gateway Propagation:
+Ensuring that guest nodes in Zone 2 receive proper DHCP lease parameters with gateway routing enabled, allowing them to route management and repository proxy traffic (port 3142) back to the control node (ansiblectr01 at 10.68.68.10).
+
+enter zabbix02
+
+```bash
+
+ssh master@10.68.20.15
+
+sudo apt update
+Hit:1 http://archive.ubuntu.com/ubuntu resolute InRelease
+Hit:2 http://security.ubuntu.com/ubuntu resolute-security InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+227 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+```
+
+
+#### Verification of Inter-Zone Routing
+
+After applying the corrected network definition and restarting or rebooting zabbix02, verify that the guest correctly receives its default gateway via DHCP and can reach the control node:
+
+
+```bash
+ ip route show
+default via 10.68.20.1 dev enp1s0 proto dhcp src 10.68.20.15 metric 100
+10.68.20.0/24 dev enp1s0 proto kernel scope link src 10.68.20.15 metric 100
+10.68.20.1 dev enp1s0 proto dhcp scope link src 10.68.20.15 metric 100
+
+nc -zv 10.68.68.10 3142
+Connection to 10.68.68.10 3142 port [tcp/*] succeeded!
+
+```
+
+#### Verify apt-cacher-ng playbook
+
+
+```bash
+ssh master@10.68.68.10
+cd io_io_lab
+
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+```
+
+log
+
+```console
+PLAY [Configure Internal APT Caching Proxy] ****************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+[WARNING]: Host 'zabbix02' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix02]
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [mysql01]
+[WARNING]: Host 'zabbix01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [zabbix01]
+
+TASK [Set APT Proxy configuration file] ********************************************************************************
+ok: [zabbix02]
+ok: [mysql01]
+ok: [zabbix01]
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+```
+
+### 6.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)
+
+
+Yes, the lab is fully up and running. All nodes (ansiblectr01, zabbix01, mysql01, and zabbix02) have correct static IP assignments, inter-zone routing via the KVM host bridge (virbr25 and virbr20) is properly enabled with forwarding rules, and your Ansible APT caching proxy configuration is successfully applied across all targets.
+
+1. Cross-Zone Ping Validation
+
+From zabbix01 (10.68.68.50) to zabbix02 (10.68.20.15): 0% packet loss
+
+2. APT Proxy Port Check
+
+From zabbix02 to ansiblectr01 (10.68.68.10:3142): Connection succeeded
+
+3. Package Repository Update
+
+sudo apt update completes successfully across all nodes using the internal caching proxy.
+
+
+### 6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)
+
+Log into your KVM host and run the following commands:
+
+```bash
+# Install iptables-persistent (if not already installed) to dump current rules to persistent configuration files:
+sudo apt update
+sudo apt install -y iptables-persistent
+
+# During installation, when prompted to save current IPv4 rules, select Yes.
+# If it is already installed, manually save your current rules:
+sudo netfilter-persistent save
+
+# Run the following grep command on your KVM host to inspect the persistent firewall rules directly:
+
+
+# Confirm that the libvirt network definitions are set to start automatically on boot:
+sudo virsh net-autostart zone25-idmz
+sudo virsh net-autostart zone2-ot
+
+# Verification: Running sudo virsh net-list --all shows both networks with Autostart: yes.
+sudo virsh net-list --all
+ Name          State    Autostart   Persistent
+------------------------------------------------
+ zone2-ot      active   yes         yes
+ zone25-idmz   active   yes         yes
+
+
+sudo grep -E "virbr25|virbr20" /etc/iptables/rules.v4
+
+```
+The grep output confirms that your forwarding rules 
+* (-A FORWARD -i virbr25 -o virbr20 -j ACCEPT 
+  and 
+* -A FORWARD -i virbr20 -o virbr25 -j ACCEPT) are successfully written to /etc/iptables/rules.v4
+
+Yes, this configuration is fully correct and will survive a reboot of the KVM host.
+
 
 ### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks
 
