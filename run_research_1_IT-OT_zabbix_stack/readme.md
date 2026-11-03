@@ -1580,7 +1580,9 @@ sudo apt update completes successfully across all nodes using the internal cachi
 
 Establishing the underlying network topology, static DHCP leases, bridge interfaces (virbr25 and virbr20), and KVM host forwarding rules (iptables and persistence) falls squarely under Team 1's infrastructure and network zoning responsibilities.
 
-Network changed
+Network changed.
+
+Yes, exactly. Changing the zone2-ot network forwarding mode from Isolated network (which corresponds to libvirt's default mode='none' / dropping traffic across bridges) to Routed network (mode='route') was the foundational fix.
 
 
 ![network forwarded](https://github.com/spawnmarvel/kvm-lab/blob/main/images/network_forwarded.png)
