@@ -195,6 +195,7 @@ This network omits the <forward> tag entirely, creating a strictly isolated inte
 </network>
 ```
 
+![net_iso](https://github.com/spawnmarvel/kvm-lab/blob/main/images/net_iso.png)
 
 ```bash
 ssh espenk@192.168.10.70
