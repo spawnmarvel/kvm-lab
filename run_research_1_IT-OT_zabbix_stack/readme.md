@@ -40,7 +40,6 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Step 3: Generate \& Distribute SSH Keys across Managed Targets](#step-3-generate--distribute-ssh-keys-across-managed-targets)
       - [Production-grade standards, you should keep become = True, Privilege escalation](#production-grade-standards-you-should-keep-become--true-privilege-escalation)
     - [Step 4: Setup apt-cacher-ng \& Apache on ansiblectr01](#step-4-setup-apt-cacher-ng--apache-on-ansiblectr01)
-      - [Whitelisted repo](#whitelisted-repo-1)
     - [Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook](#step-5-route-apt-traffic-on-managed-nodes-via-apt-cacher-ng-playbook)
     - [Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks](#step-6-deploy-mysql-84-lts-on-mysql01-playbooks)
     - [Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks](#step-7-deploy-zabbix-server-70-lts-on-zabbix01-playbooks)
@@ -734,6 +733,7 @@ sudo apt upgrade
 | :--------- | :------------- | :-------------- | :----------------------------------------------- | :------------------ | :-------------- | :----------------------------------------------------------------- |
 | **FW-01a** | `ansiblectr01` | Zone 2.5 (iDMZ) | `archive.ubuntu.com`, `security.ubuntu.com`      | External / Internet | TCP 80, 443     | Ubuntu base OS packages, security patches, and system dependencies |
 | **FW-01b** | `ansiblectr01` | Zone 2.5 (iDMZ) | `ppa.launchpadcontent.net`, `galaxy.ansible.com` | External / Internet | TCP 80, 443     | Ansible PPA repository and Ansible Galaxy collection access        |
+| **FW-01c** | `ansiblectr01` | Zone 2.5 (iDMZ) | `repo.zabbix.com`                                | External / Internet | TCP 80, 443     | Zabbix official repository and package updates                     |
 
 ### Step 2: Initialize Ansible Project & Inventory Structure (~/ansible-idmz-ot) ansiblectr01
 
@@ -964,9 +964,83 @@ sudo apt install -y apt-cacher-ng apache2
 
 ![apt_cache yes](https://github.com/spawnmarvel/kvm-lab/blob/main/images/apt_cache_yes.png)
 
-#### Whitelisted repo
+2. Configure Whitelisted Repositories (acng.conf)
+With apt-cacher-ng installed, you need to define the allowed remote repositories (whitelisting) to ensure the cache proxy accepts requests for Ubuntu packages, PPAs, and Ansible collections.
+
+Open the configuration file:
+
+```bash
+sudo nano /etc/apt-cacher-ng/acng.conf
+```
+
+Add to the end of the file
+
+```txt
+# Ubuntu official mirrors and security updates
+Remap-ubuntu: ubuntu.com archive.ubuntu.com security.ubuntu.com ; security.ubuntu.com/ubuntu
+
+# Launchpad PPA repositories
+Remap-ppa: ppa.launchpadcontent.net ; ppa.launchpadcontent.net/
+
+# Ansible Galaxy collection repository
+Remap-ansible: galaxy.ansible.com ; galaxy.ansible.com/
+
+# Zabbix official repository
+Remap-zabbix: repo.zabbix.com ; repo.zabbix.com/
+```
+
+Verify
+
+```bash
+sudo systemctl restart apt-cacher-ng
+
+sudo systemctl status apt-cacher-ng
+● apt-cacher-ng.service - Apt-Cacher NG software download proxy
+     Loaded: loaded (/usr/lib/systemd/system/apt-cacher-ng.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2026-11-03 12:44:08 UTC; 6s ago
+```
+
+
 
 ### Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook
+
+With apt-cacher-ng and Apache successfully configured and running on ansiblectr01 with proper repository remapping, you are ready to configure the managed nodes (zabbix01, mysql01, and zabbix02) to route their package requests through the proxy.
+
+Create and execute playbooks/configure_apt_proxy.yml from your workspace root (~/io_ot_lab):
+
+```yml
+# Version: 1.0.0
+# Description: Enforces 01proxy APT configuration across managed targets
+cat <<'EOF' > playbooks/configure_apt_proxy.yml
+---
+- name: Configure Internal APT Caching Proxy
+  hosts: zone25_idmz:zone2_ot
+  become: true
+  tasks:
+    - name: Set APT Proxy to ansiblectr01
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/01proxy
+        content: |
+          Acquire::http::Proxy "http://10.68.68.10:3142";
+          Acquire::https::Proxy "http://10.68.68.10:3142";
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Update APT package cache via proxy
+      ansible.builtin.apt:
+        update_cache: yes
+EOF
+
+```
+
+Run it
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+```
+
+Verification: The playbook completes successfully with ok status across all managed target nodes
 
 ### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks
 
