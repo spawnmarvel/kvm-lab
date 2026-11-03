@@ -39,10 +39,10 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Step 3: Generate \& Distribute SSH Keys across Managed Targets](#step-3-generate--distribute-ssh-keys-across-managed-targets)
       - [Production-grade standards, you should keep become = True, Privilege escalation](#production-grade-standards-you-should-keep-become--true-privilege-escalation)
     - [Step 4: Setup apt-cacher-ng \& Apache on ansiblectr01](#step-4-setup-apt-cacher-ng--apache-on-ansiblectr01)
-    - [Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng](#step-5-route-apt-traffic-on-managed-nodes-via-apt-cacher-ng)
-    - [Step 6: Deploy MySQL 8.4 LTS on mysql01](#step-6-deploy-mysql-84-lts-on-mysql01)
-    - [Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01](#step-7-deploy-zabbix-server-70-lts-on-zabbix01)
-    - [Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT)](#step-8-deploy-zabbix-active-proxy-sqlite3-on-zabbix02-zone-2-ot)
+    - [Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook](#step-5-route-apt-traffic-on-managed-nodes-via-apt-cacher-ng-playbook)
+    - [Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks](#step-6-deploy-mysql-84-lts-on-mysql01-playbooks)
+    - [Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks](#step-7-deploy-zabbix-server-70-lts-on-zabbix01-playbooks)
+    - [Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks](#step-8-deploy-zabbix-active-proxy-sqlite3-on-zabbix02-zone-2-ot-playbooks)
 
 # Here's a quick guide to get you up to speed on Ansible
 
@@ -947,13 +947,13 @@ ssh is ready.
 
 ### Step 4: Setup apt-cacher-ng & Apache on ansiblectr01
 
-### Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng
+### Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook
 
-### Step 6: Deploy MySQL 8.4 LTS on mysql01
+### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks
 
-### Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01
+### Step 7: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks
 
-### Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT)
+### Step 8: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks
 
 
 
