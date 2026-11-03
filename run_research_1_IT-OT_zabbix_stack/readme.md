@@ -25,6 +25,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Verify vms](#verify-vms)
     - [Use all full disk](#use-all-full-disk)
     - [View zones](#view-zones)
+    - [Auto boot](#auto-boot)
   - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
   - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
 - [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
@@ -393,7 +394,11 @@ Id   Name           State
 
 ssh master@10.68.68.10
 # master@ansiblectr01:~$
-# ssh: connect to host 10.68.68.10 port 22: Network is unreachable
+
+sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv -r
+df -h /
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  4.9G   13G  29% /
 
 ssh master@10.68.68.50
 # master@zabbix01:~$
@@ -438,6 +443,39 @@ Expiry Time           MAC address         Protocol   IP address       Hostname  
 --------------------------------------------------------------------------------------------------------------------------------------------
 2026-11-03 09:11:55   52:54:00:68:20:15   ipv4       10.68.20.15/24   zabbix02   ff:56:50:4d:98:00:02:00:00:ab:11:5a:12:e9:9d:3a:a0:68:ee
 
+```
+
+### Auto boot
+
+```bash
+# Version: 1.0.0
+# Description: Restarts libvirt service and verifies network bridge states
+sudo systemctl restart libvirtd
+sudo virsh net-start zone25-idmz 2>/dev/null || true
+sudo virsh net-start zone2-ot 2>/dev/null || true
+sudo virsh net-list --all
+
+```
+Verification: Networks zone25-idmz and zone2-ot show Active: yes
+
+```bash
+# Version: 1.0.0
+# Description: Configures libvirt autostart policy across all scenario VMs
+sudo virsh autostart ansiblectr01
+sudo virsh autostart zabbix01
+sudo virsh autostart mysql01
+sudo virsh autostart zabbix02
+```
+
+Verify vms
+```bash
+sudo virsh list
+Id   Name           State
+------------------------------
+14   zabbix02       running
+15   zabbix01       running
+16   mysql01        running
+19   ansiblectr01   running
 ```
 
 ## 4. Phase 3: Bootstrap and Automation Execution
