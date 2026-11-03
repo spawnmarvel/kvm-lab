@@ -35,6 +35,7 @@ Ansible is a radically simple IT automation platform that makes your application
 - [Run Proof of Concept (PoC) Operational Runbook with Ansible Team 2 starts](#run-proof-of-concept-poc-operational-runbook-with-ansible-team-2-starts)
   - [Phase 1: Bootstrap and Automation Execution](#phase-1-bootstrap-and-automation-execution)
     - [Step 1: Install Ansible on ansiblectr01](#step-1-install-ansible-on-ansiblectr01)
+      - [Whitelisted repo](#whitelisted-repo)
     - [Step 2: Initialize Ansible Project \& Inventory Structure (~/ansible-idmz-ot) ansiblectr01](#step-2-initialize-ansible-project--inventory-structure-ansible-idmz-ot-ansiblectr01)
     - [Step 3: Generate \& Distribute SSH Keys across Managed Targets](#step-3-generate--distribute-ssh-keys-across-managed-targets)
       - [Production-grade standards, you should keep become = True, Privilege escalation](#production-grade-standards-you-should-keep-become--true-privilege-escalation)
@@ -723,7 +724,7 @@ ansible [core 2.21.5]
 
 
 ```
-Whitelisted
+#### Whitelisted repo
 
 | Rule ID   | Source Host    | Source Zone     | Destination FQDN / Host                          | Destination Zone    | Protocol / Port | Purpose                                                           |
 | :-------- | :------------- | :-------------- | :----------------------------------------------- | :------------------ | :-------------- | :---------------------------------------------------------------- |
