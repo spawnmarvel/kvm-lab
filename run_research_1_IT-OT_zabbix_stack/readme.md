@@ -1618,6 +1618,11 @@ The grep output confirms that your forwarding rules
 
 Yes, this configuration is fully correct and will survive a reboot of the KVM host.
 
+Network changed
+
+
+![network forwarded](https://github.com/spawnmarvel/kvm-lab/blob/main/images/network_forwarded.png)
+
 
 ### Step 6: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01
 
