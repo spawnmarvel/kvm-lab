@@ -1677,6 +1677,14 @@ Alternatively, you can SSH into each host individually and run commands or updat
 
 ### Step 7: To Ensures /op_ansible/automation.log exists with user input for tracking changes on hosts
 
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+sudo nano playbooks/track_automation_changes.yml
+```
+
 ### Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks ansiblectr01
 
 ### Step 9: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks
