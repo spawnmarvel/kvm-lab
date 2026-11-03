@@ -433,10 +433,11 @@ Filesystem                         Size  Used Avail Use% Mounted on
 # Version: 1.0.0
 # Description: Checks active DHCP lease status for ansiblectr01 on zone25-idmz
 sudo virsh net-dhcp-leases zone25-idmz
-Expiry Time           MAC address         Protocol   IP address       Hostname   Client ID or DUID
---------------------------------------------------------------------------------------------------------------------------------------------
-2026-11-03 09:15:06   52:54:00:68:68:50   ipv4       10.68.68.50/24   zabbix01   ff:56:50:4d:98:00:02:00:00:ab:11:96:a3:ef:6e:d9:63:3e:e1
-2026-11-03 09:15:13   52:54:00:68:68:52   ipv4       10.68.68.52/24   mysql01    ff:56:50:4d:98:00:02:00:00:ab:11:29:c1:56:8b:ac:65:be:0f
+Expiry Time           MAC address         Protocol   IP address       Hostname       Client ID or DUID
+------------------------------------------------------------------------------------------------------------------------------------------------
+2026-11-03 10:11:58   52:54:00:68:68:10   ipv4       10.68.68.10/24   ansiblectr01   ff:56:50:4d:98:00:02:00:00:ab:11:20:72:90:ca:5c:97:66:1e
+2026-11-03 10:11:56   52:54:00:68:68:50   ipv4       10.68.68.50/24   zabbix01       ff:56:50:4d:98:00:02:00:00:ab:11:96:a3:ef:6e:d9:63:3e:e1
+2026-11-03 10:12:08   52:54:00:68:68:52   ipv4       10.68.68.52/24   mysql01        ff:56:50:4d:98:00:02:00:00:ab:11:29:c1:56:8b:ac:65:be:0f
 
 
 sudo virsh net-dhcp-leases zone2-ot
