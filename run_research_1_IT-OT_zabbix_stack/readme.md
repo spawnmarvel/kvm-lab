@@ -942,6 +942,7 @@ zabbix02                   : ok=1    changed=0    unreachable=0    failed=0    s
 ```
 
 
+![ssh_ready](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ssh_ready.png)
 
 ### Step 4: Setup apt-cacher-ng & Apache on ansiblectr01
 
