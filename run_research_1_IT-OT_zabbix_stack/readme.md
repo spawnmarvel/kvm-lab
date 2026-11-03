@@ -1662,6 +1662,10 @@ ping_host.yml
 
 configure_apt_proxy.yml
 
+Running that Ansible playbook applies the APT proxy configuration file (/etc/apt/apt.conf.d/01proxy) across all targeted hosts simultaneously, ensuring any subsequent sudo apt update commands on those nodes route their package requests through the internal caching proxy (10.68.68.10:3142
+
+Alternatively, you can SSH into each host individually and run commands or update them directly, but Ansible automates and standardizes that configuration across your inventory in a single execution.
+
 ![configure apt proxy play](https://github.com/spawnmarvel/kvm-lab/blob/main/images/configure_apt_proxy_play.png)
 
 
