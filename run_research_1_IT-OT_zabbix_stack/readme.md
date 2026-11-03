@@ -225,6 +225,8 @@ This network omits the <forward> tag entirely, creating a strictly isolated inte
 
 ```bash
 ssh espenk@192.168.10.70
+
+espenk@kvm-host
 mkdir io_ot_lab_build
 sudo nano create_network.sh
 bash create_network.sh
@@ -273,6 +275,8 @@ Resource Allocation Summary
 ### Create disks
 
 ```bash
+/home/espenk/io_ot_lab_build
+
 sudo nano create_disks.sh
 bash create_disks.sh
 Formatting '/mnt/datadrive1/qemu/images/ansiblectr01.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=21474836480 lazy_refcounts=off refcount_bits=16
@@ -336,6 +340,8 @@ Log
 
 
 ```bash
+
+/home/espenk/io_ot_lab_build
 
 sudo nano create_vms_static_ansiblectr01.sh
 bash create_vms_static_ansiblectr01.sh
@@ -619,7 +625,7 @@ With the target hosts running, ansiblectr01 acts as the single egress point to f
 
 
 ```bash
-cd io_ot_lab/
+cd io_ot_lab_build/
 sudo nano create_firewall.sh
 
 bash create_firewall.sh

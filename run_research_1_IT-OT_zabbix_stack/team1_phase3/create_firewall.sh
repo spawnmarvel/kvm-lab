@@ -43,4 +43,5 @@ sudo iptables -I FORWARD 11 -s ${OT_SUBNET} -o ${EXT_IF} -j DROP
 # Save updated rules persistently
 sudo iptables-save | sudo tee /etc/iptables/rules.v4 > /dev/null
 
+
 echo "Firewall rules updated and persisted."
