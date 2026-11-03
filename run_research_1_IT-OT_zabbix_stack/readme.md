@@ -26,6 +26,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Use all full disk](#use-all-full-disk)
     - [View zones](#view-zones)
     - [Auto boot](#auto-boot)
+    - [4 vms](#4-vms)
   - [4. Phase 3: Bootstrap and Automation Execution](#4-phase-3-bootstrap-and-automation-execution)
   - [5. Phase 4: Validation and Compliance Assurance](#5-phase-4-validation-and-compliance-assurance)
 - [Run Proof of Concept (PoC) Operational Runbook](#run-proof-of-concept-poc-operational-runbook)
@@ -477,6 +478,10 @@ Id   Name           State
 16   mysql01        running
 19   ansiblectr01   running
 ```
+
+### 4 vms
+
+! [4_vms](https://github.com/spawnmarvel/kvm-lab/blob/main/images/4vms.png)
 
 ## 4. Phase 3: Bootstrap and Automation Execution
 
