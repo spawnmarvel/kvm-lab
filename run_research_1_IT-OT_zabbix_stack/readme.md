@@ -55,11 +55,19 @@ Ansible is a radically simple IT automation platform that makes your application
     - [6.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#61-lab-is-fully-up-and-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
     - [6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)](#61-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
   - [Now we can automate with Ansible and step 6 starts for team 2. But restart kvm-host first](#now-we-can-automate-with-ansible-and-step-6-starts-for-team-2-but-restart-kvm-host-first)
+    - [virsh snapshot-create-as (backup all vms)](#virsh-snapshot-create-as-backup-all-vms)
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
-    - [Step 7: To Ensures /op\_ansible/automation.log exists with user input for tracking changes on hosts](#step-7-to-ensures-op_ansibleautomationlog-exists-with-user-input-for-tracking-changes-on-hosts)
-    - [Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks](#step-8-deploy-mysql-84-lts-on-mysql01-playbooks)
-    - [Step 9: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks](#step-9-deploy-zabbix-server-70-lts-on-zabbix01-playbooks)
-    - [Step 10: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks](#step-10-deploy-zabbix-active-proxy-sqlite3-on-zabbix02-zone-2-ot-playbooks)
+    - [Step 7: playbook setup\_logging.yml](#step-7-playbook-setup_loggingyml)
+    - [Step 8: playbook configure\_apt\_proxy.ym](#step-8-playbook-configure_apt_proxyym)
+    - [Step 9: playbook update\_apt.yml](#step-9-playbook-update_aptyml)
+    - [Step 10: playbook mount\_datadrive.yml](#step-10-playbook-mount_datadriveyml)
+    - [Step 11: playbook deploy\_mysql.yml](#step-11-playbook-deploy_mysqlyml)
+    - [Step 12: playbook configure\_zabbix\_db.yml](#step-12-playbook-configure_zabbix_dbyml)
+    - [Step 12: playbook deploy\_zabbix\_server.yml](#step-12-playbook-deploy_zabbix_serveryml)
+    - [Step 12: playbook configure\_zabbix\_server.yml](#step-12-playbook-configure_zabbix_serveryml)
+    - [Step 13: playbook deploy\_zabbix\_proxy.yml](#step-13-playbook-deploy_zabbix_proxyyml)
+    - [Step 13: playbook configure\_zabbix\_proxy.yml](#step-13-playbook-configure_zabbix_proxyyml)
+    - [Step 14: playbook deploy\_zabbix\_agent2.yml](#step-14-playbook-deploy_zabbix_agent2yml)
 
 # Here's a quick guide to get you up to speed on Ansible
 
@@ -1715,6 +1723,47 @@ zabbix01                   : ok=1    changed=0    unreachable=0    failed=0    s
 zabbix02                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+### virsh snapshot-create-as (backup all vms)
+
+```bash
+sudo virsh list
+[sudo: authenticate] Password:
+ Id   Name           State
+------------------------------
+ 1    zabbix02       running
+ 2    zabbix01       running
+ 3    mysql01        running
+ 4    ansiblectr01   running
+
+# snapshots
+# 1. Create a named snapshot with description
+sudo virsh snapshot-create-as --domain zabbix02 --name "clean-install-os" --description "Clean baseline setup before testing"
+sudo virsh snapshot-create-as --domain zabbix01 --name "clean-install-os" --description "Clean baseline setup before testing"
+sudo virsh snapshot-create-as --domain mysql01 --name "clean-install-os" --description "Clean baseline setup before testing"
+sudo virsh snapshot-create-as --domain ansiblectr01 --name "clean-install-os-and_ansible" --description "Clean baseline setup with ansible before testing"
+
+# 2. List all snapshots for a VM
+sudo virsh snapshot-list --domain zabbix02
+ Name               Creation Time               State
+---------------------------------------------------------
+ clean-install-os   2026-11-04 21:44:52 +0100   running
+
+sudo virsh snapshot-list --domain zabbix01
+ Name               Creation Time               State
+---------------------------------------------------------
+ clean-install-os   2026-11-04 21:45:35 +0100   running
+
+sudo virsh snapshot-list --domain mysql01
+ Name               Creation Time               State
+---------------------------------------------------------
+ clean-install-os   2026-11-04 21:45:46 +0100   running
+
+sudo virsh snapshot-list --domain ansiblectr01
+ Name                           Creation Time               State
+---------------------------------------------------------------------
+ clean-install-os-and_ansible   2026-11-04 21:45:58 +0100   running
+
+```
 
 ### Step 6 Verify current 2 playbooks on ansiblectr01
 
@@ -1751,23 +1800,130 @@ Alternatively, you can SSH into each host individually and run commands or updat
 
 ![configure apt proxy play](https://github.com/spawnmarvel/kvm-lab/blob/main/images/configure_apt_proxy_play.png)
 
-### Step 7: To Ensures /op_ansible/automation.log exists with user input for tracking changes on hosts
+### Step 7: playbook setup_logging.yml
+
+setup_logging.yml: Ensures the Ansible automation logging directory (/opt/ansible) and tracking file (automation.log) exist across all managed nodes.
 
 ```bash
 ssh master@10.68.68.10
 
 cd io_ot_lab/
 
-sudo nano playbooks/track_automation_changes.yml
 ```
 
-### Step 8: Deploy MySQL 8.4 LTS on mysql01 playbooks
+### Step 8: playbook configure_apt_proxy.ym
 
-It ships default with ubuntu 26.04
+configure_apt_proxy.yml: Configures APT proxy settings on managed nodes to route package requests through the internal caching proxy.
 
-### Step 9: Deploy Zabbix Server 7.0 LTS on zabbix01 playbooks
+```bash
+ssh master@10.68.68.10
 
-### Step 10: Deploy Zabbix Active Proxy (SQLite3) on zabbix02 (Zone 2 OT) playbooks
+cd io_ot_lab/
+
+# Version: 1.0.2
+# Description: Configures APT HTTP and HTTPS proxy settings for internal caching across iDMZ and OT nodes.
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+```
+
+### Step 9: playbook update_apt.yml
+
+update_apt.yml: Updates local package lists and performs base system package maintenance across all inventory nodes.
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
+
+### Step 10: playbook mount_datadrive.yml
+
+mount_datadrive.yml: Formats and persistently mounts the dedicated secondary storage disk to /var/lib/mysql on mysql01.
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
+
+
+### Step 11: playbook deploy_mysql.yml
+
+deploy_mysql.yml: Installs and enables MySQL 8.4 LTS on the database node (mysql01).
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
+
+### Step 12: playbook configure_zabbix_db.yml
+
+configure_zabbix_db.yml: Creates the dedicated Zabbix database, user accounts, and grants the necessary privileges in MySQL.
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
+
+### Step 12: playbook deploy_zabbix_server.yml
+
+deploy_zabbix_server.yml: Installs Zabbix Server 7.0 LTS and its required web frontend components on zabbix01.
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
+
+### Step 12: playbook configure_zabbix_server.yml
+
+configure_zabbix_server.yml: Imports the initial Zabbix database schemas and applies core server configuration parameters.
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
+
+### Step 13: playbook deploy_zabbix_proxy.yml
+
+deploy_zabbix_proxy.yml: Installs the Zabbix Active Proxy package with SQLite3 support on the secure OT node (zabbix02).
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
+
+### Step 13: playbook configure_zabbix_proxy.yml
+
+configure_zabbix_proxy.yml: Configures the active proxy settings to communicate securely with the central Zabbix server over port 10051.
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
+
+### Step 14: playbook deploy_zabbix_agent2.yml
+
+deploy_zabbix_agent2.yml: Installs and configures Zabbix Agent 2 locally on the proxy node (zabbix02) to monitor the host itself.
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+```
 
 
 
