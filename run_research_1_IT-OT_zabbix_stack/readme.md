@@ -56,7 +56,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Step 5.2 How to Make Everything Persistent on the KVM Host (responsible team 1)](#step-52-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
   - [Restart kvm-host to verify boot](#restart-kvm-host-to-verify-boot)
     - [virsh snapshot-create-as (backup all vms)](#virsh-snapshot-create-as-backup-all-vms)
-  - [Phase 2 full automation with ansible can start](#phase-2-full-automation-with-ansible-can-start)
+  - [Phase 2: Full automation with ansible can start](#phase-2-full-automation-with-ansible-can-start)
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
     - [Step 7: playbook setup\_logging.yml](#step-7-playbook-setup_loggingyml)
     - [Step 8: playbook configure\_apt\_proxy.ym](#step-8-playbook-configure_apt_proxyym)
@@ -1766,7 +1766,7 @@ sudo virsh snapshot-list --domain ansiblectr01
 
 ```
 
-## Phase 2 full automation with ansible can start
+## Phase 2: Full automation with ansible can start
 
 ### Step 6 Verify current 2 playbooks on ansiblectr01
 
