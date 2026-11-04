@@ -13,8 +13,8 @@
 
 * ansiblectr01, 10.68.68.10
 * zabbix01, 10.68.68.50
-* mysql01, 0.68.68.52
-* 10.68.20.15
+* mysql01, 10.68.68.52
+* zabbix02, 10.68.20.15
 
 Subnet 1 (iDMZ / Management):
 

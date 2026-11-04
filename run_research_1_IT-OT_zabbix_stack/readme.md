@@ -1624,8 +1624,16 @@ Network changed.
 
 Yes, exactly. Changing the zone2-ot network forwarding mode from Isolated network (which corresponds to libvirt's default mode='none' / dropping traffic across bridges) to Routed network (mode='route') was the foundational fix.
 
+KVM/libvirt, these two network modes define how virtual machines handle traffic relative to your physical host and external networks:
+
+* Isolated Network: This creates a completely air-gapped virtual bridge on the host. VMs attached to this network can communicate with one another and with the host itself, but all traffic to and from external networks (like your physical LAN or the internet) is completely blocked. This is ideal for secure testing environments or internal lab services that should never leak traffic outside the hypervisor.
+
+* Routed Network: In this mode, the KVM host acts as a Layer 3 router between the virtual machines and your physical LAN. Unlike a default NAT network (which masquerades VM traffic behind the host's IP address), a routed network forwards the VMs' actual IP packets directly to the physical network without translation. For this to function properly, your physical gateway or upstream router must have a static route configured so it knows how to reach the VM subnet via the KVM host's IP address.
+
 
 ![network forwarded](https://github.com/spawnmarvel/kvm-lab/blob/main/images/network_forwarded.png)
+
+![network diagram](https://github.com/spawnmarvel/kvm-lab/blob/main/images/network_diagram.png)
 
 ### 6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)
 
