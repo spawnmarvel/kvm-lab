@@ -1633,6 +1633,8 @@ KVM/libvirt, these two network modes define how virtual machines handle traffic 
 
 ![network forwarded](https://github.com/spawnmarvel/kvm-lab/blob/main/images/network_forwarded.png)
 
+Isolated vs routed
+
 ![network diagram](https://github.com/spawnmarvel/kvm-lab/blob/main/images/network_diagram.png)
 
 ### 6.1 How to Make Everything Persistent on the KVM Host (responsible team 1)
