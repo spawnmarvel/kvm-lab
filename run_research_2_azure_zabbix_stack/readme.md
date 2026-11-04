@@ -11,6 +11,24 @@
 
 ## Virtual machines in Rg-swc-ansiblestack-01
 
+* ansiblectr01, 10.68.68.10
+* zabbix01, 10.68.68.50
+* mysql01, 0.68.68.52
+* 10.68.20.15
+
+Subnet 1 (iDMZ / Management):
+
+Address range: 10.68.68.0/24
+
+Covers: 10.68.68.10 (ansiblectr01), 10.68.68.50 (zabbix01), and 10.68.68.52 (mysql01).
+
+Subnet 2 (OT / Target):
+
+Address range: 10.68.20.0/24
+
+Covers: 10.68.20.15 (zabbix02)
+
+
 ## Install Ansible
 
 
