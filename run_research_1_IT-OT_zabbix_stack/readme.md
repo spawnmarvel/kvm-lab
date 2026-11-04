@@ -52,7 +52,7 @@ Ansible is a radically simple IT automation platform that makes your application
       - [Summary: What Team 1 Needed to Change](#summary-what-team-1-needed-to-change)
       - [Verification of Inter-Zone Routing](#verification-of-inter-zone-routing)
       - [Verify apt-cacher-ng playbook](#verify-apt-cacher-ng-playbook)
-    - [Step 5.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#step-51-lab-is-fully-up-and-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
+    - [Step 5.1 lab is running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#step-51-lab-is-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
     - [Step 5.2 How to Make Everything Persistent on the KVM Host (responsible team 1)](#step-52-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
   - [Now we can automate with Ansible and step 6 starts for team 2. But restart kvm-host first](#now-we-can-automate-with-ansible-and-step-6-starts-for-team-2-but-restart-kvm-host-first)
     - [virsh snapshot-create-as (backup all vms)](#virsh-snapshot-create-as-backup-all-vms)
@@ -1609,7 +1609,7 @@ zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    s
 
 ```
 
-### Step 5.1 lab is fully up and running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)
+### Step 5.1 lab is running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)
 
 
 Yes, the lab is fully up and running. All nodes (ansiblectr01, zabbix01, mysql01, and zabbix02) have correct static IP assignments, inter-zone routing via the KVM host bridge (virbr25 and virbr20) is properly enabled with forwarding rules, and your Ansible APT caching proxy configuration is successfully applied across all targets.
