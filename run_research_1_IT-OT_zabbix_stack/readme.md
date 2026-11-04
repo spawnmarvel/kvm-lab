@@ -1768,6 +1768,24 @@ sudo virsh snapshot-list --domain ansiblectr01
 
 ## Phase 2: Full automation with ansible can start
 
+By now you probably forgot all about Ansible, hahha.
+
+Here is it:
+
+Control node
+* A system on which Ansible is installed. You run Ansible commands such as ansible or ansible-inventory on a control node.
+
+Inventory
+* A list of managed nodes that are logically organized. You create an inventory on the control node to describe host deployments to Ansible.
+
+Managed node
+* A remote system, or host, that Ansible controls.
+
+![ansible 101](https://github.com/spawnmarvel/kvm-lab/blob/main/images/ansible_101.png)
+
+
+* https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
+
 ### Step 6 Verify current 2 playbooks on ansiblectr01
 
 At last, we are ready for only working on ansiblectr01:
