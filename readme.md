@@ -52,8 +52,8 @@ Learning kvm linux and ansible
 - [Ansible](#ansible)
 - [IT/OT POC with Ansible](#itot-poc-with-ansible)
   - [research\_1\_IT-OT\_zabbix\_stack and why use ansible = 100%](#research_1_it-ot_zabbix_stack-and-why-use-ansible--100)
-  - [lab\_3\_ansible/tutorial\_ansible install and recap = 15%](#lab_3_ansibletutorial_ansible-install-and-recap--15)
-  - [run\_research\_1\_IT-OT\_zabbix\_stack= 0 %](#run_research_1_it-ot_zabbix_stack-0-)
+  - [lab\_3\_ansible/tutorial\_ansible install and recap = 50%](#lab_3_ansibletutorial_ansible-install-and-recap--50)
+  - [run\_research\_1\_IT-OT\_zabbix\_stack= 60 %](#run_research_1_it-ot_zabbix_stack-60-)
 
 ## Kernel Virtual Machine
 
@@ -1429,7 +1429,7 @@ GOTO research_1_IT-OT_zabbix_stack
 4. Topology
 5. No code just concepts and purdue
 
-## lab_3_ansible/tutorial_ansible install and recap = 15%
+## lab_3_ansible/tutorial_ansible install and recap = 50%
 
 GOTO ansible/tutorial
 
@@ -1437,20 +1437,22 @@ We use our scenario for recap learning on ansible.
 
 Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. Day-2 automation begins immediately after IP and credential handover.
 
-## run_research_1_IT-OT_zabbix_stack= 0 %
+To excited so jumped to run_research_1_IT-OT_zabbix_stack, we recap while we walk.
+
+## run_research_1_IT-OT_zabbix_stack= 60 %
 
 GOTO run_1_lab_1_IT-OT_zabbix_stack
 
-1. Implement the research
-2. Build infrastructure with KVM
-3. Build zones, vms and firewall rules
+1. Implement the research = ok
+2. Build infrastructure with KVM = ok
+3. Build zones, vms and firewall rules = ok
 
 Scenario:
 
 1. Datacenter Handover: 
-- The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. 
-- Day-2 automation begins immediately after IP and credential handover.
-2. Automate day 2 and all other days
+- The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI = ok
+- Day-2 automation begins immediately after IP and credential handover = ok
+2. Automate day 2 and all other days = 
 
 
 
