@@ -1,6 +1,6 @@
 # kvm-lab and ansible. 
 
-Learning kvm linuc and ansible
+Learning kvm linux and ansible
 
 ## Table of content
 
