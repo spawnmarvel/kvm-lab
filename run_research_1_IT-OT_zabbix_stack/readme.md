@@ -54,8 +54,9 @@ Ansible is a radically simple IT automation platform that makes your application
       - [Verify apt-cacher-ng playbook](#verify-apt-cacher-ng-playbook)
     - [Step 5.1 lab is running and correct static IP assignments, inter-zone routing via the KVM host bridge (responsible team 1)](#step-51-lab-is-running-and-correct-static-ip-assignments-inter-zone-routing-via-the-kvm-host-bridge-responsible-team-1)
     - [Step 5.2 How to Make Everything Persistent on the KVM Host (responsible team 1)](#step-52-how-to-make-everything-persistent-on-the-kvm-host-responsible-team-1)
-  - [Now we can automate with Ansible and step 6 starts for team 2. But restart kvm-host first](#now-we-can-automate-with-ansible-and-step-6-starts-for-team-2-but-restart-kvm-host-first)
+  - [Restart kvm-host to verify boot](#restart-kvm-host-to-verify-boot)
     - [virsh snapshot-create-as (backup all vms)](#virsh-snapshot-create-as-backup-all-vms)
+  - [Phase 2](#phase-2)
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
     - [Step 7: playbook setup\_logging.yml](#step-7-playbook-setup_loggingyml)
     - [Step 8: playbook configure\_apt\_proxy.ym](#step-8-playbook-configure_apt_proxyym)
@@ -1684,7 +1685,7 @@ The grep output confirms that your forwarding rules
 Yes, this configuration is fully correct and will survive a reboot of the KVM host.
 
 
-## Now we can automate with Ansible and step 6 starts for team 2. But restart kvm-host first
+## Restart kvm-host to verify boot
 
 * 1-2 weeks with kvm
 * 1-2 weeks with IT/OT study and research
@@ -1764,6 +1765,8 @@ sudo virsh snapshot-list --domain ansiblectr01
  clean-install-os-and_ansible   2026-11-04 21:45:58 +0100   running
 
 ```
+
+## Phase 2
 
 ### Step 6 Verify current 2 playbooks on ansiblectr01
 
