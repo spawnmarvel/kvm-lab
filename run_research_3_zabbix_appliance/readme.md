@@ -18,7 +18,7 @@ Zabbix appliance and installation CD versions are based on AlmaLinux 8 (x86_64).
 
 Zabbix appliance installation CD can be used for instant deployment of Zabbix server (MySQL).
 
- [!WARNING] The Appliance is not intended for serious production use.
+ >[!WARNING] The Appliance is not intended for serious production use.
 
 https://www.zabbix.com/download_appliance#70LTS
 
