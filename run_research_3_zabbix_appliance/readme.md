@@ -20,8 +20,7 @@ Zabbix appliance installation CD can be used for instant deployment of Zabbix se
 
 > [!WARNING]  
 > The Appliance is not intended for serious production use.
-
-https://www.zabbix.com/download_appliance#70LTS
+> ref https://www.zabbix.com/download_appliance#70LTS
 
 
 
