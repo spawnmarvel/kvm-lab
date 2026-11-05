@@ -54,6 +54,7 @@ Learning kvm linux and ansible
   - [research\_1\_IT-OT\_zabbix\_stack and why use ansible = 100%](#research_1_it-ot_zabbix_stack-and-why-use-ansible--100)
   - [lab\_3\_ansible/tutorial\_ansible install and recap = 50%](#lab_3_ansibletutorial_ansible-install-and-recap--50)
   - [run\_research\_1\_IT-OT\_zabbix\_stack= 60 %](#run_research_1_it-ot_zabbix_stack-60-)
+  - [Other researches may be added](#other-researches-may-be-added)
 
 ## Kernel Virtual Machine
 
@@ -1453,6 +1454,18 @@ Scenario:
 - The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI = ok
 - Day-2 automation begins immediately after IP and credential handover = ok
 2. Automate day 2 and all other days = 
+
+
+## Other researches may be added
+
+Other researches may be added like.
+
+* Azure and Ansible
+* Zabbix appliance provides a way to instantly deploy Zabbix server and frontend, instead of setting them up manually or reusing an existing server for Zabbix.
+* .etc
+
+
+View folders that start with run_
 
 
 
