@@ -5,7 +5,6 @@
 - [Ansibel quickguide](#ansibel-quickguide)
   - [Table of content](#table-of-content)
   - [azure-ansibel quicgude back in 2023](#azure-ansibel-quicgude-back-in-2023)
-  - [Semaphore UI](#semaphore-ui)
   - [Ansible docs](#ansible-docs)
   - [Core Concepts](#core-concepts)
   - [Key Advantages](#key-advantages)
@@ -16,6 +15,7 @@
   - [SSH key-based authentication](#ssh-key-based-authentication)
   - [Ansible Ad-hoc commands](#ansible-ad-hoc-commands)
   - [Playbooks](#playbooks)
+  - [Semaphore UI](#semaphore-ui)
 
 ## azure-ansibel quicgude back in 2023
 
@@ -30,14 +30,6 @@ Testing and learning Ansibel with Azure
 * https://github.com/spawnmarvel/azure-ansible
 
 
-## Semaphore UI
-
-Semaphore UI gives your team one self-hosted place to run, share, schedule, secure, and audit operational workflows.
-
-Use Semaphore UI with Ansible, Terraform, OpenTofu, Terragrunt, Bash, PowerShell, and Python, while keeping your automation in Git and your existing toolchain intact.
-
-* https://semaphoreui.com/
-  
 ## Ansible docs
 
 https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
@@ -91,6 +83,11 @@ mkdir mkdir io_ot_lab_build
 
 ## Playbooks
 
+## Semaphore UI
 
+Semaphore UI gives your team one self-hosted place to run, share, schedule, secure, and audit operational workflows.
 
+Use Semaphore UI with Ansible, Terraform, OpenTofu, Terragrunt, Bash, PowerShell, and Python, while keeping your automation in Git and your existing toolchain intact.
+
+* https://semaphoreui.com/
 
