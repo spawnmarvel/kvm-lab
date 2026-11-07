@@ -4,7 +4,7 @@
 
 - [Ansibel quickguide](#ansibel-quickguide)
   - [Table of content](#table-of-content)
-  - [azure-ansibel quicgude back in 2023](#azure-ansibel-quicgude-back-in-2023)
+  - [azure-ansibel quickguide back in 2023](#azure-ansibel-quickguide-back-in-2023)
   - [Ansible docs](#ansible-docs)
   - [Core Concepts](#core-concepts)
   - [Key Advantages](#key-advantages)
@@ -17,7 +17,7 @@
   - [Playbooks](#playbooks)
   - [Semaphore UI](#semaphore-ui)
 
-## azure-ansibel quicgude back in 2023
+## azure-ansibel quickguide back in 2023
 
 Testing and learning Ansibel with Azure
 
