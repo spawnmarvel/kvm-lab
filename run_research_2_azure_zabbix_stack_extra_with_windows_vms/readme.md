@@ -5,6 +5,7 @@
 - [Ansible stack in Azure](#ansible-stack-in-azure)
   - [Table of content](#table-of-content)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
+  - [Create ansiblectr01, 10.68.68.10 whitelist FW](#create-ansiblectr01-10686810-whitelist-fw)
   - [Install Ansible](#install-ansible)
   - [Setup Ansible](#setup-ansible)
   - [Playbooks](#playbooks)
@@ -30,6 +31,8 @@ Covers: 10.68.20.15 (zabbix02)
 
 
 ![vnet](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack/images/vnet.png)
+
+## Create ansiblectr01, 10.68.68.10 whitelist FW
 
 ## Install Ansible
 
