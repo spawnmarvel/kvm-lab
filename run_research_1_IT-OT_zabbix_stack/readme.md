@@ -57,6 +57,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Restart kvm-host to verify boot](#restart-kvm-host-to-verify-boot)
     - [virsh snapshot-create-as (backup all vms)](#virsh-snapshot-create-as-backup-all-vms)
   - [Phase 2: Full automation with ansible can start](#phase-2-full-automation-with-ansible-can-start)
+  - [Semaphore UI](#semaphore-ui)
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
     - [Step 7: playbook setup\_logging.yml](#step-7-playbook-setup_loggingyml)
     - [Step 8: playbook configure\_apt\_proxy.ym](#step-8-playbook-configure_apt_proxyym)
@@ -1785,6 +1786,12 @@ Managed node
 
 
 * https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
+
+## Semaphore UI
+
+Semaphore UI gives your team one self-hosted place to run, share, schedule, secure, and audit operational workflows.
+
+https://semaphoreui.com/
 
 ### Step 6 Verify current 2 playbooks on ansiblectr01
 
