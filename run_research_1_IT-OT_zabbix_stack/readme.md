@@ -59,8 +59,9 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Phase 2: Full automation with ansible can start](#phase-2-full-automation-with-ansible-can-start)
   - [Semaphore UI](#semaphore-ui)
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
+  - [Step 6.1 playbook verify\_isolation.yml](#step-61-playbook-verify_isolationyml)
     - [Step 7: playbook setup\_logging.yml](#step-7-playbook-setup_loggingyml)
-    - [Step 8: playbook configure\_apt\_proxy.ym](#step-8-playbook-configure_apt_proxyym)
+    - [Step 8: playbook configure\_apt\_proxy.yml](#step-8-playbook-configure_apt_proxyyml)
     - [Step 9: playbook update\_apt.yml](#step-9-playbook-update_aptyml)
     - [Step 10: playbook mount\_datadrive.yml](#step-10-playbook-mount_datadriveyml)
     - [Step 11: playbook deploy\_mysql.yml](#step-11-playbook-deploy_mysqlyml)
@@ -1828,6 +1829,96 @@ Alternatively, you can SSH into each host individually and run commands or updat
 
 ![configure apt proxy play](https://github.com/spawnmarvel/kvm-lab/blob/main/images/configure_apt_proxy_play.png)
 
+
+## Step 6.1 playbook verify_isolation.yml
+
+We must ensure that zabbix01, mysql01 and zabbix02 cannot reach internet.
+
+Lets check if team 1 has done the job.
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/verify_isolation.yml
+```
+
+log
+
+```console
+
+PLAY [Verify Internet Isolation on Managed Nodes] **********************************************************************
+
+TASK [Attempt connection to public internet destination] ***************************************************************
+
+[...]
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+Hm...
+
+To block direct external internet access for zabbix01 and mysql01 while maintaining internal lab routing, you need to apply egress drop rules on the KVM host's FORWARD chain.
+
+🔵 Step 1: Apply the iptables Rules on the KVM Host
+
+Log into your KVM host and run the following commands to drop any forwarded traffic originating from zabbix01 (10.68.68.50) and mysql01 (10.68.68.52) destined outside the internal 10.68.0.0/16 lab subnets:
+
+```bash
+sudo iptables -I FORWARD 1 -s 10.68.68.50 ! -d 10.68.0.0/16 -j DROP
+sudo iptables -I FORWARD 2 -s 10.68.68.52 ! -d 10.68.0.0/16 -j DROP
+
+# Verification: Run 
+sudo iptables -L FORWARD -v -n --line-numbers 
+
+# on the KVM host to confirm that both drop rules are active at the top of the chain.
+
+
+```
+
+🔵 Step 2: Make the Rules Persistent
+
+Save the updated firewall configuration so it survives reboots:
+
+```bash
+sudo netfilter-persistent save
+```
+
+Lets check it now
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/verify_isolation.yml
+```
+
+log
+
+```console
+PLAY [Verify Internet Isolation on Managed Nodes] **********************************************************************
+
+TASK [Attempt connection to public internet destination] ***************************************************************
+
+[...]
+TASK [Assert that external internet connection failed] *****************************************************************
+ok: [mysql01] => {
+    "changed": false,
+    "msg": "Isolation verified: Host cannot reach the public internet directly."
+}
+ok: [zabbix01] => {
+    "changed": false,
+    "msg": "Isolation verified: Host cannot reach the public internet directly."
+}
+ok: [zabbix02] => {
+    "changed": false,
+    "msg": "Isolation verified: Host cannot reach the public internet directly."
+}
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+
 ### Step 7: playbook setup_logging.yml
 
 setup_logging.yml: Ensures the Ansible automation logging directory (/opt/ansible) and tracking file (automation.log) exist across all managed nodes.
@@ -1839,7 +1930,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 8: playbook configure_apt_proxy.ym
+### Step 8: playbook configure_apt_proxy.yml
 
 configure_apt_proxy.yml: Configures APT proxy settings on managed nodes to route package requests through the internal caching proxy.
 

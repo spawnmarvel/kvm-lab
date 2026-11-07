@@ -1,0 +1,22 @@
+---
+# Version: 1.2.0
+# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
+
+- name: Verify Internet Isolation on Managed Nodes
+  hosts: zone25_idmz:zone2_ot
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Attempt connection to public internet destination
+      ansible.builtin.uri:
+        url: "https://www.google.com"
+        timeout: 5
+      register: internet_check
+      failed_when: false
+
+    - name: Assert that external internet connection failed
+      ansible.builtin.assert:
+        that:
+          - internet_check.status == -1 or internet_check.failed == true
+        fail_msg: "SECURITY VIOLATION: Host was able to reach the public internet directly (Status: {{ internet_check.status | default('unknown') }})"
+        success_msg: "Isolation verified: Host cannot reach the public internet directly."
