@@ -4,6 +4,7 @@
 
 - [Ansibel quickguide](#ansibel-quickguide)
   - [Table of content](#table-of-content)
+  - [azure-ansibel quicgude back in 2023](#azure-ansibel-quicgude-back-in-2023)
   - [Ansible docs](#ansible-docs)
   - [Core Concepts](#core-concepts)
   - [Key Advantages](#key-advantages)
@@ -14,6 +15,19 @@
   - [SSH key-based authentication](#ssh-key-based-authentication)
   - [Ansible Ad-hoc commands](#ansible-ad-hoc-commands)
   - [Playbooks](#playbooks)
+
+## azure-ansibel quicgude back in 2023
+
+Testing and learning Ansibel with Azure
+
+* Create vms linyc and windows
+* Playbook roles, When to turn a playbook into a role
+* Semaphore UI
+* mariadb, wordpress, apache, grafana etc
+* Lots of gold here
+
+* https://github.com/spawnmarvel/azure-ansible
+
 
 
 ## Ansible docs
