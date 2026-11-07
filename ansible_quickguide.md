@@ -34,6 +34,8 @@ Testing and learning Ansibel with Azure
 
 Semaphore UI gives your team one self-hosted place to run, share, schedule, secure, and audit operational workflows.
 
+Use Semaphore UI with Ansible, Terraform, OpenTofu, Terragrunt, Bash, PowerShell, and Python, while keeping your automation in Git and your existing toolchain intact.
+
 * https://semaphoreui.com/
   
 ## Ansible docs
