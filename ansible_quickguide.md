@@ -5,6 +5,7 @@
 - [Ansibel quickguide](#ansibel-quickguide)
   - [Table of content](#table-of-content)
   - [azure-ansibel quicgude back in 2023](#azure-ansibel-quicgude-back-in-2023)
+  - [Semaphore UI](#semaphore-ui)
   - [Ansible docs](#ansible-docs)
   - [Core Concepts](#core-concepts)
   - [Key Advantages](#key-advantages)
@@ -29,7 +30,12 @@ Testing and learning Ansibel with Azure
 * https://github.com/spawnmarvel/azure-ansible
 
 
+## Semaphore UI
 
+Semaphore UI gives your team one self-hosted place to run, share, schedule, secure, and audit operational workflows.
+
+* https://semaphoreui.com/
+  
 ## Ansible docs
 
 https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
