@@ -1925,6 +1925,13 @@ zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    s
 Update package lists and safely upgrade system packages across your managed nodes, leveraging the internal APT caching proxy
 
 ```bash
+
+#ssh to each vm
+sudo apt update
+sudo apt upgrade
+
+# After that works test ansible
+
 # Version: 1.0.0
 # Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
 ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml
