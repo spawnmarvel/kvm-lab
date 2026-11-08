@@ -61,6 +61,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
   - [Step 6.1 playbook verify\_isolation.yml](#step-61-playbook-verify_isolationyml)
   - [Step 6.2 playbook update\_apt.yml --limit flag](#step-62-playbook-update_aptyml---limit-flag)
+    - [--limit on host at the time](#--limit-on-host-at-the-time)
   - [Step 7: Enable Native Logging](#step-7-enable-native-logging)
   - [Step 8: playbook configure\_apt\_proxy.yml](#step-8-playbook-configure_apt_proxyyml)
   - [Step 9: playbook update\_apt.yml](#step-9-playbook-update_aptyml)
@@ -2020,6 +2021,8 @@ zabbix02 | CHANGED | rc=0 >>
 Connection to 10.68.68.10 3142 port [tcp/*] succeeded!
 ```
 
+
+### --limit on host at the time
 Run the playbook again
 
 ```bash
