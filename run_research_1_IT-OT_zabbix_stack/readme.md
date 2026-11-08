@@ -60,7 +60,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Semaphore UI](#semaphore-ui)
   - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
   - [Step 6.1 playbook verify\_isolation.yml](#step-61-playbook-verify_isolationyml)
-  - [Step 6.2 playbook update\_apt.yml --limit flag](#step-62-playbook-update_aptyml---limit-flag)
+  - [Step 6.2 playbook update\_apt.yml --limit flag (tips: run ssh and do apt manually one time on each vm)](#step-62-playbook-update_aptyml---limit-flag-tips-run-ssh-and-do-apt-manually-one-time-on-each-vm)
     - [--limit on host at the time](#--limit-on-host-at-the-time)
   - [Step 7: Enable Native Logging](#step-7-enable-native-logging)
   - [Step 8: playbook configure\_apt\_proxy.yml](#step-8-playbook-configure_apt_proxyyml)
@@ -1920,7 +1920,7 @@ zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    s
 zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-## Step 6.2 playbook update_apt.yml --limit flag
+## Step 6.2 playbook update_apt.yml --limit flag (tips: run ssh and do apt manually one time on each vm)
 
 Update package lists and safely upgrade system packages across your managed nodes, leveraging the internal APT caching proxy
 
@@ -2026,6 +2026,9 @@ Connection to 10.68.68.10 3142 port [tcp/*] succeeded!
 Run the playbook again
 
 ```bash
+# Verification: Ansible will wait for the node to reboot and confirm reconnection with rc=0
+ansible mysql01 -i inventory/hosts.ini -m reboot
+
 # Version: 1.0.0
 # Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
 ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
