@@ -67,7 +67,8 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Step 8: playbook configure\_apt\_proxy.yml --check](#step-8-playbook-configure_apt_proxyyml---check)
     - [Verify repository mapping on ansiblectr01](#verify-repository-mapping-on-ansiblectr01)
     - [playbook configure\_apt\_proxy.yml --check](#playbook-configure_apt_proxyyml---check)
-  - [Step 9: playbook update\_apt.yml --check (we have already set this up on a previous step)](#step-9-playbook-update_aptyml---check-we-have-already-set-this-up-on-a-previous-step)
+  - [Step 9: playbook update\_apt.yml --check](#step-9-playbook-update_aptyml---check)
+    - [(we have already set this up on a previous step)](#we-have-already-set-this-up-on-a-previous-step)
   - [Step 10: playbook mount\_datadrive.yml --check](#step-10-playbook-mount_datadriveyml---check)
   - [Step 11: playbook deploy\_mysql.yml --check](#step-11-playbook-deploy_mysqlyml---check)
   - [Step 12: playbook configure\_zabbix\_db.yml --heck](#step-12-playbook-configure_zabbix_dbyml---heck)
@@ -2207,7 +2208,9 @@ zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    s
 ```
 
 
-## Step 9: playbook update_apt.yml --check (we have already set this up on a previous step)
+## Step 9: playbook update_apt.yml --check
+
+### (we have already set this up on a previous step)
 
 update_apt.yml: Updates local package lists and performs base system package maintenance across all inventory nodes.
 
