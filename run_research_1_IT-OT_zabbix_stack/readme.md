@@ -65,7 +65,9 @@ Ansible is a radically simple IT automation platform that makes your application
     - [--limit on host at the time](#--limit-on-host-at-the-time)
   - [Step 7: Enable Native Logging](#step-7-enable-native-logging)
   - [Step 8: playbook configure\_apt\_proxy.yml --check](#step-8-playbook-configure_apt_proxyyml---check)
-  - [Step 9: playbook update\_apt.yml --check](#step-9-playbook-update_aptyml---check)
+    - [Verify repository mapping on ansiblectr01](#verify-repository-mapping-on-ansiblectr01)
+    - [playbook configure\_apt\_proxy.yml --check](#playbook-configure_apt_proxyyml---check)
+  - [Step 9: playbook update\_apt.yml --check (we have already set this up on a previous step)](#step-9-playbook-update_aptyml---check-we-have-already-set-this-up-on-a-previous-step)
   - [Step 10: playbook mount\_datadrive.yml --check](#step-10-playbook-mount_datadriveyml---check)
   - [Step 11: playbook deploy\_mysql.yml --check](#step-11-playbook-deploy_mysqlyml---check)
   - [Step 12: playbook configure\_zabbix\_db.yml --heck](#step-12-playbook-configure_zabbix_dbyml---heck)
@@ -2119,6 +2121,55 @@ log_path = /opt/ansible/automation.log
 
 ## Step 8: playbook configure_apt_proxy.yml --check
 
+###  Verify repository mapping on ansiblectr01
+
+```bash
+sudo nano /etc/apt-cacher-ng/acng.conf
+# we are missing repo.zabbix.com
+```
+Add the following mapping rule alongside your existing Remap-uburep lines:
+
+```txt
+Remap-zabbix: zabbix_mirror /zabbix ; https://repo.zabbix.com/zabbix/
+```
+
+```bash
+sudo cat /etc/apt-cacher-ng/acng.conf
+CacheDir: /var/cache/apt-cacher-ng
+LogDir: /var/log/apt-cacher-ng
+Port: 3142
+BindAddress: 0.0.0.0
+Remap-uburep: ubuntu_mirrors /ubuntu ; file:backends_ubuntu
+Remap-debsec: security.ubuntu.com /ubuntu-security ; http://security.ubuntu.com/ubuntu/
+Remap-zabbix: zabbix_mirror /zabbix ; file:backends_zabbix
+PassThroughPattern: .*"
+```
+Create and Populate the Zabbix Backend File
+Create the backend file referenced in the remap rule:
+
+```bash
+sudo nano /etc/apt-cacher-ng/backends_zabbix
+```
+
+```txt
+http://repo.zabbix.com/
+https://repo.zabbix.com/
+```
+
+
+```bash
+sudo systemctl restart apt-cacher-ng
+
+sudo systemctl status apt-cacher-ng
+● apt-cacher-ng.service - Apt-Cacher NG software download proxy
+     Loaded: loaded (/usr/lib/systemd/system/apt-cacher-ng.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-11-08 21:09:39 UTC; 8s ago
+
+```
+
+
+### playbook configure_apt_proxy.yml --check
+
 configure_apt_proxy.yml: Configures APT proxy settings on managed nodes to route package requests through the internal caching proxy.
 
 ```bash
@@ -2131,11 +2182,32 @@ cd io_ot_lab/
 ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml --check
 
 # if the play is ok, remove --check with --diff and or --limit
-
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
 
 ```
 
-## Step 9: playbook update_apt.yml --check
+log
+
+```console
+PLAY [Configure Internal APT Caching Proxy] ******************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************
+
+[...]
+
+TASK [Set APT Proxy configuration file] **********************************************************************************************************************
+ok: [zabbix02]
+ok: [mysql01]
+ok: [zabbix01]
+
+PLAY RECAP ***************************************************************************************************************************************************
+mysql01                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+
+## Step 9: playbook update_apt.yml --check (we have already set this up on a previous step)
 
 update_apt.yml: Updates local package lists and performs base system package maintenance across all inventory nodes.
 
@@ -2144,7 +2216,34 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --check
 # if the play is ok, remove --check with --diff and or --limit
+
+```
+
+log
+
+```console
+PLAY [Update and Upgrade System Packages] ********************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************
+
+[...]
+
+TASK [Update apt repository cache] ***************************************************************************************************************************
+ok: [mysql01]
+ok: [zabbix01]
+ok: [zabbix02]
+
+TASK [Perform a safe upgrade of installed packages] **********************************************************************************************************
+ok: [mysql01]
+ok: [zabbix01]
+ok: [zabbix02]
+
+PLAY RECAP ***************************************************************************************************************************************************
+mysql01                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 ```
 
