@@ -70,8 +70,8 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Step 12: playbook deploy\_zabbix\_server.yml](#step-12-playbook-deploy_zabbix_serveryml)
   - [Step 13: playbook configure\_zabbix\_server.yml](#step-13-playbook-configure_zabbix_serveryml)
   - [Step 14: playbook deploy\_zabbix\_proxy.yml](#step-14-playbook-deploy_zabbix_proxyyml)
-    - [Step 15: playbook configure\_zabbix\_proxy.yml](#step-15-playbook-configure_zabbix_proxyyml)
-    - [Step 16: playbook deploy\_zabbix\_agent2.yml](#step-16-playbook-deploy_zabbix_agent2yml)
+  - [Step 15: playbook configure\_zabbix\_proxy.yml](#step-15-playbook-configure_zabbix_proxyyml)
+  - [Step 16: playbook deploy\_zabbix\_agent2.yml](#step-16-playbook-deploy_zabbix_agent2yml)
 
 # Here's a quick guide to get you up to speed on Ansible
 
@@ -2145,7 +2145,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 15: playbook configure_zabbix_proxy.yml
+## Step 15: playbook configure_zabbix_proxy.yml
 
 configure_zabbix_proxy.yml: Configures the active proxy settings to communicate securely with the central Zabbix server over port 10051.
 
@@ -2156,7 +2156,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 16: playbook deploy_zabbix_agent2.yml
+## Step 16: playbook deploy_zabbix_agent2.yml
 
 deploy_zabbix_agent2.yml: Installs and configures Zabbix Agent 2 locally on the proxy node (zabbix02) to monitor the host itself.
 
