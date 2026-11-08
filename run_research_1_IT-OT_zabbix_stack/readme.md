@@ -58,7 +58,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [virsh snapshot-create-as (backup all vms)](#virsh-snapshot-create-as-backup-all-vms)
   - [Phase 2: Full automation with ansible can start](#phase-2-full-automation-with-ansible-can-start)
   - [Semaphore UI](#semaphore-ui)
-    - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
+  - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
   - [Step 6.1 playbook verify\_isolation.yml](#step-61-playbook-verify_isolationyml)
   - [Step 6.2 playbook update\_apt.yml --limit flag](#step-62-playbook-update_aptyml---limit-flag)
   - [Step 7: Enable Native Logging](#step-7-enable-native-logging)
@@ -1795,7 +1795,7 @@ Semaphore UI gives your team one self-hosted place to run, share, schedule, secu
 
 https://semaphoreui.com/
 
-### Step 6 Verify current 2 playbooks on ansiblectr01
+## Step 6 Verify current 2 playbooks on ansiblectr01
 
 At last, we are ready for only working on ansiblectr01:
 ```bash
