@@ -1,0 +1,16 @@
+---
+# Version: 1.0.0
+# Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
+
+- name: Update and Upgrade System Packages
+  hosts: zone25_idmz:zone2_ot
+  become: true
+  tasks:
+    - name: Update apt repository cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Perform a safe upgrade of installed packages
+      ansible.builtin.apt:
+        upgrade: safe

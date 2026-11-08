@@ -60,8 +60,8 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Semaphore UI](#semaphore-ui)
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
   - [Step 6.1 playbook verify\_isolation.yml](#step-61-playbook-verify_isolationyml)
-  - [Step 6.2 update\_apt.yml](#step-62-update_aptyml)
-    - [Step 7: playbook setup\_logging.yml](#step-7-playbook-setup_loggingyml)
+  - [Step 6.2 playbook update\_apt.yml --limit flag](#step-62-playbook-update_aptyml---limit-flag)
+    - [Step 7: Enable Native Logging](#step-7-enable-native-logging)
     - [Step 8: playbook configure\_apt\_proxy.yml](#step-8-playbook-configure_apt_proxyyml)
     - [Step 9: playbook update\_apt.yml](#step-9-playbook-update_aptyml)
     - [Step 10: playbook mount\_datadrive.yml](#step-10-playbook-mount_datadriveyml)
@@ -1919,17 +1919,138 @@ zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    s
 zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-## Step 6.2 update_apt.yml
+## Step 6.2 playbook update_apt.yml --limit flag
 
-### Step 7: playbook setup_logging.yml
-
-setup_logging.yml: Ensures the Ansible automation logging directory (/opt/ansible) and tracking file (automation.log) exist across all managed nodes.
+Update package lists and safely upgrade system packages across your managed nodes, leveraging the internal APT caching proxy
 
 ```bash
-ssh master@10.68.68.10
+# Version: 1.0.0
+# Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml
 
-cd io_ot_lab/
+```
 
+Log
+
+```console
+PLAY [Update and Upgrade System Packages] ******************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+
+[...]
+TASK [Update apt repository cache] *************************************************************************************
+ok: [mysql01]
+ok: [zabbix01]
+[ERROR]: Task failed: Module failed: Failed to update apt cache after 5 retries:
+Origin: /home/master/io_ot_lab/playbooks/update_apt.yml:9:7
+
+7   become: true
+8   tasks:
+9     - name: Update apt repository cache
+        ^ column 7
+
+fatal: [zabbix02]: FAILED! => {"changed": false, "msg": "Failed to update apt cache after 5 retries: "}
+
+TASK [Perform a safe upgrade of installed packages] ********************************************************************
+^C[ERROR]: User interrupted execution
+```
+
+Fix iptables on kvm-host
+
+```bash
+# check it
+sudo iptables -L FORWARD -v -n
+[sudo: authenticate] Password:
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+ 1036 77920 DROP       all  --  *      *       10.68.68.50         !10.68.0.0/16
+  988 78192 DROP       all  --  *      *       10.68.68.52         !10.68.0.0/16
+ 200K 1094M LIBVIRT_FWX  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+ 200K 1094M LIBVIRT_FWI  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+88300 5988K LIBVIRT_FWO  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+    0     0 ACCEPT     all  --  virbr25 virbr20  0.0.0.0/0            0.0.0.0/0
+    0     0 ACCEPT     all  --  virbr20 virbr25  0.0.0.0/0            0.0.0.0/0
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       10.68.20.0/24        10.68.68.10          tcp dpt:3142
+    0     0 ACCEPT     tcp  --  *      *       10.68.68.0/24        10.68.68.10          tcp dpt:3142
+    0     0 ACCEPT     tcp  --  *      *       10.68.68.50          10.68.68.52          tcp dpt:3306
+    0     0 ACCEPT     tcp  --  *      *       10.68.20.15          10.68.68.50          tcp dpt:10051
+
+# The packet counter for your 10.68.20.0/24 rule is at 0 because 
+# Libvirt's built-in firewall chains (LIBVIRT_FWX, LIBVIRT_FWI, LIBVIRT_FWO) are positioned higher in the FORWARD chain.
+
+# Insert the Proxy Accept Rule Above Libvirt Chains
+sudo iptables -I FORWARD 3 -s 10.68.20.0/24 -d 10.68.68.10 -p tcp --dport 3142 -j ACCEPT
+sudo iptables -I FORWARD 4 -s 10.68.68.0/24 -d 10.68.68.10 -p tcp --dport 3142 -j ACCEPT
+
+# The firewall table output shows that the ACCEPT rules for port 3142 are now positioned at lines 3 and 4—directly above Libvirt's filtering chains
+sudo iptables -L FORWARD -v -n
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+ 1036 77920 DROP       all  --  *      *       10.68.68.50         !10.68.0.0/16
+  988 78192 DROP       all  --  *      *       10.68.68.52         !10.68.0.0/16
+    0     0 ACCEPT     tcp  --  *      *       10.68.20.0/24        10.68.68.10          tcp dpt:3142
+    0     0 ACCEPT     tcp  --  *      *       10.68.68.0/24        10.68.68.10          tcp dpt:3142
+ 200K 1094M LIBVIRT_FWX  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+ 200K 1094M LIBVIRT_FWI  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+88302 5988K LIBVIRT_FWO  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+    0     0 ACCEPT     all  --  virbr25 virbr20  0.0.0.0/0            0.0.0.0/0
+    0     0 ACCEPT     all  --  virbr20 virbr25  0.0.0.0/0            0.0.0.0/0
+    0     0 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       10.68.20.0/24        10.68.68.10          tcp dpt:3142
+    0     0 ACCEPT     tcp  --  *      *       10.68.68.0/24        10.68.68.10          tcp dpt:3142
+    0     0 ACCEPT     tcp  --  *      *       10.68.68.50          10.68.68.52          tcp dpt:3306
+    0     0 ACCEPT     tcp  --  *      *       10.68.20.15          10.68.68.50          tcp dpt:10051
+
+```
+
+Log into zabbix02 (or use an ad-hoc Ansible command from ansiblectr01) to test if the port is reachable:
+
+```bash
+cd io_io_lab
+ansible zabbix02 -i inventory/hosts.ini -m shell -a "nc -zv 10.68.68.10 3142"
+
+```
+
+Result:
+
+```console
+[...]
+zabbix02 | CHANGED | rc=0 >>
+Connection to 10.68.68.10 3142 port [tcp/*] succeeded!
+```
+
+Run the playbook again
+
+```bash
+# Version: 1.0.0
+# Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml
+
+```
+
+### Step 7: Enable Native Logging
+
+* Remove vars_prompt and shell appends: Keep your playbooks fully idempotent and automated.
+
+* Enable Native Logging: If you want a local file log on the control node or managed nodes for debugging, configure Ansible's global callback or log output in ansible.cfg rather than writing manual tasks:
+
+The file /opt/ansible/automation.log is located locally on the Ansible control node (ansiblectr01), not on the remote managed nodes (zabbix01, zabbix02, or mysql01).
+
+If Ansible hasn't created the file yet, it is usually because the /opt/ansible directory does not exist or the executing user (master) lacks write permissions to /opt/ansible. You can create it and set ownership on the control node with:
+
+```bash
+
+sudo mkdir -p /opt/ansible
+sudo chown master:master /opt/ansible
+
+# run to confirm the directory exists and is owned by your user.
+ls -ld /opt/ansible
+```
+
+```ini
+[defaults]
+log_path = /opt/ansible/automation.log
 ```
 
 ### Step 8: playbook configure_apt_proxy.yml
