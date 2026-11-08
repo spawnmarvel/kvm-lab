@@ -40,7 +40,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Step 3: Generate \& Distribute SSH Keys across Managed Targets](#step-3-generate--distribute-ssh-keys-across-managed-targets)
       - [Production-grade standards, you should keep become = True, Privilege escalation](#production-grade-standards-you-should-keep-become--true-privilege-escalation)
     - [Step 4: Setup apt-cacher-ng \& Apache on ansiblectr01](#step-4-setup-apt-cacher-ng--apache-on-ansiblectr01)
-    - [Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook](#step-5-route-apt-traffic-on-managed-nodes-via-apt-cacher-ng-playbook)
+    - [Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook configure\_apt\_proxy.yml --check](#step-5-route-apt-traffic-on-managed-nodes-via-apt-cacher-ng-playbook-configure_apt_proxyyml---check)
       - [Clean Up Conflicting Remaps in acng.conf](#clean-up-conflicting-remaps-in-acngconf)
       - [Test Direct vs Proxied Fetch on zabbix02](#test-direct-vs-proxied-fetch-on-zabbix02)
       - [Verify and Enable Local Mirror Backends on ansiblectr01](#verify-and-enable-local-mirror-backends-on-ansiblectr01)
@@ -58,21 +58,22 @@ Ansible is a radically simple IT automation platform that makes your application
     - [virsh snapshot-create-as (backup all vms)](#virsh-snapshot-create-as-backup-all-vms)
   - [Phase 2: Full automation with ansible can start](#phase-2-full-automation-with-ansible-can-start)
   - [Semaphore UI](#semaphore-ui)
-  - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
-  - [Step 6.1 playbook verify\_isolation.yml](#step-61-playbook-verify_isolationyml)
-  - [Step 6.2 playbook update\_apt.yml --limit flag (tips: run ssh and do apt manually one time on each vm)](#step-62-playbook-update_aptyml---limit-flag-tips-run-ssh-and-do-apt-manually-one-time-on-each-vm)
+  - [Step 6 Verify current 2 playbooks on ansiblectr01 ping\_host.yml --check and configure\_apt\_proxy.yml --check](#step-6-verify-current-2-playbooks-on-ansiblectr01-ping_hostyml---check-and-configure_apt_proxyyml---check)
+  - [Step 6.1 playbook verify\_isolation.yml --check](#step-61-playbook-verify_isolationyml---check)
+  - [Step 6.2 playbook update\_apt.yml --limit flag (tips: run ssh and do apt manually one time on each vm) --check](#step-62-playbook-update_aptyml---limit-flag-tips-run-ssh-and-do-apt-manually-one-time-on-each-vm---check)
+    - [manually sudo apt update and upgrade the first time](#manually-sudo-apt-update-and-upgrade-the-first-time)
     - [--limit on host at the time](#--limit-on-host-at-the-time)
   - [Step 7: Enable Native Logging](#step-7-enable-native-logging)
-  - [Step 8: playbook configure\_apt\_proxy.yml](#step-8-playbook-configure_apt_proxyyml)
-  - [Step 9: playbook update\_apt.yml](#step-9-playbook-update_aptyml)
-  - [Step 10: playbook mount\_datadrive.yml](#step-10-playbook-mount_datadriveyml)
-  - [Step 11: playbook deploy\_mysql.yml](#step-11-playbook-deploy_mysqlyml)
-  - [Step 12: playbook configure\_zabbix\_db.yml](#step-12-playbook-configure_zabbix_dbyml)
-  - [Step 12: playbook deploy\_zabbix\_server.yml](#step-12-playbook-deploy_zabbix_serveryml)
-  - [Step 13: playbook configure\_zabbix\_server.yml](#step-13-playbook-configure_zabbix_serveryml)
-  - [Step 14: playbook deploy\_zabbix\_proxy.yml](#step-14-playbook-deploy_zabbix_proxyyml)
-  - [Step 15: playbook configure\_zabbix\_proxy.yml](#step-15-playbook-configure_zabbix_proxyyml)
-  - [Step 16: playbook deploy\_zabbix\_agent2.yml](#step-16-playbook-deploy_zabbix_agent2yml)
+  - [Step 8: playbook configure\_apt\_proxy.yml --check](#step-8-playbook-configure_apt_proxyyml---check)
+  - [Step 9: playbook update\_apt.yml --check](#step-9-playbook-update_aptyml---check)
+  - [Step 10: playbook mount\_datadrive.yml --check](#step-10-playbook-mount_datadriveyml---check)
+  - [Step 11: playbook deploy\_mysql.yml --check](#step-11-playbook-deploy_mysqlyml---check)
+  - [Step 12: playbook configure\_zabbix\_db.yml --heck](#step-12-playbook-configure_zabbix_dbyml---heck)
+  - [Step 12: playbook deploy\_zabbix\_server.yml --check](#step-12-playbook-deploy_zabbix_serveryml---check)
+  - [Step 13: playbook configure\_zabbix\_server.yml --check](#step-13-playbook-configure_zabbix_serveryml---check)
+  - [Step 14: playbook deploy\_zabbix\_proxy.yml ---check](#step-14-playbook-deploy_zabbix_proxyyml----check)
+  - [Step 15: playbook configure\_zabbix\_proxy.yml --check](#step-15-playbook-configure_zabbix_proxyyml---check)
+  - [Step 16: playbook deploy\_zabbix\_agent2.yml --check](#step-16-playbook-deploy_zabbix_agent2yml---check)
 
 # Here's a quick guide to get you up to speed on Ansible
 
@@ -1081,7 +1082,7 @@ sudo systemctl status apt-cacher-ng
 
 ```
 
-### Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook
+### Step 5: Route APT Traffic on Managed Nodes via apt-cacher-ng playbook configure_apt_proxy.yml --check
 
 With apt-cacher-ng and Apache successfully configured and running on ansiblectr01 with proper repository remapping, you are ready to configure the managed nodes (zabbix01, mysql01, and zabbix02) to route their package requests through the proxy.
 
@@ -1796,7 +1797,7 @@ Semaphore UI gives your team one self-hosted place to run, share, schedule, secu
 
 https://semaphoreui.com/
 
-## Step 6 Verify current 2 playbooks on ansiblectr01
+## Step 6 Verify current 2 playbooks on ansiblectr01 ping_host.yml --check and configure_apt_proxy.yml --check
 
 At last, we are ready for only working on ansiblectr01:
 ```bash
@@ -1811,11 +1812,11 @@ ansible.cfg  inventory  playbooks  roles  test
 
 # Version: 1.0.1
 # Description: Ping validation playbook with privilege escalation explicitly disabled
-ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml
+ansible-playbook -i inventory/hosts.ini playbooks/ping_host.yml --check
 
 # Version: 1.0.2
 # Description: Configures APT HTTP and HTTPS proxy settings for internal caching across iDMZ and OT nodes.
-ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml --check
 ```
 
 ping_host.yml
@@ -1832,7 +1833,7 @@ Alternatively, you can SSH into each host individually and run commands or updat
 ![configure apt proxy play](https://github.com/spawnmarvel/kvm-lab/blob/main/images/configure_apt_proxy_play.png)
 
 
-## Step 6.1 playbook verify_isolation.yml
+## Step 6.1 playbook verify_isolation.yml --check
 
 We must ensure that zabbix01, mysql01 and zabbix02 cannot reach internet.
 
@@ -1920,22 +1921,14 @@ zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    s
 zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-## Step 6.2 playbook update_apt.yml --limit flag (tips: run ssh and do apt manually one time on each vm)
+## Step 6.2 playbook update_apt.yml --limit flag (tips: run ssh and do apt manually one time on each vm) --check
 
-Update package lists and safely upgrade system packages across your managed nodes, leveraging the internal APT caching proxy
 
+NO, NO and NO, We do not start with this, it is bad practice.
 ```bash
-
-#ssh to each vm
-sudo apt update
-sudo apt upgrade
-
-# After that works test ansible
-
 # Version: 1.0.0
 # Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
 ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml
-
 ```
 
 Log
@@ -2028,17 +2021,51 @@ zabbix02 | CHANGED | rc=0 >>
 Connection to 10.68.68.10 3142 port [tcp/*] succeeded!
 ```
 
+### manually sudo apt update and upgrade the first time
+
+Update package lists and safely upgrade system packages across your managed nodes, leveraging the internal APT caching proxy
+
+```bash
+
+#ssh to each vm
+sudo apt update
+sudo apt upgrade
+
+master@mysql01:~$ sudo apt upgrade
+Summary:
+  Upgrading: 0, Installing: 0, Removing: 0, Not Upgrading: 2
+
+master@zabbix01:~$ sudo apt upgrade
+Summary:
+  Upgrading: 0, Installing: 0, Removing: 0, Not Upgrading: 2
+
+master@zabbix02:~$ sudo apt upgrade
+Summary:
+  Upgrading: 0, Installing: 0, Removing: 0, Not Upgrading: 2
+
+
+``` 
+
+Then test ansible
 
 ### --limit on host at the time
 Run the playbook again
 
 ```bash
-# Verification: Ansible will wait for the node to reboot and confirm reconnection with rc=0
-ansible mysql01 -i inventory/hosts.ini -m reboot
+# After that works test ansible
 
 # Version: 1.0.0
 # Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
-ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01 --check
+
+# if the play is ok, remove --check with --diff and or --limit
+
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01 --check
+```
+
+log
+
+```console
 
 ```
 
@@ -2066,7 +2093,7 @@ ls -ld /opt/ansible
 log_path = /opt/ansible/automation.log
 ```
 
-## Step 8: playbook configure_apt_proxy.yml
+## Step 8: playbook configure_apt_proxy.yml --check
 
 configure_apt_proxy.yml: Configures APT proxy settings on managed nodes to route package requests through the internal caching proxy.
 
@@ -2077,10 +2104,14 @@ cd io_ot_lab/
 
 # Version: 1.0.2
 # Description: Configures APT HTTP and HTTPS proxy settings for internal caching across iDMZ and OT nodes.
-ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml --check
+
+# if the play is ok, remove --check with --diff and or --limit
+
+
 ```
 
-## Step 9: playbook update_apt.yml
+## Step 9: playbook update_apt.yml --check
 
 update_apt.yml: Updates local package lists and performs base system package maintenance across all inventory nodes.
 
@@ -2089,9 +2120,11 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# if the play is ok, remove --check with --diff and or --limit
+
 ```
 
-## Step 10: playbook mount_datadrive.yml
+## Step 10: playbook mount_datadrive.yml --check
 
 mount_datadrive.yml: Formats and persistently mounts the dedicated secondary storage disk to /var/lib/mysql on mysql01.
 
@@ -2100,10 +2133,12 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# if the play is ok, remove --check with --diff and or --limit
+
 ```
 
 
-## Step 11: playbook deploy_mysql.yml
+## Step 11: playbook deploy_mysql.yml --check
 
 deploy_mysql.yml: Installs and enables MySQL 8.4 LTS on the database node (mysql01).
 
@@ -2112,9 +2147,11 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# if the play is ok, remove --check with --diff and or --limit
+
 ```
 
-## Step 12: playbook configure_zabbix_db.yml
+## Step 12: playbook configure_zabbix_db.yml --heck
 
 configure_zabbix_db.yml: Creates the dedicated Zabbix database, user accounts, and grants the necessary privileges in MySQL.
 
@@ -2123,9 +2160,11 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# if the play is ok, remove --check with --diff and or --limit
+
 ```
 
-## Step 12: playbook deploy_zabbix_server.yml
+## Step 12: playbook deploy_zabbix_server.yml --check
 
 deploy_zabbix_server.yml: Installs Zabbix Server 7.0 LTS and its required web frontend components on zabbix01.
 
@@ -2134,9 +2173,11 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# if the play is ok, remove --check with --diff and or --limit
+
 ```
 
-## Step 13: playbook configure_zabbix_server.yml
+## Step 13: playbook configure_zabbix_server.yml --check
 
 configure_zabbix_server.yml: Imports the initial Zabbix database schemas and applies core server configuration parameters.
 
@@ -2145,9 +2186,11 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# if the play is ok, remove --check with --diff and or --limit
+
 ```
 
-## Step 14: playbook deploy_zabbix_proxy.yml
+## Step 14: playbook deploy_zabbix_proxy.yml ---check
 
 deploy_zabbix_proxy.yml: Installs the Zabbix Active Proxy package with SQLite3 support on the secure OT node (zabbix02).
 
@@ -2156,9 +2199,11 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# if the play is ok, remove --check with --diff and or --limit
+
 ```
 
-## Step 15: playbook configure_zabbix_proxy.yml
+## Step 15: playbook configure_zabbix_proxy.yml --check
 
 configure_zabbix_proxy.yml: Configures the active proxy settings to communicate securely with the central Zabbix server over port 10051.
 
@@ -2167,9 +2212,10 @@ ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# if the play is ok, remove --check with --diff and or --limit
 ```
 
-## Step 16: playbook deploy_zabbix_agent2.yml
+## Step 16: playbook deploy_zabbix_agent2.yml --check
 
 deploy_zabbix_agent2.yml: Installs and configures Zabbix Agent 2 locally on the proxy node (zabbix02) to monitor the host itself.
 
@@ -2177,6 +2223,8 @@ deploy_zabbix_agent2.yml: Installs and configures Zabbix Agent 2 locally on the 
 ssh master@10.68.68.10
 
 cd io_ot_lab/
+
+# if the play is ok, remove --check with --diff and or --limit
 
 ```
 
