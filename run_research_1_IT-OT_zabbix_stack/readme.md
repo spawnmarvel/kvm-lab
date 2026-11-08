@@ -61,17 +61,17 @@ Ansible is a radically simple IT automation platform that makes your application
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
   - [Step 6.1 playbook verify\_isolation.yml](#step-61-playbook-verify_isolationyml)
   - [Step 6.2 playbook update\_apt.yml --limit flag](#step-62-playbook-update_aptyml---limit-flag)
-    - [Step 7: Enable Native Logging](#step-7-enable-native-logging)
-    - [Step 8: playbook configure\_apt\_proxy.yml](#step-8-playbook-configure_apt_proxyyml)
-    - [Step 9: playbook update\_apt.yml](#step-9-playbook-update_aptyml)
-    - [Step 10: playbook mount\_datadrive.yml](#step-10-playbook-mount_datadriveyml)
-    - [Step 11: playbook deploy\_mysql.yml](#step-11-playbook-deploy_mysqlyml)
-    - [Step 12: playbook configure\_zabbix\_db.yml](#step-12-playbook-configure_zabbix_dbyml)
-    - [Step 12: playbook deploy\_zabbix\_server.yml](#step-12-playbook-deploy_zabbix_serveryml)
-    - [Step 12: playbook configure\_zabbix\_server.yml](#step-12-playbook-configure_zabbix_serveryml)
-    - [Step 13: playbook deploy\_zabbix\_proxy.yml](#step-13-playbook-deploy_zabbix_proxyyml)
-    - [Step 13: playbook configure\_zabbix\_proxy.yml](#step-13-playbook-configure_zabbix_proxyyml)
-    - [Step 14: playbook deploy\_zabbix\_agent2.yml](#step-14-playbook-deploy_zabbix_agent2yml)
+  - [Step 7: Enable Native Logging](#step-7-enable-native-logging)
+  - [Step 8: playbook configure\_apt\_proxy.yml](#step-8-playbook-configure_apt_proxyyml)
+  - [Step 9: playbook update\_apt.yml](#step-9-playbook-update_aptyml)
+  - [Step 10: playbook mount\_datadrive.yml](#step-10-playbook-mount_datadriveyml)
+  - [Step 11: playbook deploy\_mysql.yml](#step-11-playbook-deploy_mysqlyml)
+  - [Step 12: playbook configure\_zabbix\_db.yml](#step-12-playbook-configure_zabbix_dbyml)
+  - [Step 12: playbook deploy\_zabbix\_server.yml](#step-12-playbook-deploy_zabbix_serveryml)
+  - [Step 13: playbook configure\_zabbix\_server.yml](#step-13-playbook-configure_zabbix_serveryml)
+  - [Step 14: playbook deploy\_zabbix\_proxy.yml](#step-14-playbook-deploy_zabbix_proxyyml)
+    - [Step 15: playbook configure\_zabbix\_proxy.yml](#step-15-playbook-configure_zabbix_proxyyml)
+    - [Step 16: playbook deploy\_zabbix\_agent2.yml](#step-16-playbook-deploy_zabbix_agent2yml)
 
 # Here's a quick guide to get you up to speed on Ansible
 
@@ -2029,7 +2029,7 @@ ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml
 
 ```
 
-### Step 7: Enable Native Logging
+## Step 7: Enable Native Logging
 
 * Remove vars_prompt and shell appends: Keep your playbooks fully idempotent and automated.
 
@@ -2053,7 +2053,7 @@ ls -ld /opt/ansible
 log_path = /opt/ansible/automation.log
 ```
 
-### Step 8: playbook configure_apt_proxy.yml
+## Step 8: playbook configure_apt_proxy.yml
 
 configure_apt_proxy.yml: Configures APT proxy settings on managed nodes to route package requests through the internal caching proxy.
 
@@ -2067,7 +2067,7 @@ cd io_ot_lab/
 ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
 ```
 
-### Step 9: playbook update_apt.yml
+## Step 9: playbook update_apt.yml
 
 update_apt.yml: Updates local package lists and performs base system package maintenance across all inventory nodes.
 
@@ -2078,7 +2078,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 10: playbook mount_datadrive.yml
+## Step 10: playbook mount_datadrive.yml
 
 mount_datadrive.yml: Formats and persistently mounts the dedicated secondary storage disk to /var/lib/mysql on mysql01.
 
@@ -2090,7 +2090,7 @@ cd io_ot_lab/
 ```
 
 
-### Step 11: playbook deploy_mysql.yml
+## Step 11: playbook deploy_mysql.yml
 
 deploy_mysql.yml: Installs and enables MySQL 8.4 LTS on the database node (mysql01).
 
@@ -2101,7 +2101,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 12: playbook configure_zabbix_db.yml
+## Step 12: playbook configure_zabbix_db.yml
 
 configure_zabbix_db.yml: Creates the dedicated Zabbix database, user accounts, and grants the necessary privileges in MySQL.
 
@@ -2112,7 +2112,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 12: playbook deploy_zabbix_server.yml
+## Step 12: playbook deploy_zabbix_server.yml
 
 deploy_zabbix_server.yml: Installs Zabbix Server 7.0 LTS and its required web frontend components on zabbix01.
 
@@ -2123,7 +2123,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 12: playbook configure_zabbix_server.yml
+## Step 13: playbook configure_zabbix_server.yml
 
 configure_zabbix_server.yml: Imports the initial Zabbix database schemas and applies core server configuration parameters.
 
@@ -2134,7 +2134,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 13: playbook deploy_zabbix_proxy.yml
+## Step 14: playbook deploy_zabbix_proxy.yml
 
 deploy_zabbix_proxy.yml: Installs the Zabbix Active Proxy package with SQLite3 support on the secure OT node (zabbix02).
 
@@ -2145,7 +2145,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 13: playbook configure_zabbix_proxy.yml
+### Step 15: playbook configure_zabbix_proxy.yml
 
 configure_zabbix_proxy.yml: Configures the active proxy settings to communicate securely with the central Zabbix server over port 10051.
 
@@ -2156,7 +2156,7 @@ cd io_ot_lab/
 
 ```
 
-### Step 14: playbook deploy_zabbix_agent2.yml
+### Step 16: playbook deploy_zabbix_agent2.yml
 
 deploy_zabbix_agent2.yml: Installs and configures Zabbix Agent 2 locally on the proxy node (zabbix02) to monitor the host itself.
 
