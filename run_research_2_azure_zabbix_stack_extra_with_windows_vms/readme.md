@@ -1,5 +1,7 @@
 # Ansible stack in Azure
 
+Do the same as with KVM for repeat it
+
 
 ## Table of content
 - [Ansible stack in Azure](#ansible-stack-in-azure)

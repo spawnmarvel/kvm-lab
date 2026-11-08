@@ -2028,7 +2028,7 @@ Run the playbook again
 ```bash
 # Version: 1.0.0
 # Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
-ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
 
 ```
 
