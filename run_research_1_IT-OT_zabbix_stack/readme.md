@@ -2219,6 +2219,7 @@ cd io_ot_lab/
 ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --check
 # if the play is ok, remove --check with --diff and or --limit
 
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml
 ```
 
 log
