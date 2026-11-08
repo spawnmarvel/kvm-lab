@@ -2060,13 +2060,37 @@ ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
 
 # if the play is ok, remove --check with --diff and or --limit
 
-ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01 --check
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
 ```
 
 log
 
 ```console
+PLAY [Update and Upgrade System Packages] ******************************************************************************
 
+TASK [Gathering Facts] *************************************************************************************************
+[WARNING]: Host 'mysql01' is using the discovered Python interpreter at '/usr/bin/python3.14', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [mysql01]
+
+TASK [Update apt repository cache] *************************************************************************************
+ok: [mysql01]
+
+TASK [Perform a safe upgrade of installed packages] ********************************************************************
+ok: [mysql01]
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+Now do for the rest of the vms
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit zabbix01 --check
+
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit zabbix02 --check
+
+# now run for all
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml
 ```
 
 ## Step 7: Enable Native Logging

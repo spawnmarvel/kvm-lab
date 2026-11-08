@@ -123,6 +123,8 @@ ansible-playbook playbook.yml --check --diff
 # To safely run a check or dry-run update across your nodes using Ansible limits, you can use Ansible's --check flag combined with --limit. This allows you to inspect what changes would occur without actually writing any packages to disk.
 ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01 --check
 
+# when all works out on each one, you can run all or just one and one
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
 
 ```
 
