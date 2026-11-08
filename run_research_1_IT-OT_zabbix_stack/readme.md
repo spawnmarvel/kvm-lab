@@ -60,6 +60,7 @@ Ansible is a radically simple IT automation platform that makes your application
   - [Semaphore UI](#semaphore-ui)
     - [Step 6 Verify current 2 playbooks on ansiblectr01](#step-6-verify-current-2-playbooks-on-ansiblectr01)
   - [Step 6.1 playbook verify\_isolation.yml](#step-61-playbook-verify_isolationyml)
+  - [Step 6.2 update\_apt.yml](#step-62-update_aptyml)
     - [Step 7: playbook setup\_logging.yml](#step-7-playbook-setup_loggingyml)
     - [Step 8: playbook configure\_apt\_proxy.yml](#step-8-playbook-configure_apt_proxyyml)
     - [Step 9: playbook update\_apt.yml](#step-9-playbook-update_aptyml)
@@ -1918,6 +1919,7 @@ zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    s
 zabbix02                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+## Step 6.2 update_apt.yml
 
 ### Step 7: playbook setup_logging.yml
 

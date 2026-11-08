@@ -14,6 +14,8 @@
   - [Inventory](#inventory)
   - [SSH key-based authentication](#ssh-key-based-authentication)
   - [Ansible Ad-hoc commands](#ansible-ad-hoc-commands)
+  - [Enable Native Logging](#enable-native-logging)
+    - [OS-Level Auditing](#os-level-auditing)
   - [Playbooks](#playbooks)
   - [Semaphore UI](#semaphore-ui)
 
@@ -80,6 +82,34 @@ mkdir mkdir io_ot_lab_build
 ## SSH key-based authentication
 
 ## Ansible Ad-hoc commands
+
+## Enable Native Logging
+
+* Remove vars_prompt and shell appends: Keep your playbooks fully idempotent and automated.
+
+* Enable Native Logging: If you want a local file log on the control node or managed nodes for debugging, configure Ansible's global callback or log output in ansible.cfg rather than writing manual tasks:
+
+The file /opt/ansible/automation.log is located locally on the Ansible control node (ansiblectr01), not on the remote managed nodes (zabbix01, zabbix02, or mysql01).
+
+If Ansible hasn't created the file yet, it is usually because the /opt/ansible directory does not exist or the executing user (master) lacks write permissions to /opt/ansible. You can create it and set ownership on the control node with:
+
+```bash
+
+sudo mkdir -p /opt/ansible
+sudo chown master:master /opt/ansible
+
+# run to confirm the directory exists and is owned by your user.
+ls -ld /opt/ansible
+```
+
+```ini
+[defaults]
+log_path = /opt/ansible/automation.log
+```
+
+### OS-Level Auditing
+
+OS-Level Auditing: For package installations and system modifications, Linux already maintains authoritative logs in /var/log/apt/history.log, /var/log/dpkg.log, and the system journal (journald), which can be collected by Zabbix or forwarded to a log aggregator (like Loki).
 
 ## Playbooks
 
