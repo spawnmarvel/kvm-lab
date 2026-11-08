@@ -2247,6 +2247,8 @@ zabbix02                   : ok=3    changed=0    unreachable=0    failed=0    s
 
 ```
 
+![play_update](https://github.com/spawnmarvel/kvm-lab/blob/main/images/play_update.png)
+
 ## Step 10: playbook mount_datadrive.yml --check
 
 mount_datadrive.yml: Formats and persistently mounts the dedicated secondary storage disk to /var/lib/mysql on mysql01.
