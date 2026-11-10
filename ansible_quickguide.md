@@ -13,6 +13,7 @@
   - [Getting Started with Ansible: A Beginner’s Guide](#getting-started-with-ansible-a-beginners-guide)
   - [Inventory](#inventory)
   - [SSH key-based authentication](#ssh-key-based-authentication)
+    - [host\_key\_checking ansible.cfg](#host_key_checking-ansiblecfg)
   - [Ansible Ad-hoc commands](#ansible-ad-hoc-commands)
   - [Enable Native Logging](#enable-native-logging)
     - [OS-Level Auditing](#os-level-auditing)
@@ -81,6 +82,10 @@ mkdir mkdir io_ot_lab_build
 
 ## SSH key-based authentication
 
+### host_key_checking ansible.cfg
+
+
+
 ## Ansible Ad-hoc commands
 
 ## Enable Native Logging
@@ -110,6 +115,7 @@ log_path = /opt/ansible/automation.log
 ### OS-Level Auditing
 
 OS-Level Auditing: For package installations and system modifications, Linux already maintains authoritative logs in /var/log/apt/history.log, /var/log/dpkg.log, and the system journal (journald), which can be collected by Zabbix or forwarded to a log aggregator (like Loki).
+
 
 ## Playbooks --check with --diff and or --limit
 
