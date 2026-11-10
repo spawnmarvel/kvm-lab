@@ -323,6 +323,22 @@ sudo qemu-img create -f qcow2 /mnt/datadrive1/qemu/images/zabbix01.qcow2 20G
 
 bash create_vms_static_zabbix01.sh
 
+# verify console login first
+
+# remove old
+ssh-keygen -f '/home/master/.ssh/known_hosts' -R '10.68.68.50'
+# add new
+ssh-copy-id master@10.68.68.50
+
+# The error sudo: interactive authentication is required occurs because the Ansible ad-hoc command defaults to trying privilege escalation (become: true or equivalent depending on your ansible.cfg defaults) for user execution, but passwordless sudo (NOPASSWD) is not configured for the master user on the freshly built zabbix01 host.
+
+# Log into zabbix01 and add a sudoers rule allowing the master user to run sudo commands without a password prompt:
+
+echo "master ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/master
+sudo chmod 440 /etc/sudoers.d/master
+
+# Re-run the Ansible Ad-Hoc Command
+
 ```
 ## 8 Linux virsh subcommands for managing VMs on the command line
 

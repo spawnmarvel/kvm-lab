@@ -17,7 +17,8 @@
   - [Ansible Ad-hoc commands](#ansible-ad-hoc-commands)
   - [Enable Native Logging](#enable-native-logging)
     - [OS-Level Auditing](#os-level-auditing)
-  - [Playbooks --check with --diff and or --limit](#playbooks---check-with---diff-and-or---limit)
+    - [Verify yaml](#verify-yaml)
+  - [Playbooks --check with --diff and or --limit and or --syntax-check](#playbooks---check-with---diff-and-or---limit-and-or---syntax-check)
   - [Semaphore UI](#semaphore-ui)
 
 ## azure-ansibel quickguide back in 2023
@@ -117,7 +118,11 @@ log_path = /opt/ansible/automation.log
 OS-Level Auditing: For package installations and system modifications, Linux already maintains authoritative logs in /var/log/apt/history.log, /var/log/dpkg.log, and the system journal (journald), which can be collected by Zabbix or forwarded to a log aggregator (like Loki).
 
 
-## Playbooks --check with --diff and or --limit
+### Verify yaml
+
+https://www.yamllint.com/
+
+## Playbooks --check with --diff and or --limit and or --syntax-check
 
 Combine --check with --diff to see a before-and-after text comparison of any configuration files that would be modified:
 
@@ -132,6 +137,8 @@ ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
 # when all works out on each one, you can run all or just one and one
 ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
 
+# syntax check, If the playbook has valid YAML formatting and correct Ansible structure, the command returns the playbook path and exits with return code 0
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --syntax-check
 ```
 
 

@@ -2265,6 +2265,42 @@ cd io_ot_lab/
 ansible purdue_lab -i inventory/hosts.ini -m shell -a "free -h && nproc && df -h /"
 ```
 
+log
+
+```console
+zabbix01 | CHANGED | rc=0 >>
+               total        used        free      shared  buff/cache   available
+Mem:           3.3Gi       428Mi       2.8Gi       1.1Mi       362Mi       2.9Gi
+Swap:             0B          0B          0B
+2
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv  9.8G  2.7G  6.6G  30% /
+
+ansiblectr01 | CHANGED | rc=0 >>
+               total        used        free      shared  buff/cache   available
+Mem:           3.3Gi       575Mi       2.6Gi       1.6Mi       366Mi       2.8Gi
+Swap:          1.7Gi          0B       1.7Gi
+2
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  7.2G  9.9G  43% /
+
+zabbix02 | CHANGED | rc=0 >>
+               total        used        free      shared  buff/cache   available
+Mem:           3.3Gi       467Mi       2.8Gi       1.2Mi       331Mi       2.9Gi
+Swap:          1.8Gi          0B       1.8Gi
+2
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  6.1G   11G  36% /
+
+mysql01 | CHANGED | rc=0 >>
+               total        used        free      shared  buff/cache   available
+Mem:           2.5Gi       452Mi       1.8Gi       1.2Mi       493Mi       2.1Gi
+Swap:          1.7Gi          0B       1.7Gi
+2
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  4.6G   13G  27% /
+```
+
 # The IT/OT Zabbix stack proof-of-concept runbook has reached a solid milestone.
 
 The IT/OT Zabbix stack proof-of-concept runbook has reached a solid milestone. With the network topology, KVM bridge forwarding rules (virbr25 and virbr20), firewall isolation, SSH privilege escalation, and internal APT caching proxy (apt-cacher-ng supporting both Ubuntu repositories and repo.zabbix.com) fully verified and operational, all nodes (mysql01, zabbix01, and zabbix02) update cleanly via Ansible with failed=0.
@@ -2275,12 +2311,49 @@ The next logical task in your operational workflow is Step 10: mount_datadrive.y
 
 mount_datadrive.yml: Formats and persistently mounts the dedicated secondary storage disk to /var/lib/mysql on mysql01.
 
+Check disk avaliable
+
+```bash
+# ad hoc
+ansible mysql01 -i inventory/hosts.ini -m shell -a "lsblk -f"
+
+# or login
+ssh master@10.68.68.52
+
+master@mysql01:~$ lsblk
+NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sr0                        11:0    1 1024M  1 rom
+vda                       253:0    0   20G  0 disk
+├─vda1                    253:1    0    1M  0 part
+├─vda2                    253:2    0  1.8G  0 part /boot
+└─vda3                    253:3    0 18.2G  0 part
+  └─ubuntu--vg-ubuntu--lv 252:0    0 18.2G  0 lvm  /
+vdb                       253:16   0   30G  0 disk
+
+
+```
+The output shows that vdb (30 GB) is the unformatted secondary data disk attached to mysql01, while vda is the main OS disk.
+Verification: Confirm vdb has no partitions or mount points listed in the lsblk output.
+
+* Ansible allows you to restrict the hosts that a playbook runs against at execution time using the --limit (or -l) parameter. 
+* This overrides or filters the hosts: pattern defined inside the playbook file.
 ```bash
 ssh master@10.68.68.10
 
 cd io_ot_lab/
 
+# check syntax
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --syntax-check
+
 # if the play is ok, remove --check with --diff and or --limit
+
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit mysql01 --check
+
+```
+
+log
+
+```console
 
 ```
 
