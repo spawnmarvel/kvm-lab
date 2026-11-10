@@ -8,8 +8,9 @@ Do the same as with KVM for repeat it
   - [Table of content](#table-of-content)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
   - [Create ansiblectr01, 10.68.68.10 whitelist FW NSG](#create-ansiblectr01-10686810-whitelist-fw-nsg)
-  - [Install Ansible](#install-ansible)
-  - [Setup Ansible](#setup-ansible)
+  - [Install Ansible ansiblectr01](#install-ansible-ansiblectr01)
+  - [Install Semaphore UI](#install-semaphore-ui)
+  - [Setup Ansible ansiblectr01](#setup-ansible-ansiblectr01)
   - [Playbooks](#playbooks)
 
 ## Virtual machines in Rg-swc-ansiblestack-01
@@ -36,10 +37,13 @@ Covers: 10.68.20.15 (zabbix02)
 
 ## Create ansiblectr01, 10.68.68.10 whitelist FW NSG
 
-## Install Ansible
+## Install Ansible ansiblectr01
 
+## Install Semaphore UI
 
-## Setup Ansible
+https://semaphoreui.com/
+
+## Setup Ansible ansiblectr01
 
 ## Playbooks
 
