@@ -18,7 +18,7 @@
   - [Enable Native Logging](#enable-native-logging)
     - [OS-Level Auditing](#os-level-auditing)
     - [Verify yaml](#verify-yaml)
-  - [Playbooks --check with --diff and or --limit and or --syntax-check](#playbooks---check-with---diff-and-or---limit-and-or---syntax-check)
+  - [Playbooks --check with --diff and or --limit and or --syntax-check and or --vvv](#playbooks---check-with---diff-and-or---limit-and-or---syntax-check-and-or---vvv)
   - [Semaphore UI](#semaphore-ui)
 
 ## azure-ansibel quickguide back in 2023
@@ -122,7 +122,7 @@ OS-Level Auditing: For package installations and system modifications, Linux alr
 
 https://www.yamllint.com/
 
-## Playbooks --check with --diff and or --limit and or --syntax-check
+## Playbooks --check with --diff and or --limit and or --syntax-check and or --vvv
 
 Combine --check with --diff to see a before-and-after text comparison of any configuration files that would be modified:
 
@@ -139,6 +139,9 @@ ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit mysql01
 
 # syntax check, If the playbook has valid YAML formatting and correct Ansible structure, the command returns the playbook path and exits with return code 0
 ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --syntax-check
+
+# verbose
+ ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit mysql01 --check -vvv
 ```
 
 

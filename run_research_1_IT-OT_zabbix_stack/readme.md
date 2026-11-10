@@ -2348,13 +2348,52 @@ ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --syntax-c
 # if the play is ok, remove --check with --diff and or --limit
 
 ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit mysql01 --check
+# The verbose -vvv output uncovered the exact reason for the behavior:
 
 ```
+
+
+The playbook and YAML formatting were completely correct all along. By default, Ansible's command and shell modules automatically skip execution during --check mode because Ansible cannot predict whether an arbitrary shell command will alter the system state.
+
+```json
+"msg": "Command would have run if not in check mode", "skipped": true
+```
+
+How to Proceed
+Since lsblk -f is a read-only diagnostic command with changed_when: false, you can run the playbook normally without the --check flag:
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit mysql01
+``` 
 
 log
 
 ```console
+PLAY [Configure and mount secondary data drive] ************************************************************************
 
+TASK [Gathering Facts] *************************************************************************************************
+
+ok: [mysql01]
+
+TASK [Gather block device information] *********************************************************************************
+ok: [mysql01]
+
+TASK [Display available block devices] *********************************************************************************
+ok: [mysql01] => {
+    "msg": [
+        "NAME                      FSTYPE      FSVER    LABEL UUID                                   FSAVAIL FSUSE% MOUNTPOINTS",
+        "sr0                                                                                                        ",
+        "vda                                                                                                        ",
+        "├─vda1                                                                                                     ",
+        "├─vda2                    ext4        1.0            24624981-8ebe-4499-bf55-932117f200f1      1.5G     6% /boot",
+        "└─vda3                    LVM2_member LVM2 001       c4XSOe-Dc1Q-z2oE-rYAG-PFEE-hWUo-Pukq6B                ",
+        "  └─ubuntu--vg-ubuntu--lv ext4        1.0            363417ee-78a7-499f-ab87-7143d8f882fe     12.4G    26% /",
+        "vdb                                                                                                        "
+    ]
+}
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
 
