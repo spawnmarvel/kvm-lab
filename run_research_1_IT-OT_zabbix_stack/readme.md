@@ -2421,9 +2421,7 @@ ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit my
 
 log
 
-```console
-
-```
+![play mount disk](https://github.com/spawnmarvel/kvm-lab/blob/main/images/play_mount_disk.png)
 
 ## Step 11: playbook deploy_mysql.yml --check
 
