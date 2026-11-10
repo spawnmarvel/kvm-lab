@@ -10,7 +10,7 @@ sudo virsh net-update zone2-ot add-last ip-dhcp-host \
 
 sudo virt-install \
   --name zabbix02 \
-  --ram 3048 \
+  --ram 4096 \
   --vcpus 2 \
   --disk path=/mnt/datadrive1/qemu/images/zabbix02.qcow2,bus=virtio,format=qcow2 \
   --os-variant ubuntu24.04 \

@@ -15,6 +15,7 @@
     - [3.3 Virtual Machine increase disk todo](#33-virtual-machine-increase-disk-todo)
     - [3.4 Virtual Machine increase vcpu todo](#34-virtual-machine-increase-vcpu-todo)
     - [4. Virtual Machine Snapshots \& Restore](#4-virtual-machine-snapshots--restore)
+    - [4.1 Remove vm and build new base IO/OT lab](#41-remove-vm-and-build-new-base-ioot-lab)
   - [8 Linux virsh subcommands for managing VMs on the command line](#8-linux-virsh-subcommands-for-managing-vms-on-the-command-line)
   - [quick guide reference](#quick-guide-reference)
 
@@ -304,6 +305,25 @@ sudo virsh net-update test-network delete ip-dhcp-host \
   --live --config
 ```
 
+
+### 4.1 Remove vm and build new base IO/OT lab
+
+
+```bash
+
+sudo virsh destroy zabbix01
+
+sudo virsh snapshot-list zabbix01
+sudo virsh snapshot-delete zabbix01 clean-install-os
+
+sudo virsh undefine zabbix01 --nvram
+sudo rm -f /mnt/datadrive1/qemu/images/zabbix01.qcow2
+
+sudo qemu-img create -f qcow2 /mnt/datadrive1/qemu/images/zabbix01.qcow2 20G
+
+bash create_vms_static_zabbix01.sh
+
+```
 ## 8 Linux virsh subcommands for managing VMs on the command line
 
 ```bash

@@ -69,6 +69,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [playbook configure\_apt\_proxy.yml --check](#playbook-configure_apt_proxyyml---check)
   - [Step 9: playbook update\_apt.yml --check](#step-9-playbook-update_aptyml---check)
     - [(we have already set this up on a previous step)](#we-have-already-set-this-up-on-a-previous-step)
+  - [Step 9.1: ad-hoc Ansible command](#step-91-ad-hoc-ansible-command)
 - [The IT/OT Zabbix stack proof-of-concept runbook has reached a solid milestone.](#the-itot-zabbix-stack-proof-of-concept-runbook-has-reached-a-solid-milestone)
   - [Step 10: playbook mount\_datadrive.yml --check](#step-10-playbook-mount_datadriveyml---check)
   - [Step 11: playbook deploy\_mysql.yml --check](#step-11-playbook-deploy_mysqlyml---check)
@@ -2255,6 +2256,14 @@ zabbix02                   : ok=3    changed=0    unreachable=0    failed=0    s
 Excellent!
 
 ![play_update](https://github.com/spawnmarvel/kvm-lab/blob/main/images/play_update.png)
+
+## Step 9.1: ad-hoc Ansible command
+
+```bash
+cd io_ot_lab/
+
+ansible purdue_lab -i inventory/hosts.ini -m shell -a "free -h && nproc && df -h /"
+```
 
 # The IT/OT Zabbix stack proof-of-concept runbook has reached a solid milestone.
 
