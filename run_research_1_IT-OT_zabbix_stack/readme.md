@@ -71,7 +71,7 @@ Ansible is a radically simple IT automation platform that makes your application
     - [(we have already set this up on a previous step)](#we-have-already-set-this-up-on-a-previous-step)
   - [Step 9.1: ad-hoc Ansible command](#step-91-ad-hoc-ansible-command)
 - [The IT/OT Zabbix stack proof-of-concept runbook has reached a solid milestone.](#the-itot-zabbix-stack-proof-of-concept-runbook-has-reached-a-solid-milestone)
-  - [Step 10: playbook mount\_datadrive.yml --check](#step-10-playbook-mount_datadriveyml---check)
+  - [Step 10: playbook mount\_datadrive\_check.yml and mount\_datadrive.yml --check](#step-10-playbook-mount_datadrive_checkyml-and-mount_datadriveyml---check)
   - [Step 11: playbook deploy\_mysql.yml --check](#step-11-playbook-deploy_mysqlyml---check)
   - [Step 12: playbook configure\_zabbix\_db.yml --heck](#step-12-playbook-configure_zabbix_dbyml---heck)
   - [Step 12: playbook deploy\_zabbix\_server.yml --check](#step-12-playbook-deploy_zabbix_serveryml---check)
@@ -1748,31 +1748,35 @@ sudo virsh list
 
 # snapshots
 # 1. Create a named snapshot with description
-sudo virsh snapshot-create-as --domain zabbix02 --name "clean-install-os" --description "Clean baseline setup before testing"
-sudo virsh snapshot-create-as --domain zabbix01 --name "clean-install-os" --description "Clean baseline setup before testing"
-sudo virsh snapshot-create-as --domain mysql01 --name "clean-install-os" --description "Clean baseline setup before testing"
-sudo virsh snapshot-create-as --domain ansiblectr01 --name "clean-install-os-and_ansible" --description "Clean baseline setup with ansible before testing"
+for vm in ansiblectr01 zabbix01 zabbix02 mysql01; do
+  echo "Creating snapshot for $vm..."
+  sudo virsh snapshot-create-as --domain "$vm" --name "${vm}-backup-$(date +%Y%m%d)" --disk-only --description "Automated backup snapshot"
+done
 
 # 2. List all snapshots for a VM
-sudo virsh snapshot-list --domain zabbix02
- Name               Creation Time               State
----------------------------------------------------------
- clean-install-os   2026-11-04 21:44:52 +0100   running
-
-sudo virsh snapshot-list --domain zabbix01
- Name               Creation Time               State
----------------------------------------------------------
- clean-install-os   2026-11-04 21:45:35 +0100   running
-
-sudo virsh snapshot-list --domain mysql01
- Name               Creation Time               State
----------------------------------------------------------
- clean-install-os   2026-11-04 21:45:46 +0100   running
-
-sudo virsh snapshot-list --domain ansiblectr01
+sudo virsh snapshot-list ansiblectr01
  Name                           Creation Time               State
----------------------------------------------------------------------
+---------------------------------------------------------------------------
+ ansiblectr01-backup-20261110   2026-11-10 21:19:20 +0100   disk-snapshot
  clean-install-os-and_ansible   2026-11-04 21:45:58 +0100   running
+
+sudo virsh snapshot-list zabbix01
+ Name                       Creation Time               State
+-----------------------------------------------------------------------
+ clean-install-os           2026-11-10 21:14:24 +0100   running
+ zabbix01-backup-20261110   2026-11-10 21:19:21 +0100   disk-snapshot
+
+ sudo virsh snapshot-list mysql01
+ Name                      Creation Time               State
+----------------------------------------------------------------------
+ clean-install-os          2026-11-04 21:45:46 +0100   running
+ mysql01-backup-20261110   2026-11-10 21:19:22 +0100   disk-snapshot
+
+ sudo virsh snapshot-list zabbix02
+ Name                       Creation Time               State
+-----------------------------------------------------------------------
+ clean-install-os           2026-11-04 21:44:52 +0100   running
+ zabbix02-backup-20261110   2026-11-10 21:19:21 +0100   disk-snapshot
 
 ```
 
@@ -2307,7 +2311,7 @@ The IT/OT Zabbix stack proof-of-concept runbook has reached a solid milestone. W
 
 The next logical task in your operational workflow is Step 10: mount_datadrive.yml, which partitions, formats, and persistently mounts the secondary 30 GB volume (/dev/vdb) specifically dedicated to MySQL storage on mysql01.
 
-## Step 10: playbook mount_datadrive.yml --check
+## Step 10: playbook mount_datadrive_check.yml and mount_datadrive.yml --check
 
 mount_datadrive.yml: Formats and persistently mounts the dedicated secondary storage disk to /var/lib/mysql on mysql01.
 
@@ -2343,11 +2347,11 @@ ssh master@10.68.68.10
 cd io_ot_lab/
 
 # check syntax
-ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --syntax-check
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive_check.yml --syntax-check
 
 # if the play is ok, remove --check with --diff and or --limit
 
-ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit mysql01 --check
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive_check.yml --limit mysql01 --check
 # The verbose -vvv output uncovered the exact reason for the behavior:
 
 ```
@@ -2363,7 +2367,7 @@ How to Proceed
 Since lsblk -f is a read-only diagnostic command with changed_when: false, you can run the playbook normally without the --check flag:
 
 ```bash
-ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit mysql01
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive_check.yml --limit mysql01
 ``` 
 
 log
@@ -2378,17 +2382,18 @@ ok: [mysql01]
 TASK [Gather block device information] *********************************************************************************
 ok: [mysql01]
 
+
 TASK [Display available block devices] *********************************************************************************
 ok: [mysql01] => {
     "msg": [
-        "NAME                      FSTYPE      FSVER    LABEL UUID                                   FSAVAIL FSUSE% MOUNTPOINTS",
-        "sr0                                                                                                        ",
-        "vda                                                                                                        ",
-        "├─vda1                                                                                                     ",
-        "├─vda2                    ext4        1.0            24624981-8ebe-4499-bf55-932117f200f1      1.5G     6% /boot",
-        "└─vda3                    LVM2_member LVM2 001       c4XSOe-Dc1Q-z2oE-rYAG-PFEE-hWUo-Pukq6B                ",
-        "  └─ubuntu--vg-ubuntu--lv ext4        1.0            363417ee-78a7-499f-ab87-7143d8f882fe     12.4G    26% /",
-        "vdb                                                                                                        "
+        "NAME                       SIZE FSTYPE      MOUNTPOINTS",
+        "sr0                       1024M             ",
+        "vda                         20G             ",
+        "├─vda1                       1M             ",
+        "├─vda2                     1.8G ext4        /boot",
+        "└─vda3                    18.2G LVM2_member ",
+        "  └─ubuntu--vg-ubuntu--lv 18.2G ext4        /",
+        "vdb                         30G             "
     ]
 }
 
@@ -2396,6 +2401,29 @@ PLAY RECAP *********************************************************************
 mysql01                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+Now mount the drive, but first a new backup look at the top, backup section.
+
+```bash
+ssh master@10.68.68.10
+
+cd io_ot_lab/
+
+# if the play is ok, remove --check with --diff and or --limit
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit mysql01 --check
+
+# This error occurs because you ran the playbook in check mode (--check). During a dry run, the community.general.parted module simulates creating the partition, but it does not actually write to the disk or create the /dev/vdb1 device file on the system. 
+# Because /dev/vdb1 does not physically exist during a check-mode run, the subsequent filesystem task fails when it looks for that device.
+
+# Run the playbook live to apply the configuration:
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --limit mysql01
+
+```
+
+log
+
+```console
+
+```
 
 ## Step 11: playbook deploy_mysql.yml --check
 

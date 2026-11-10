@@ -1,13 +1,44 @@
 ---
+# Version: 3.3.0
+# Description: Partitions vdb, formats as ext4, and persistently mounts to /var/lib/mysql on mysql01.
+
 - name: Configure and mount secondary data drive
   hosts: mysql01
   gather_facts: true
+  become: true
   tasks:
-    - name: Gather block device information
-      ansible.builtin.shell: lsblk -f
+    - name: Gather block device information with size
+      ansible.builtin.command: lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS
       register: block_devices
       changed_when: false
+      check_mode: false
 
     - name: Display available block devices
       ansible.builtin.debug:
         msg: "{{ block_devices.stdout_lines }}"
+
+    - name: Create primary partition on vdb
+      community.general.parted:
+        device: /dev/vdb
+        number: 1
+        state: present
+        fs_type: ext4
+
+    - name: Create ext4 filesystem on vdb1
+      ansible.builtin.filesystem:
+        fstype: ext4
+        dev: /dev/vdb1
+
+    - name: Ensure mount point directory exists
+      ansible.builtin.file:
+        path: /var/lib/mysql
+        state: directory
+        mode: '0755'
+
+    - name: Mount secondary drive persistently
+      ansible.builtin.mount:
+        path: /var/lib/mysql
+        src: /dev/vdb1
+        fstype: ext4
+        opts: defaults
+        state: mounted
