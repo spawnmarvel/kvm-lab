@@ -2423,6 +2423,43 @@ log
 
 ![play mount disk](https://github.com/spawnmarvel/kvm-lab/blob/main/images/play_mount_disk.png)
 
+
+Run the final verification command on your control node to confirm the partition layout and active mount point:
+
+```bash
+ansible mysql01 -i inventory/hosts.ini -m shell -a "lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS && df -h /var/lib/mysql"
+```
+
+log
+
+```console
+mysql01 | CHANGED | rc=0 >>
+NAME                       SIZE FSTYPE      MOUNTPOINTS
+sr0                       1024M
+vda                         20G
+├─vda1                       1M
+├─vda2                     1.8G ext4        /boot
+└─vda3                    18.2G LVM2_member
+  └─ubuntu--vg-ubuntu--lv 18.2G ext4        /
+vdb                         30G
+└─vdb1                      30G ext4        /var/lib/mysql
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vdb1        30G  2.1M   28G   1% /var/lib/mysql
+```
+
+The ansible.builtin.mount module with state: mounted automatically creates or updates the persistent entry in /etc/fstab and mounts the filesystem immediately.
+
+```bash
+ansible mysql01 -i inventory/hosts.ini -m shell -a "grep vdb1 /etc/fstab"
+```
+
+log
+
+```console
+mysql01 | CHANGED | rc=0 >>
+/dev/vdb1 /var/lib/mysql ext4 defaults 0 0
+```
+
 ## Step 11: playbook deploy_mysql.yml --check
 
 deploy_mysql.yml: Installs and enables MySQL 8.4 LTS on the database node (mysql01).
