@@ -35,7 +35,8 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online
     - [update\_apt.yml](#update_aptyml)
   - [Topology at this stage](#topology-at-this-stage)
 - [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
-  - [Playbooks with Ansible](#playbooks-with-ansible)
+  - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
+  - [Playbooks with Ansible / do the rest with cli](#playbooks-with-ansible--do-the-rest-with-cli)
 
 
 ## Topology
@@ -977,7 +978,38 @@ This is the final set up (ip may change but the concept is the same)
 
 # Set up the rest of the stack
 
-## Playbooks with Ansible
+## Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore
+
+```bash
+# ansible we can run
+azureuser@ansiblectr01:~/io_ot_lab
+
+# all vms
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml
+
+# just one
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml --limit zabbix01
+```
+In Semaphore, templates are designed to be reusable workflows. Rather than manually typing --limit every time, the cleanest approach is to create distinct templates mapped to specific inventory groups or hosts:
+
+1. Go to Templates and click New Template.
+
+2. Name it something descriptive, such as Update APT - zabbix01 only.
+
+3. Select your playbook (playbooks/update_apt.yml).
+
+4. Select your Inventory (hosts.ini).
+
+5. In the Limit field provided by Semaphore's template settings, enter your specific host or group name (e.g., zabbix01 or ot_nodes).
+
+6. Click Save.
+
+Verification: Launching this template automatically applies the limit without requiring manual command-line flags.
+
+
+
+
+## Playbooks with Ansible / do the rest with cli
 
 
 
