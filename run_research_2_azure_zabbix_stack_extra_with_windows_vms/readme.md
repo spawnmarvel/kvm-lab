@@ -942,6 +942,7 @@ graph TD
         direction TB
         subgraph Subnet2 ["Address range: 10.68.20.0/24"]
             zabbix02["zabbix02<br/>IP: tbd"]
+            zabbix02["Active proxy"]
             winVMs["20-30 WINDOWS VMs<br/>10.68.20.100+"]
         end
     end
