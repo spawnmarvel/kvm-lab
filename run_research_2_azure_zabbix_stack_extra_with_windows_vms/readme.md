@@ -32,23 +32,26 @@ Do the same as with KVM for repetions and demo online
   - [Playbooks Semaphore run](#playbooks-semaphore-run)
     - [ping\_hosts.yml](#ping_hostsyml)
     - [update\_apt.yml](#update_aptyml)
+  - [Topology](#topology)
 - [Advanced](#advanced)
   - [Playbooks with Ansible](#playbooks-with-ansible)
 
 
 ## Vnet and subnet
 
-Subnet 1 (iDMZ / Management):
+Zone 1: External access public ip
+
+Subnet 1 (iDMZ / Management) zone 2.5:
 
 Address range: 10.68.68.0/24
 
-Covers: 10.68.68.4 (ansiblectr01), 10.68.68.50 (zabbix01), and 10.68.68.52 (mysql01).
+Covers: 10.68.68.4 (ansiblectr01), 10.68.68.5 (zabbix01), and ip tbd (mysql01).
 
-Subnet 2 (OT / Target):
+Subnet 2 (OT / Target) zone 2.0:
 
 Address range: 10.68.20.0/24
 
-Covers: 10.68.20.15 (zabbix02)
+Covers: ip tbd (zabbix02)
 
 
 ![vnet](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/vnet.png)
@@ -917,6 +920,48 @@ Status for playbooks
 
 ![status sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/status_sema.png)
 
+
+## Topology
+
+graph TD
+    %% Zones Definition
+    subgraph Zone1 ["Zone 1: External Access public ip"]
+        Internet["INTERNET\n(EXTERNAL REPOSITORIES)"]
+    end
+
+    subgraph Zone2 ["Zone 2: Controller Node ('ansiblectr01' / Azure VM)"]
+        subgraph Subnet1 ["Subnet 1 (iDMZ / Management) - zone 2.5\nAddress range: 10.68.68.0/24"]
+            direction TB
+            ansiblectr01["ansiblectr01\n10.68.68.4\nAnsible Control Node & Semaphore Automation Platform (v2.17.13)\nUbuntu 22.04, Apache (Port 80/443), & APT Cacher NG (Port 3142)"]
+            zabbix01["zabbix01\nIP: 10.68.68.5"]
+            mysql01["mysql01\n10.68.68.x (IP tbd)\n---"]
+        end
+    end
+
+    subgraph Zone2OT ["Zone 2 (Control / OT Network)"]
+        subgraph Subnet2 ["Subnet 2 (OT / Target) - zone 2.0\nAddress range: 10.68.20.0/24"]
+            zabbix02["zabbix02\n10.68.20.15\n(IP tbd)"]
+            winVMs["20-30 WINDOWS VMs\n10.68.20.100+"]
+        end
+    end
+
+    subgraph AdminNet ["Admin / IT Network"]
+        AdminPC["Admin PC"]
+    end
+
+    %% Connections & Flows
+    Internet -->|"HTTPS (Port 443)"| ansiblectr01
+    AdminPC -->|"TCP 80/443 (Zabbix Web UI)"| zabbix01
+    AdminPC -->|"TCP 80/443 (Semaphore Web UI)"| ansiblectr01
+    AdminPC -->|"TCP 22 (SSH) to ansiblectr01"| ansiblectr01
+    
+    ansiblectr01 -->|"APT Cache\nTCP 3142 (APT updates)"| zabbix01
+    ansiblectr01 -->|"TCP 80/443\n(Zabbix Webhooks/API)"| zabbix01
+    
+    %% Firewall / Air Gap Boundary
+    ansiblectr01 -.->|"TCP 22\n(Ansible Playbook execution/logging)"| zabbix02
+    zabbix01 -.->|"TCP 10061\n(Stateful Active Push - Forwarded)"| zabbix02
+```[cite: 14]
 
 # Advanced
 
