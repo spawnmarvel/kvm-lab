@@ -497,7 +497,57 @@ Yes, exactly. The connection refusal error when the proxy service was stopped—
 
 ## Playbook update_apt.yml
 
+```bash
+azureuser@ansiblectr01:~/io_ot_lab
+sudo nano playbooks/update_apt.yml
 
+```
+
+update_apt.yml
+
+```yml
+---
+# Version: 1.0.0
+# Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
+
+- name: Update and Upgrade System Packages
+  hosts: ot_nodes
+  become: true
+  tasks:
+    - name: Update apt repository cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Perform a safe upgrade of installed packages
+      ansible.builtin.apt:
+        upgrade: safe
+```
+run it
+
+```bash
+ansiblectr01
+
+cd io_ot_lab/
+
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit zabbix01 --check
+
+# if the play is ok, remove --check with --diff and or --limit
+ansible-playbook -i inventory/hosts.ini playbooks/update_apt.yml --limit zabbix01
+
+```
+
+log
+
+```console
+PLAY [Update and Upgrade System Packages] ***************************************************
+
+TASK [Gathering Facts] **********************************************************************
+[..., some minutes later]
+
+
+
+```
 
 ## Install Semaphore UI on ansiblectr01
 
