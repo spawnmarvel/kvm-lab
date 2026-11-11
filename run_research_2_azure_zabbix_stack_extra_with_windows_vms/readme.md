@@ -48,6 +48,8 @@ Covers: 10.68.20.15 (zabbix02)
 
 ## Create ansiblectr01 Subnet 1 (iDMZ / Management)
 
+![ansible](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ansiblectr01.png)
+
 ## Install Ansible on ansiblectr01
 
 
@@ -63,6 +65,12 @@ sudo apt update
 sudo apt install software-properties-common
 sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
+
+# install
+sudo apt install ansible
+
+# check v
+ansible --version
 ```
 
 https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html
