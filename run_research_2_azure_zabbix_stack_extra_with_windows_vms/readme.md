@@ -946,7 +946,7 @@ graph TD
         end
     end
 
-    subgraph AdminNet ["Admin / IT Network"]
+    subgraph AdminNet ["Admin / IT Network Zone 3"]
         AdminPC["Admin PC/ Jump Server (now we use ssh to Azure ansiblectr01 via public ip)"]
     end
 
