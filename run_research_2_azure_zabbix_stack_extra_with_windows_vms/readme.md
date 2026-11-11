@@ -7,6 +7,8 @@ Do the same as with KVM for repetions and demo online
 - [Ansible stack in Azure](#ansible-stack-in-azure)
   - [Table of content](#table-of-content)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
+  - [Virtual machines in Rg-swc-vms-01](#virtual-machines-in-rg-swc-vms-01)
+  - [Vnet and subnet](#vnet-and-subnet)
   - [Create ansiblectr01, 10.68.68.10](#create-ansiblectr01-10686810)
   - [Install Ansible ansiblectr01](#install-ansible-ansiblectr01)
   - [Install Semaphore UI internet exposed](#install-semaphore-ui-internet-exposed)
@@ -17,9 +19,14 @@ Do the same as with KVM for repetions and demo online
 ## Virtual machines in Rg-swc-ansiblestack-01
 
 * ansiblectr01, 10.68.68.10, with public ip and allow internet
+
+## Virtual machines in Rg-swc-vms-01
+
 * zabbix01, 10.68.68.50, with public ip also, but no outbund internet, deny with NSG
 * mysql01, 10.68.68.52, no outbund internet by default
 * zabbix02, 10.68.20.15, no outbund internet by default
+
+## Vnet and subnet
 
 Subnet 1 (iDMZ / Management):
 
