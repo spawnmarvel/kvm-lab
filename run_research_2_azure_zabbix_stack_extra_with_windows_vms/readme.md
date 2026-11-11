@@ -860,7 +860,8 @@ now that Apache is handling SSL termination on port 443 and securely proxying tr
 
 Next Steps in the Web Interface
 
-Create a Project: Name your project (e.g., IO-OT Lab).
+Log into Semaphore, click New Project, enter IO-OT Lab as the project name, and click Create.
+Verification: You are redirected to the new project dashboard view.
 
 🔵 Add Repository: Point Semaphore to your local playbook directory or a Git repository if applicable.
 
@@ -869,6 +870,8 @@ Create a Project: Name your project (e.g., IO-OT Lab).
 🔵 Add Environment / Access Keys: Configure your SSH private key so Semaphore can authenticate against your managed nodes (zabbix01, mysql01, zabbix02).
 
 🔵 Create Templates: Link your playbooks (configure_apt_proxy.yml, update_apt.yml) to templates for easy execution directly from the dashboard
+
+![setup sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/setup_sema.png)
 
 ## Playbooks
 
