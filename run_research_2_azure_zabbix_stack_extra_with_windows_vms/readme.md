@@ -16,6 +16,8 @@ Do the same as with KVM for repetions and demo online
   - [Populate folder structure and verify ssh](#populate-folder-structure-and-verify-ssh)
     - [Enable passwordless, secure SSH authentication](#enable-passwordless-secure-ssh-authentication)
   - [Playbook ping\_hosts.yml](#playbook-ping_hostsyml)
+  - [Set up apt-cacher-ng and Apache on ansiblectr01](#set-up-apt-cacher-ng-and-apache-on-ansiblectr01)
+  - [Playbook configure\_apt\_proxy.yml](#playbook-configure_apt_proxyyml)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
@@ -298,6 +300,19 @@ PLAY RECAP *********************************************************************
 
 ```
 
+## Set up apt-cacher-ng and Apache on ansiblectr01
+
+
+```bash
+
+```
+## Playbook configure_apt_proxy.yml
+
+
+```bash
+
+
+```
 ## Install Semaphore UI on ansiblectr01
 
 ### We could do it with Ansible playbook also/ this is manual install to get to know it
