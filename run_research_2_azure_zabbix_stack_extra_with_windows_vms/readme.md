@@ -11,10 +11,12 @@ Do the same as with KVM for repetions and demo online
   - [Virtual machines in Rg-swc-vms-01](#virtual-machines-in-rg-swc-vms-01)
   - [Create ansiblectr01 Subnet 1 (iDMZ / Management)](#create-ansiblectr01-subnet-1-idmz--management)
   - [Install Ansible on ansiblectr01](#install-ansible-on-ansiblectr01)
+    - [Create folder structure](#create-folder-structure)
+  - [Create zabbix01 Subnet 1 (iDMZ / Management)](#create-zabbix01-subnet-1-idmz--management)
+  - [Populate folder structure and verify ssh](#populate-folder-structure-and-verify-ssh)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
-  - [Create zabbix01 Subnet 1 (iDMZ / Management)](#create-zabbix01-subnet-1-idmz--management)
   - [Playbooks](#playbooks)
 
 
@@ -24,7 +26,7 @@ Subnet 1 (iDMZ / Management):
 
 Address range: 10.68.68.0/24
 
-Covers: 10.68.68.10 (ansiblectr01), 10.68.68.50 (zabbix01), and 10.68.68.52 (mysql01).
+Covers: 10.68.68.4 (ansiblectr01), 10.68.68.50 (zabbix01), and 10.68.68.52 (mysql01).
 
 Subnet 2 (OT / Target):
 
@@ -37,13 +39,13 @@ Covers: 10.68.20.15 (zabbix02)
 
 ## Virtual machines in Rg-swc-ansiblestack-01
 
-* ansiblectr01, 10.68.68.10, with public ip and allow internet
+* ansiblectr01, 10.68.68.4, with public ip and allow internet
 * azureuser/ ouch no-> imsdal, you know
 
 
 ## Virtual machines in Rg-swc-vms-01
 
-* zabbix01, 10.68.68.50, with public ip also, but no outbund internet, deny with NSG
+* zabbix01, 10.68.68.5, (with public ip also, but no outbund internet, deny with NSG) later
 * mysql01, 10.68.68.52, no outbund internet by default
 * zabbix02, 10.68.20.15, no outbund internet by default
 
@@ -60,7 +62,11 @@ Allow_internet
 
 ![nsg inet](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/nsg_inet.png)
 
+10.68.68.4
+
 ```bash
+
+azureuser@ansiblectr01
 
 sudo apt update
 sudo apt install software-properties-common
@@ -88,6 +94,44 @@ ansible [core 2.21.5]
 ```
 
 https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html
+
+### Create folder structure
+
+```bash
+mkdir io_ot_lab
+cd io_ot_lab
+mkdir inventory
+cd inventory
+touch hosts.ini
+cd..
+mkdir playbooks
+touch ansible.cfg
+
+ls
+ansible.cfg  inventory  playbooks
+```
+
+
+## Create zabbix01 Subnet 1 (iDMZ / Management)
+
+10.68.68.5
+
+```bash
+# ssh into vm
+Last login: Wed Nov 11 18:25:27 2026 from 10.68.68.4
+azureuser@zabbix01
+```
+
+![zabbix01](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/zabbix01.png)
+
+## Populate folder structure and verify ssh
+
+```bash
+
+azureuser@ansiblectr01
+
+
+```
 
 ## Install Semaphore UI on ansiblectr01
 
@@ -122,12 +166,6 @@ https://semaphoreui.com/
 
 ## Setup Ansible ansiblectr01 with Semaphore
 
-
-```bash
-
-```
-
-## Create zabbix01 Subnet 1 (iDMZ / Management)
 
 ```bash
 
