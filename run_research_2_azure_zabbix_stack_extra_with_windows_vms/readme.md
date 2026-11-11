@@ -903,6 +903,15 @@ Verify in Semaphore
 
 ![run sema apt](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/run_sema_apt.png)
 
+Success, we updated zabbix01
+
+
+![run sema apt_Ok](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/run_sema_apt_ok.png)
+
+
+Success
+
+
 
 
 
