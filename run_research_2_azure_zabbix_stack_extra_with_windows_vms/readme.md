@@ -32,7 +32,7 @@ Address range: 10.68.20.0/24
 Covers: 10.68.20.15 (zabbix02)
 
 
-![vnet](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack/images/vnet.png)
+![vnet](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/vnet.png)
 
 ## Virtual machines in Rg-swc-ansiblestack-01
 
