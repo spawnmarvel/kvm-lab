@@ -12,7 +12,7 @@ Do the same as with KVM for repetions and demo online
   - [Create ansiblectr01 Subnet 1 (iDMZ / Management)](#create-ansiblectr01-subnet-1-idmz--management)
   - [Install Ansible on ansiblectr01](#install-ansible-on-ansiblectr01)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
-  - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
+    - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
   - [Create zabbix01 Subnet 1 (iDMZ / Management)](#create-zabbix01-subnet-1-idmz--management)
   - [Playbooks](#playbooks)
@@ -91,7 +91,7 @@ https://docs.ansible.com/projects/ansible/latest/installation_guide/installation
 
 ## Install Semaphore UI on ansiblectr01
 
-## We could do it with Ansible playbook also/ this is manual install to get to know it
+### We could do it with Ansible playbook also/ this is manual install to get to know it
 
 To install Ansible Semaphore (a modern UI for Ansible) on your ansiblectr01 node, you can run Semaphore as a systemd service backed by a database (such as SQLite, which is lightweight and ideal for standalone controller nodes).
 
