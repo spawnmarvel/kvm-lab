@@ -6,6 +6,7 @@ Do the same as with KVM for repetions and demo online
 ## Table of content
 - [Ansible stack in Azure](#ansible-stack-in-azure)
   - [Table of content](#table-of-content)
+  - [Topology](#topology)
   - [Vnet and subnet](#vnet-and-subnet)
   - [VM's Azure Retirement of default outbound access: scope and impact](#vms-azure-retirement-of-default-outbound-access-scope-and-impact)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
@@ -35,6 +36,13 @@ Do the same as with KVM for repetions and demo online
   - [Topology at this stage](#topology-at-this-stage)
 - [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
   - [Playbooks with Ansible](#playbooks-with-ansible)
+
+
+## Topology
+
+This is the final set up (ip may change but the concept is the same)
+
+![topology](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/topology.png)
 
 
 ## Vnet and subnet
