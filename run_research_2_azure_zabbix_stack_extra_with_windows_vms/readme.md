@@ -956,10 +956,10 @@ graph TD
     AdminPC -->|TCP 22 SSH| ansiblectr01
     
     ansiblectr01 -->|APT Cache TCP 3142| zabbix01
-    ansiblectr01 -->|TCP 80/443 Zabbix API| zabbix01
+    ansiblectr01 -->|TCP 22 Ansible Playbook| zabbix01
     
     ansiblectr01 -.->|TCP 22 Ansible Playbook| zabbix02
-    zabbix01 -.->|TCP 10061 Active Push| zabbix02
+    zabbix01 -.->|TCP 10051 Active Push| zabbix02
 
 ```
 # Advanced
