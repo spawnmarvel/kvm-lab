@@ -22,6 +22,7 @@ Do the same as with KVM for repetions and demo online
   - [Playbook configure\_apt\_proxy.yml](#playbook-configure_apt_proxyyml)
     - [Veriy manual update on zabbix01](#veriy-manual-update-on-zabbix01)
   - [Playbook update\_apt.yml with callbacks\_enabled = profile\_tasks, timer](#playbook-update_aptyml-with-callbacks_enabled--profile_tasks-timer)
+  - [Current vms](#current-vms)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
@@ -574,6 +575,13 @@ Now we have more output for time and date and more.
 
 
 ![playbook progress](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/playbook_progress.png)
+
+
+## Current vms
+
+![vms0](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/vms0.png)
+
+
 
 ## Install Semaphore UI on ansiblectr01
 
