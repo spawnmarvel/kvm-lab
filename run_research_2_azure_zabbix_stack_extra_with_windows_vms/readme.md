@@ -708,6 +708,9 @@ https://semaphoreui.com/docs/admin-guide/installation/package-manager
 https://semaphoreui.com/
 
 
+URL: [http://10.68.68.4:3000](http://10.68.68.4:3000) (or via your controller's accessible IP/port)
+
+
 ![sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/sema.png)
 
 ## Setup Ansible ansiblectr01 with Semaphore
