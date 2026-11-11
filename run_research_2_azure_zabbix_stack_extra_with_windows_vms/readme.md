@@ -30,6 +30,8 @@ Do the same as with KVM for repetions and demo online
     - [Apache in front of Semaphore for secure HTTPS access](#apache-in-front-of-semaphore-for-secure-https-access)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
   - [Playbooks Semaphore run](#playbooks-semaphore-run)
+    - [ping\_hosts.yml](#ping_hostsyml)
+    - [update\_apt.yml](#update_aptyml)
   - [Playbooks with Ansible](#playbooks-with-ansible)
 
 
@@ -885,6 +887,8 @@ To start running your automation tasks, you can proceed with creating your execu
 * Run and Test: Trigger a run directly from the dashboard to verify that Semaphore successfully executes your playbooks against your lab nodes over SSH.
 
 
+### ping_hosts.yml
+
 ![play ping](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/play_ping.png)
 
 Run the playbook
@@ -894,6 +898,10 @@ Run the playbook
 Verify in Semaphore
 
 ![run sema ping verify](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/run_sema_ping_verify.png)
+
+### update_apt.yml
+
+![run sema apt](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/run_sema_apt.png)
 
 
 
