@@ -1,6 +1,6 @@
 # Ansible stack in Azure
 
-Do the same as with KVM for repetions and demo online
+Do the same as with KVM, Kernel Virtual Machine for repetions and demo online
 
 
 ## Table of content
