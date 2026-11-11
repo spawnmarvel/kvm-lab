@@ -25,6 +25,7 @@ Do the same as with KVM for repetions and demo online
   - [Current vms](#current-vms)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
+    - [Accessing Semaphore UI](#accessing-semaphore-ui)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
   - [Playbooks](#playbooks)
 
@@ -590,6 +591,7 @@ Now we have more output for time and date and more.
 To install Ansible Semaphore (a modern UI for Ansible) on your ansiblectr01 node, you can run Semaphore as a systemd service backed by a database (such as SQLite, which is lightweight and ideal for standalone controller nodes).
 
 ```bash
+ansiblectr01
 
 wget https://github.com/semaphoreui/semaphore/releases/download/v2.17.15/semaphore_2.17.15_linux_amd64.deb
 
@@ -603,8 +605,99 @@ sudo dpkg -i semaphore_2.17.15_linux_amd64.deb
 semaphore setup
 
 ```
-Follow the interactive prompts to define your database settings, administrator account, and HTTP port.
+1. Follow the interactive prompts to define your database settings, administrator account, and HTTP port.
 Verification: Check that your configuration file (or database) has been created successfully in the directory specified during setup.
+
+```txt
+
+Sqlite
+
+Configuration path: Press Enter to accept the default or specify /etc/semaphore/config.json.
+
+Database dialect: Choose sqlite3.
+
+Path to SQLite database: Specify /home/azureuser/io_ot_lab/semaphore.db
+
+Path to Playbooks: Point this directly to your lab directory (/home/azureuser/io_ot_lab/playbooks).
+
+Admin account details: Enter your desired username, email, and password for accessing the web UI.
+```
+
+2. Configure SQLite and Paths
+
+Review your generated configuration file (for example, in your project folder or /etc/semaphore/config.json) to confirm that the SQLite database path and your Ansible playbook directories are correctly mapped:
+
+
+```bash
+ansiblectr01
+
+ls
+ansible.cfg  config.json  inventory  playbooks  semaphore.db
+
+# check you config
+cat config.json
+```
+Your config.json is missing the playbook_path and port keys required for Semaphore to locate your playbooks and serve the web interface. Update your config.json file to include them.
+
+```bash
+sudo nano config.json
+
+```
+Added
+
+```json
+"playbook_path": "/home/azureuser/io_ot_lab/playbooks",
+        "port": "3000",
+```
+Rerun validation
+
+```bash
+semaphore setup --config /home/azureuser/io_ot_lab/config.json
+
+# check all steps
+
+
+```
+
+Create service file
+
+```bash
+# Create the Systemd Service File
+sudo nano /etc/systemd/system/semaphore.service
+```
+
+file
+
+```ini
+[Unit]
+Description=Semaphore UI Ansible Automation Server
+After=network.target
+
+[Service]
+User=azureuser
+WorkingDirectory=/home/azureuser/io_ot_lab
+ExecStart=/usr/bin/semaphore server --config /home/azureuser/io_ot_lab/config.json
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+Reload it
+
+```bash
+# Reload systemd to recognize or update the service configuration, then start and enable Semaphore:
+sudo systemctl daemon-reload
+sudo systemctl enable --now semaphore.service
+
+sudo systemctl status semaphore.service
+● semaphore.service - Semaphore UI Ansible Automation Server
+     Loaded: loaded (/etc/systemd/system/semaphore.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-11-11 20:27:17 UTC; 9s ago
+```
+
+### Accessing Semaphore UI
+
 
 Add allow in semaphore 3000 tcp, NSG.
 
@@ -613,6 +706,9 @@ https://semaphoreui.com/docs/admin-guide/installation/package-manager
 
 
 https://semaphoreui.com/
+
+
+![sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/sema.png)
 
 ## Setup Ansible ansiblectr01 with Semaphore
 
