@@ -33,7 +33,7 @@ Do the same as with KVM for repetions and demo online
     - [ping\_hosts.yml](#ping_hostsyml)
     - [update\_apt.yml](#update_aptyml)
   - [Topology at this stage](#topology-at-this-stage)
-- [Advanced](#advanced)
+- [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
   - [Playbooks with Ansible](#playbooks-with-ansible)
 
 
@@ -962,7 +962,7 @@ graph TD
     zabbix01 -.->|TCP 10051 Active Push| zabbix02
 
 ```
-# Advanced
+# Set up the rest of the stack
 
 ## Playbooks with Ansible
 
