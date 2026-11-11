@@ -29,7 +29,7 @@ Do the same as with KVM for repetions and demo online
     - [SSL/TLS Certificates](#ssltls-certificates)
     - [Apache in front of Semaphore for secure HTTPS access](#apache-in-front-of-semaphore-for-secure-https-access)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
-  - [Playbooks Semaphore](#playbooks-semaphore)
+  - [Playbooks Semaphore run](#playbooks-semaphore-run)
   - [Playbooks with Ansible](#playbooks-with-ansible)
 
 
@@ -874,7 +874,7 @@ Verification: You are redirected to the new project dashboard view.
 
 ![setup sema2](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/setup_sema2.png)
 
-## Playbooks Semaphore
+## Playbooks Semaphore run
 
 What to Do Next
 
@@ -886,6 +886,17 @@ To start running your automation tasks, you can proceed with creating your execu
 
 
 ![play ping](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/play_ping.png)
+
+Run the playbook
+
+![run sema ping](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/run_sema_ping.png)
+
+Verify in Semaphore
+
+![run sema ping verify](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/run_sema_ping_verify.png)
+
+
+
 
 ## Playbooks with Ansible
 
