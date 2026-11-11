@@ -17,6 +17,7 @@
   - [Ansible Ad-hoc commands](#ansible-ad-hoc-commands)
   - [Enable Native Logging](#enable-native-logging)
     - [OS-Level Auditing](#os-level-auditing)
+    - [Get progress output, timestamps, and real-time visibility into long-running Ansible playbooks.](#get-progress-output-timestamps-and-real-time-visibility-into-long-running-ansible-playbooks)
     - [Verify yaml](#verify-yaml)
   - [Playbooks --check with --diff and or --limit and or --syntax-check and or --vvv](#playbooks---check-with---diff-and-or---limit-and-or---syntax-check-and-or---vvv)
   - [Semaphore UI](#semaphore-ui)
@@ -117,6 +118,27 @@ log_path = /opt/ansible/automation.log
 
 OS-Level Auditing: For package installations and system modifications, Linux already maintains authoritative logs in /var/log/apt/history.log, /var/log/dpkg.log, and the system journal (journald), which can be collected by Zabbix or forwarded to a log aggregator (like Loki).
 
+
+### Get progress output, timestamps, and real-time visibility into long-running Ansible playbooks.
+
+Yes, you can easily get progress output, timestamps, and real-time visibility into long-running Ansible playbooks. When managing systems over network connections or executing time-consuming software updates and deployments, having visibility into task duration prevents terminal guessing and helps isolate bottlenecks.
+
+1. Enable Native Task Timestamps (Community Callback Plugin)
+
+```ini
+[defaults]
+callbacks_enabled = profile_tasks, timer
+```
+
+2. Print Timestamps via Custom Tasks or Debug Messages
+
+If you want explicit timestamps printed in real time before or during long-running tasks (like large package upgrades or database indexing), you can use the ansible.builtin.debug module combined with the built-in ansible_date_time facts:
+
+```yml
+- name: Announce start of long running upgrade with timestamp
+      ansible.builtin.debug:
+        msg: "Starting package upgrade at {{ ansible_date_time.time }}"
+```
 
 ### Verify yaml
 

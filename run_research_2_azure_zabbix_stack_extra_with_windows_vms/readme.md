@@ -545,9 +545,20 @@ PLAY [Update and Upgrade System Packages] **************************************
 TASK [Gathering Facts] **********************************************************************
 [..., some minutes later]
 
+ok: [zabbix01]
 
+TASK [Update apt repository cache] **********************************************************
+ok: [zabbix01]
+
+TASK [Perform a safe upgrade of installed packages] *****************************************
+changed: [zabbix01]
+
+PLAY RECAP **********************************************************************************
+zabbix01                   : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 ```
+
+
 
 ## Install Semaphore UI on ansiblectr01
 
