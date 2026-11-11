@@ -932,7 +932,7 @@ graph TD
     subgraph Zone2 ["Zone 2.5: Controller Node (ansiblectr01 / Azure VM)"]
         subgraph Subnet1 ["Subnet 1 (iDMZ / Management) - zone 2.5<br/>Address range: 10.68.68.0/24"]
             direction TB
-            ansiblectr01["ansiblectr01<br/>10.68.68.4<br/>Ansible Control Node & Semaphore<br/>Ubuntu 22.04, Apache, APT Cacher NG"]
+            ansiblectr01["ansiblectr01<br/>10.68.68.4<br/>Ansible Control Node & Semaphore<br/>Ubuntu 22.04, Apache, APT Cacher NG Proxy"]
             zabbix01["zabbix01<br/>IP: 10.68.68.5"]
             mysql01["mysql01<br/>IP: tbd<br/>---"]
         end
@@ -950,7 +950,7 @@ graph TD
         AdminPC["Admin PC/ Jump Server (now we use ssh to Azure ansiblectr01 via public ip)"]
     end
 
-    Internet -->|HTTPS Port 443| ansiblectr01
+    Internet -->|HTTP HTTPS Port 80, 443| ansiblectr01
     AdminPC -->|TCP 80/443 Zabbix Web UI| zabbix01
     AdminPC -->|TCP 443 Semaphore Web UI via public ip simulated Zone 3 | ansiblectr01
     AdminPC -->|TCP 22 SSH| ansiblectr01
