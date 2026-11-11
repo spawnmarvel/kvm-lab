@@ -458,6 +458,21 @@ sudo apt upgrade
 
 ![zabbix01 update](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/zabbix01_update.png)
 
+Stop the apt cacher ng and verify no updates possible on zabbix01
+
+```bash
+azureuser@ansiblectr01
+
+sudo systemctl stop apt-cacher-ng
+
+ssh azureuser@10.68.68.5
+```
+
+No updates
+
+![zabbix01 update fail](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/zabbix01_update_fail.png)
+
+
 ## Install Semaphore UI on ansiblectr01
 
 ### We could do it with Ansible playbook also/ this is manual install to get to know it
