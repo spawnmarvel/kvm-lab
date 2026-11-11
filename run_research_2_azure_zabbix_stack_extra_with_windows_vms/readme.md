@@ -7,6 +7,7 @@ Do the same as with KVM for repetions and demo online
 - [Ansible stack in Azure](#ansible-stack-in-azure)
   - [Table of content](#table-of-content)
   - [Vnet and subnet](#vnet-and-subnet)
+  - [VM's Azure Retirement of default outbound access: scope and impact](#vms-azure-retirement-of-default-outbound-access-scope-and-impact)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
   - [Virtual machines in Rg-swc-vms-01](#virtual-machines-in-rg-swc-vms-01)
   - [Create ansiblectr01 Subnet 1 (iDMZ / Management)](#create-ansiblectr01-subnet-1-idmz--management)
@@ -43,6 +44,22 @@ Covers: 10.68.20.15 (zabbix02)
 
 
 ![vnet](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/vnet.png)
+
+## VM's Azure Retirement of default outbound access: scope and impact
+
+That is correct. Microsoft has shifted default outbound access to restricted/disabled for new virtual machines in Azure.
+
+When a VM does not have explicit outbound connectivity configured—such as through an Azure NAT Gateway, a load balancer with outbound rules, or an explicit public IP with outbound rules configured under the newer security models—it cannot initiate outbound connections to the public internet.
+
+Opening port 8080, 80, and 443 with source "Any" and destination "Any" via a Network Security Group (NSG) rule would bypass your internal caching architecture and expose your nodes directly to the public internet.
+
+Only your controller node (ansiblectr01 at 10.68.68.4) needs direct internet access to pull fresh packages from the public repositories and cache them via apt-cacher-ng.
+
+Adding a public IP address to zabbix01 allows you to access the Zabbix web interface from your browser while keeping outbound internet access blocked via your Network Security Group (NSG) rules.
+
+Yes, exactly. Under Azure's default outbound access policy, assigning a public IP address to a virtual machine (such as zabbix01) does not automatically grant it outbound internet access.
+
+https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access?tabs=portal
 
 ## Virtual machines in Rg-swc-ansiblestack-01
 
