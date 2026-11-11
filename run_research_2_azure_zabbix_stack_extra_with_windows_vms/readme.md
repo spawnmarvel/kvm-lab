@@ -21,7 +21,7 @@ Do the same as with KVM for repetions and demo online
     - [Allowed remote repositories](#allowed-remote-repositories)
   - [Playbook configure\_apt\_proxy.yml](#playbook-configure_apt_proxyyml)
     - [Veriy manual update on zabbix01](#veriy-manual-update-on-zabbix01)
-  - [Playbook update\_apt.yml](#playbook-update_aptyml)
+  - [Playbook update\_apt.yml with callbacks\_enabled = profile\_tasks, timer](#playbook-update_aptyml-with-callbacks_enabled--profile_tasks-timer)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
@@ -211,6 +211,7 @@ sudo nano ansible.cfg
 
 ```ini
 [defaults]
+callbacks_enabled = profile_tasks, timer
 inventory = inventory/hosts.ini
 host_key_checking = False
 retry_files_enabled = False
@@ -495,7 +496,7 @@ Yes, exactly. The connection refusal error when the proxy service was stopped—
 ![zabbix01 update fail](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/zabbix01_update_fail.png)
 
 
-## Playbook update_apt.yml
+## Playbook update_apt.yml with callbacks_enabled = profile_tasks, timer
 
 ```bash
 azureuser@ansiblectr01:~/io_ot_lab
@@ -543,22 +544,36 @@ log
 PLAY [Update and Upgrade System Packages] ***************************************************
 
 TASK [Gathering Facts] **********************************************************************
-[..., some minutes later]
-
+Wednesday 11 November 2026  20:04:56 +0000 (0:00:00.014)       0:00:00.014 ****
 ok: [zabbix01]
 
 TASK [Update apt repository cache] **********************************************************
+Wednesday 11 November 2026  20:04:58 +0000 (0:00:01.995)       0:00:02.010 ****
 ok: [zabbix01]
 
 TASK [Perform a safe upgrade of installed packages] *****************************************
-changed: [zabbix01]
+Wednesday 11 November 2026  20:04:59 +0000 (0:00:00.897)       0:00:02.907 ****
+ok: [zabbix01]
 
 PLAY RECAP **********************************************************************************
-zabbix01                   : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
+
+TASKS RECAP *********************************************************************************
+Wednesday 11 November 2026  20:05:00 +0000 (0:00:01.239)       0:00:04.147 ****
+===============================================================================
+Gathering Facts ---------------------------------------------------------------------- 2.00s
+Perform a safe upgrade of installed packages ----------------------------------------- 1.24s
+Update apt repository cache ---------------------------------------------------------- 0.90s
+
+PLAYBOOK RECAP ******************************************************************************
+Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
 ```
 
+Now we have more output for time and date and more.
 
+
+![playbook progress](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/playbook_progress.png)
 
 ## Install Semaphore UI on ansiblectr01
 
