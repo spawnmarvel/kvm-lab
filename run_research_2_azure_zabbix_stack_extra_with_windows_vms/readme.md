@@ -20,6 +20,7 @@ Do the same as with KVM for repetions and demo online
     - [Allowed remote repositories](#allowed-remote-repositories)
   - [Playbook configure\_apt\_proxy.yml](#playbook-configure_apt_proxyyml)
     - [Veriy manual update on zabbix01](#veriy-manual-update-on-zabbix01)
+  - [Playbook update\_apt.yml](#playbook-update_aptyml)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
@@ -475,6 +476,10 @@ The Connection refused error on port 3142 confirms that zabbix01 is actively try
 Yes, exactly. The connection refusal error when the proxy service was stopped—followed by the successful package fetch once started—proves that zabbix01 relies entirely on your internal proxy (ansiblectr01 at 10.68.68.4:3142) for package updates.
 
 ![zabbix01 update fail](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/zabbix01_update_fail.png)
+
+
+## Playbook update_apt.yml
+
 
 
 ## Install Semaphore UI on ansiblectr01
