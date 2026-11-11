@@ -941,8 +941,7 @@ graph TD
     subgraph Zone2OT ["Subnet 2 (OT / Target) - zone 2.0"]
         direction TB
         subgraph Subnet2 ["Address range: 10.68.20.0/24"]
-            zabbix02["zabbix02<br/>IP: tbd"]
-            zabbix02["Active proxy"]
+            zabbix02["zabbix02<br/>IP: tbd, Active proxy"]
             winVMs["20-30 WINDOWS VMs<br/>10.68.20.100+"]
         end
     end
