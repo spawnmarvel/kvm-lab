@@ -962,6 +962,11 @@ graph TD
     zabbix01 -.->|TCP 10051 Active Push| zabbix02
 
 ```
+
+This is the final set up (ip may change but the concept is the same)
+
+![topology](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/topology.png)
+
 # Set up the rest of the stack
 
 ## Playbooks with Ansible
