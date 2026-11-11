@@ -929,7 +929,7 @@ graph TD
         Internet["INTERNET<br/>(EXTERNAL REPOSITORIES)"]
     end
 
-    subgraph Zone2 ["Zone 2.5: Controller Node (ansiblectr01 / Azure VM)"]
+    subgraph Zone2 ["Zone 2: Controller Node (ansiblectr01 / Azure VM)"]
         subgraph Subnet1 ["Subnet 1 (iDMZ / Management) - zone 2.5<br/>Address range: 10.68.68.0/24"]
             direction TB
             ansiblectr01["ansiblectr01<br/>10.68.68.4<br/>Ansible Control Node & Semaphore<br/>Ubuntu 22.04, Apache, APT Cacher NG"]
