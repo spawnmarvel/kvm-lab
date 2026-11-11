@@ -872,7 +872,7 @@ Verification: You are redirected to the new project dashboard view.
 
 🔵 Create Templates: Link your playbooks (configure_apt_proxy.yml, update_apt.yml) to templates for easy execution directly from the dashboard
 
-![setup sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/setup_sema.png)
+![setup sema2](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/setup_sema2.png)
 
 ## Playbooks Semaphore
 
