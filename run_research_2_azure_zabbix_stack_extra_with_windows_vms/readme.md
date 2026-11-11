@@ -947,12 +947,12 @@ graph TD
     end
 
     subgraph AdminNet ["Admin / IT Network"]
-        AdminPC["Admin PC/ Jump Server (now we use ssh to Azure ansiblectr01)"]
+        AdminPC["Admin PC/ Jump Server (now we use ssh to Azure ansiblectr01 via public ip)"]
     end
 
     Internet -->|HTTPS Port 443| ansiblectr01
     AdminPC -->|TCP 80/443 Zabbix Web UI| zabbix01
-    AdminPC -->|TCP 80/443 Semaphore Web UI| ansiblectr01
+    AdminPC -->|TCP 443 Semaphore Web UI via public ip | ansiblectr01
     AdminPC -->|TCP 22 SSH| ansiblectr01
     
     ansiblectr01 -->|APT Cache TCP 3142| zabbix01
