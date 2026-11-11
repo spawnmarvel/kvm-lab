@@ -32,7 +32,7 @@ Do the same as with KVM for repetions and demo online
   - [Playbooks Semaphore run](#playbooks-semaphore-run)
     - [ping\_hosts.yml](#ping_hostsyml)
     - [update\_apt.yml](#update_aptyml)
-  - [Topology](#topology)
+  - [Topology at this stage](#topology-at-this-stage)
 - [Advanced](#advanced)
   - [Playbooks with Ansible](#playbooks-with-ansible)
 
@@ -921,7 +921,7 @@ Status for playbooks
 ![status sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/status_sema.png)
 
 
-## Topology
+## Topology at this stage
 
 ```mermaid
 graph TD
@@ -947,7 +947,7 @@ graph TD
     end
 
     subgraph AdminNet ["Admin / IT Network"]
-        AdminPC["Admin PC"]
+        AdminPC["Admin PC/ Jump Server (now we use ssh to Azure ansiblectr01)"]
     end
 
     Internet -->|HTTPS Port 443| ansiblectr01
