@@ -17,7 +17,9 @@ Do the same as with KVM for repetions and demo online
     - [Enable passwordless, secure SSH authentication](#enable-passwordless-secure-ssh-authentication)
   - [Playbook ping\_hosts.yml](#playbook-ping_hostsyml)
   - [Set up apt-cacher-ng and Apache on ansiblectr01](#set-up-apt-cacher-ng-and-apache-on-ansiblectr01)
+    - [Allowed remote repositories](#allowed-remote-repositories)
   - [Playbook configure\_apt\_proxy.yml](#playbook-configure_apt_proxyyml)
+    - [Veriy manual update on zabbix01](#veriy-manual-update-on-zabbix01)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
@@ -143,7 +145,7 @@ Configure inventory/hosts.ini
 
 ```ini
 [ot_nodes]
-10.68.68.5 ansible_user=azureuser
+zabbix01 ansible_host=10.68.68.5 ansible_user=azureuser
 
 [ot_nodes:vars]
 ansible_connection=ssh
@@ -304,15 +306,158 @@ PLAY RECAP *********************************************************************
 
 
 ```bash
+sudo apt update
+sudo apt install -y apt-cacher-ng apache2
+
 
 ```
+Allow HTTP tunnels through Apt-Cacher NG? Yes
+
+
+
+### Allowed remote repositories
+
+```bash
+
+# Backup the existing configuration file
+sudo cp /etc/apt-cacher-ng/acng.conf /etc/apt-cacher-ng/acng.conf.bak
+
+# check what we have first
+sudo grep -E "PassThroughPattern|Remap-(ubuntu|ppa|ansible|zabbix)" /etc/apt-cacher-ng/acng.conf
+
+# The grep results show that PassThroughPattern is currently commented out or set to specific defaults, and none of your custom Remap rules are present yet.
+
+# You can safely add your whitelisted repositories and update the PassThroughPattern to allow secure connections.
+
+# Run the following command block to append your repository remapping rules to /etc/apt-cacher-ng/acng.conf:
+sudo bash -c 'cat << '\''EOF'\'' >> /etc/apt-cacher-ng/acng.conf
+
+# Ubuntu official mirrors and security updates
+Remap-ubuntu: ubuntu.com archive.ubuntu.com security.ubuntu.com ; security.ubuntu.com/ubuntu
+
+# Zabbix official repository
+Remap-zabbix: repo.zabbix.com ; repo.zabbix.com/
+EOF'
+
+sudo tail -n 15 /etc/apt-cacher-ng/acng.conf
+
+# Append the PassThroughPattern rule to allow secure APT traffic handling:
+sudo bash -c 'echo "PassThroughPattern: .*" >> /etc/apt-cacher-ng/acng.conf'
+
+sudo systemctl restart apt-cacher-ng
+
+sudo systemctl status apt-cacher-ng
+```
+
+
 ## Playbook configure_apt_proxy.yml
 
 
 ```bash
+azureuser@ansiblectr01
+
+cd io_ot_lab
+
+sudo nano playbooks/cofigure_apt_proxy.yml
 
 
 ```
+configure_apt_proxy.yml
+
+```yml
+---
+# Version: 1.0.3
+# Description: Configures APT HTTP and HTTPS proxy settings for internal caching across nodes.
+
+- name: Configure Internal APT Caching Proxy
+  hosts: ot_nodes
+  become: true
+  tasks:
+    - name: Set APT Proxy configuration file
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/01proxy
+        content: |
+          Acquire::http::Proxy "http://10.68.68.4:3142/ubuntu/";
+          Acquire::https::Proxy "http://10.68.68.4:3142/ubuntu/";
+        owner: root
+        group: root
+        mode: '0644'
+
+```
+
+Run it
+
+```bash
+azureuser@ansiblectr01
+
+cd io_ot_lab
+
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml --check
+
+
+```
+
+Log
+
+```console
+PLAY [Configure Internal APT Caching Proxy] *************************************************
+
+TASK [Gathering Facts] *********************************************************************
+[...]
+
+ok: [10.68.68.5]
+
+TASK [Set APT Proxy configuration file] *****************************************************
+changed: [10.68.68.5]
+
+PLAY RECAP **********************************************************************************
+10.68.68.5                 : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+The dry-run check mode completed successfully (changed=1, failed=0), confirming that Ansible can connect to your managed node and properly deploy the APT proxy configuration file.
+
+
+Run it and apply it
+
+```bash
+azureuser@ansiblectr01
+
+cd io_ot_lab
+
+# ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml --limit ot_nodes
+# or
+ansible-playbook -i inventory/hosts.ini playbooks/configure_apt_proxy.yml --limit zabbix01
+
+```
+
+log
+
+```console
+PLAY [Configure Internal APT Caching Proxy] *************************************************
+
+TASK [Gathering Facts] **********************************************************************
+
+[...]
+TASK [Set APT Proxy configuration file] *****************************************************
+changed: [zabbix01]
+
+PLAY RECAP **********************************************************************************
+zabbix01                   : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+### Veriy manual update on zabbix01
+
+
+```bash
+ssh azureuser@10.68.68.5
+
+sudo apt update
+
+sudo apt upgrade
+
+```
+
+![zabbix01 update](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/zabbix01_update.png)
+
 ## Install Semaphore UI on ansiblectr01
 
 ### We could do it with Ansible playbook also/ this is manual install to get to know it
