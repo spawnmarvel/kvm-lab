@@ -912,6 +912,10 @@ Success, we updated zabbix01
 Success
 
 
+Status for playbooks
+
+![status sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/status_sema.png)
+
 
 
 
