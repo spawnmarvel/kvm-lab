@@ -1,16 +1,17 @@
 # Ansible stack in Azure
 
-Do the same as with KVM for repeat it
+Do the same as with KVM for repetions and demo online
 
 
 ## Table of content
 - [Ansible stack in Azure](#ansible-stack-in-azure)
   - [Table of content](#table-of-content)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
-  - [Create ansiblectr01, 10.68.68.10 whitelist FW NSG](#create-ansiblectr01-10686810-whitelist-fw-nsg)
+  - [Create ansiblectr01, 10.68.68.10](#create-ansiblectr01-10686810)
   - [Install Ansible ansiblectr01](#install-ansible-ansiblectr01)
   - [Install Semaphore UI internet exposed](#install-semaphore-ui-internet-exposed)
-  - [Setup Ansible ansiblectr01](#setup-ansible-ansiblectr01)
+  - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
+  - [Setup a vm zabbix01](#setup-a-vm-zabbix01)
   - [Playbooks](#playbooks)
 
 ## Virtual machines in Rg-swc-ansiblestack-01
@@ -35,7 +36,7 @@ Covers: 10.68.20.15 (zabbix02)
 
 ![vnet](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack/images/vnet.png)
 
-## Create ansiblectr01, 10.68.68.10 whitelist FW NSG
+## Create ansiblectr01, 10.68.68.10
 
 ## Install Ansible ansiblectr01
 
@@ -43,7 +44,18 @@ Covers: 10.68.20.15 (zabbix02)
 
 https://semaphoreui.com/
 
-## Setup Ansible ansiblectr01
+## Setup Ansible ansiblectr01 with Semaphore
+
+
+```bash
+
+```
+
+## Setup a vm zabbix01
+
+```bash
+
+```
 
 ## Playbooks
 
