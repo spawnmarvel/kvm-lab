@@ -14,6 +14,8 @@ Do the same as with KVM for repetions and demo online
     - [Create folder structure](#create-folder-structure)
   - [Create zabbix01 Subnet 1 (iDMZ / Management)](#create-zabbix01-subnet-1-idmz--management)
   - [Populate folder structure and verify ssh](#populate-folder-structure-and-verify-ssh)
+    - [Enable passwordless, secure SSH authentication](#enable-passwordless-secure-ssh-authentication)
+  - [Playbook ping\_hosts.yml](#playbook-ping_hostsyml)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
@@ -129,6 +131,169 @@ azureuser@zabbix01
 ```bash
 
 azureuser@ansiblectr01
+
+cd io_ot_lab/
+
+sudo nano inventory/hosts.ini
+```
+
+Configure inventory/hosts.ini
+
+```ini
+[ot_nodes]
+10.68.68.5 ansible_user=azureuser
+
+[ot_nodes:vars]
+ansible_connection=ssh
+```
+
+```bash
+ansible-inventory -i inventory/hosts.ini --list
+```
+Verification: Run ansible-inventory -i inventory/hosts.ini --list to ensure Ansible parses the host definition correctly.
+
+```console
+azureuser@ansiblectr01:~/io_ot_lab$ ansible-inventory -i inventory/hosts.ini --list
+{
+    "_meta": {
+        "hostvars": {
+            "10.68.68.5": {
+                "ansible_connection": "ssh",
+                "ansible_user": "azureuser"
+            }
+        },
+        "profile": "inventory_legacy"
+    },
+    "all": {
+        "children": [
+            "ungrouped",
+            "ot_nodes"
+        ]
+    },
+    "ot_nodes": {
+        "hosts": [
+            "10.68.68.5"
+        ]
+    }
+}
+```
+Update your root ansible.cfg file to set the default inventory path and disable strict host key checking for lab environments:
+
+```bash
+azureuser@ansiblectr01
+
+cd io_ot_lab/
+
+sudo nano ansible.cfg
+```
+
+```ini
+[defaults]
+inventory = inventory/hosts.ini
+host_key_checking = False
+retry_files_enabled = False
+interpreter_python = auto_silent
+```
+
+```bash
+
+#  Verification: Run ansible-config view to confirm the active configuration.
+ansible-config
+
+# o view your active ansible.cfg configuration file cleanly, use the view action argument:
+ansible-config view
+
+```
+
+### Enable passwordless, secure SSH authentication
+
+To enable passwordless, secure SSH authentication from your Ansible controller node (ansiblectr01, 10.68.68.4) to your target host (10.68.68.5), you need to generate an SSH key pair on the controller and copy the public key to the remote host.
+
+```bash
+
+azureuser@ansiblectr01
+
+ssh-keygen -t rsa -b 4096 -N "" -f ~/.ssh/id_rsa
+
+ls -la ~/.ssh/id_rsa.pub
+
+# Copy Public Key to Target Node
+ssh-copy-id -i ~/.ssh/id_rsa.pub azureuser@10.68.68.5
+
+# ssh login with key no pass
+ssh azureuser@10.68.68.5
+
+sudo mkdir -p /opt/ansible
+sudo chown -R azureuser:azureuser /opt/ansible
+```
+
+Lets update the ansible.cfg and add a log path also
+
+```ini
+# Version: 1.1.0
+# Description: Global Ansible configuration with password-prompted privilege escalation for lab automation.
+
+[defaults]
+inventory = ./inventory/hosts.ini
+remote_user = azureuser
+private_key_file = ~/.ssh/id_rsa
+host_key_checking = False
+retry_files_enabled = False
+stdout_callback = default
+log_path = /opt/ansible/automation.log
+
+[privilege_escalation]
+become = True
+become_method = sudo
+become_user = root
+become_ask_pass = False
+```
+
+## Playbook ping_hosts.yml
+
+
+```bash
+azureuser@ansiblectr01
+
+cd io_ot_lab/
+
+sudo nano playbooks/ping_hosts.yml
+
+```
+
+ping_hosts.yml
+
+```yml
+---
+# Version: 1.0.1
+# Description: Ping validation playbook with privilege escalation explicitly disabled
+
+- name: Verify Connectivity Across Purdue Lab Nodes
+  hosts: ot_nodes
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Ping all inventory hosts
+      ansible.builtin.ping:
+```
+
+
+Run it
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/ping_hosts.yml
+```
+log
+
+```console
+PLAY [Verify Connectivity Across Purdue Lab Nodes] ******************************************
+
+TASK [Ping all inventory hosts] *************************************************************
+[...]
+ok: [10.68.68.5]
+
+PLAY RECAP **********************************************************************************
+10.68.68.5                 : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 
 ```
