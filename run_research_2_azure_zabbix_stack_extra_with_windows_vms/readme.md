@@ -952,7 +952,7 @@ graph TD
 
     Internet -->|HTTPS Port 443| ansiblectr01
     AdminPC -->|TCP 80/443 Zabbix Web UI| zabbix01
-    AdminPC -->|TCP 443 Semaphore Web UI via public ip (simulated Zone 3) | ansiblectr01
+    AdminPC -->|TCP 443 Semaphore Web UI via public ip simulated Zone 3 | ansiblectr01
     AdminPC -->|TCP 22 SSH| ansiblectr01
     
     ansiblectr01 -->|APT Cache TCP 3142| zabbix01
