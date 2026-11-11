@@ -90,6 +90,31 @@ https://docs.ansible.com/projects/ansible/latest/installation_guide/installation
 
 ## Install Semaphore UI on ansiblectr01
 
+To install Ansible Semaphore (a modern UI for Ansible) on your ansiblectr01 node, you can run Semaphore as a systemd service backed by a database (such as SQLite, which is lightweight and ideal for standalone controller nodes).
+
+```bash
+
+wget https://github.com/semaphoreui/semaphore/releases/download/v2.17.15/semaphore_2.17.15_linux_amd64.deb
+
+ls -la semaphore_2.17.15_linux_amd64.deb
+-rw-rw-r-- 1 azureuser azureuser 18833690 Feb 27  2026 semaphore_2.17.15_linux_amd64.deb
+
+# Install the downloaded Debian package using dpkg:
+sudo dpkg -i semaphore_2.17.15_linux_amd64.deb
+
+# 
+semaphore setup
+
+```
+Follow the interactive prompts to define your database settings, administrator account, and HTTP port.
+Verification: Check that your configuration file (or database) has been created successfully in the directory specified during setup.
+
+Add allow in semaphore 3000 tcp, NSG.
+
+
+https://semaphoreui.com/docs/admin-guide/installation/package-manager
+
+
 https://semaphoreui.com/
 
 ## Setup Ansible ansiblectr01 with Semaphore
