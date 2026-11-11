@@ -1,0 +1,17 @@
+---
+# Version: 1.0.3
+# Description: Configures APT HTTP and HTTPS proxy settings for internal caching across nodes.
+
+- name: Configure Internal APT Caching Proxy
+  hosts: ot_nodes
+  become: true
+  tasks:
+    - name: Set APT Proxy configuration file
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/01proxy
+        content: |
+          Acquire::http::Proxy "http://10.68.68.4:3142/ubuntu/";
+          Acquire::https::Proxy "http://10.68.68.4:3142/ubuntu/";
+        owner: root
+        group: root
+        mode: '0644'
