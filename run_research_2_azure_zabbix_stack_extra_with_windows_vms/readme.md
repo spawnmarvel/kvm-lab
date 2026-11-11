@@ -15,10 +15,10 @@ Do the same as with KVM for repeat it
 
 ## Virtual machines in Rg-swc-ansiblestack-01
 
-* ansiblectr01, 10.68.68.10
-* zabbix01, 10.68.68.50
-* mysql01, 10.68.68.52
-* zabbix02, 10.68.20.15
+* ansiblectr01, 10.68.68.10, with public ip and allow internet
+* zabbix01, 10.68.68.50, with public ip also, but no outbund internet, deny with NSG
+* mysql01, 10.68.68.52, no outbund internet by default
+* zabbix02, 10.68.20.15, no outbund internet by default
 
 Subnet 1 (iDMZ / Management):
 
