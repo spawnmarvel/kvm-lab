@@ -26,6 +26,8 @@ Do the same as with KVM for repetions and demo online
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
     - [Accessing Semaphore UI](#accessing-semaphore-ui)
+    - [SSL/TLS Certificates](#ssltls-certificates)
+    - [Apache in front of Semaphore for secure HTTPS access](#apache-in-front-of-semaphore-for-secure-https-access)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
   - [Playbooks](#playbooks)
 
@@ -713,12 +715,156 @@ URL: [http://10.68.68.4:3000](http://10.68.68.4:3000) (or via your controller's 
 
 ![sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/sema.png)
 
-## Setup Ansible ansiblectr01 with Semaphore
+### SSL/TLS Certificates
 
 
 ```bash
+sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+  -keyout /home/azureuser/io_ot_lab/semaphore.key \
+  -out /home/azureuser/io_ot_lab/semaphore.crt \
+  -subj "/CN=10.68.68.4"
+
+sudo chown azureuser:azureuser /home/azureuser/io_ot_lab/semaphore.key /home/azureuser/io_ot_lab/semaphore.crt
+chmod 600 /home/azureuser/io_ot_lab/semaphore.key
+
+sudo nano config.json
+```
+
+Update your /home/azureuser/io_ot_lab/config.json to include the certificate and key paths:
+
+```json
+"tls_cert": "/home/azureuser/io_ot_lab/semaphore.crt",
+        "tls_key": "/home/azureuser/io_ot_lab/semaphore.key",
+```
+
+```bash
+sudo systemctl restart semaphore.service
+sudo systemctl status semaphore.service
+```
+
+
+Enable service
+
+```bash
+sudo nano /etc/systemd/system/semaphore.service
+```
+
+```ini
+
+[Unit]
+[Unit]
+Description=Semaphore UI Ansible Automation Server
+After=network.target
+
+[Service]
+User=azureuser
+WorkingDirectory=/home/azureuser/io_ot_lab
+ExecStart=/usr/bin/semaphore server --config /home/azureuser/io_ot_lab/config.json
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
 
 ```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart semaphore.service
+
+ sudo systemctl status semaphore.service
+● semaphore.service - Semaphore UI Ansible Automation Server
+     Loaded: loaded (/etc/systemd/system/semaphore.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-11-11 20:42:22 UTC; 1min 23s ago
+```
+
+###  Apache in front of Semaphore for secure HTTPS access
+
+
+```bash
+ sudo systemctl status apache2.service
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/apache2.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-11-11 19:09:00 UTC; 1h 50min ago
+
+# Enable Apache's proxy, proxy_http, ssl, and rewrite modules required for handling reverse proxying and SSL termination:
+sudo a2enmod proxy proxy_http ssl rewrite headers
+
+sudo nano /etc/apache2/sites-available/semaphore.conf
+```
+
+Use public ip not x.xxx.xx.x
+```txt
+<VirtualHost *:443>
+    ServerName x.xx.xx.x
+
+    SSLEngine on
+    SSLCertificateFile /home/azureuser/io_ot_lab/semaphore.crt
+    SSLCertificateKeyFile /home/azureuser/io_ot_lab/semaphore.key
+
+    ProxyPreserveHost On
+    ProxyRequests Off
+
+    # Proxy traffic to Semaphore running on plain HTTP port 3000
+    ProxyPass / http://127.0.0.1:3000/
+    ProxyPassReverse / http://127.0.0.1:3000/
+
+    # WebSocket support for live playbook logs
+    RewriteEngine On
+    RewriteCond %{HTTP:Upgrade} =websocket [NC]
+    RewriteRule /(.*)  ws://127.0.0.1:3000/$1 [P,L]
+    RewriteCond %{HTTP:Upgrade} !=websocket [NC]
+    RewriteRule /(.*)  http://127.0.0.1:3000/$1 [P,L]
+
+    ErrorLog ${APACHE_LOG_DIR}/semaphore_error.log
+    CustomLog ${APACHE_LOG_DIR}/semaphore_access.log combined
+</VirtualHost>
+```
+Enable the Apache Site and Restart Service
+
+```bash
+sudo a2ensite semaphore.conf
+sudo a2dissite 000-default.conf
+sudo apache2ctl configtest
+sudo systemctl restart apache2
+
+# Verification: The config test returns Syntax OK, and sudo systemctl status apache2 shows active (running).
+sudo systemctl status apache2.service
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/apache2.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2026-11-11 21:01:03 UTC; 24s ago
+```
+
+Check your Inbound port rules to ensure there is a rule allowing TCP traffic on Port 443 from any source (or your client IP) to any destination.
+Verification: If port 443 is missing, click Add inbound port rule, set destination port ranges to 443, protocol to TCP, action to Allow, and save.
+
+
+Validity
+Not Before
+Wed, 11 Nov 2026 20:33:20 GMT
+Not After
+Sat, 08 Nov 2036 20:33:20 GMT 
+
+
+![ssl](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ssl.png)
+
+
+
+
+## Setup Ansible ansiblectr01 with Semaphore
+
+
+Next Steps in the Web Interface
+
+Create a Project: Name your project (e.g., IO-OT Lab).
+
+🔵 Add Repository: Point Semaphore to your local playbook directory or a Git repository if applicable.
+
+🔵 Add Inventory: Define your inventory path (inventory/hosts.ini).
+
+🔵 Add Environment / Access Keys: Configure your SSH private key so Semaphore can authenticate against your managed nodes (zabbix01, mysql01, zabbix02).
+
+🔵 Create Templates: Link your playbooks (configure_apt_proxy.yml, update_apt.yml) to templates for easy execution directly from the dashboard
 
 ## Playbooks
 
