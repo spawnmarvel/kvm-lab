@@ -925,7 +925,7 @@ Status for playbooks
 
 ```mermaid
 graph TD
-    subgraph Zone1 ["Zone 1: External Access public ip"]
+    subgraph Zone1 ["External Access public ip"]
         Internet["INTERNET<br/>(EXTERNAL REPOSITORIES)"]
     end
 
