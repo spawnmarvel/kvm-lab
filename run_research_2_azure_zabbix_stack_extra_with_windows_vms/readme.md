@@ -72,6 +72,19 @@ sudo apt install ansible
 # check v
 ansible --version
 ```
+Log
+
+```console
+ansible [core 2.21.5]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/azureuser/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /home/azureuser/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0] (/usr/bin/python3)
+  jinja version = 3.1.6
+  pyyaml version = 6.0.3 (with libyaml v0.2.5)
+```
 
 https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html
 
