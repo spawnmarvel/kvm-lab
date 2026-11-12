@@ -1291,6 +1291,7 @@ Now all the configuration and setup is done
 
 ```mermaid
 graph TD
+   graph TD
     subgraph Zone1 ["External Access public ip"]
         Internet["INTERNET<br/>(EXTERNAL REPOSITORIES)"]
     end
@@ -1300,7 +1301,7 @@ graph TD
             direction TB
             ansiblectr01["ansiblectr01<br/>10.68.68.4<br/>Ansible Control Node & Semaphore<br/>Ubuntu 22.04, Apache, APT Cacher NG Proxy"]
             zabbix01["zabbix01<br/>IP: 10.68.68.5"]
-            mysql01["mysql01<br/>IP: 10.68.68.6<br/>---"]
+            mysql01["mysql01<br/>IP: 10.68.68.6"]
         end
     end
 
@@ -1322,11 +1323,15 @@ graph TD
     AdminPC -->|TCP 22 SSH| ansiblectr01
     
     ansiblectr01 -->|APT Cache TCP 3142| zabbix01
+    ansiblectr01 -->|APT Cache TCP 3142| mysql01
     ansiblectr01 -->|TCP 22 Ansible Playbook| zabbix01
     ansiblectr01 -->|TCP 22 Ansible Playbook| mysql01
     
+    ansiblectr01 -.->|APT Cache TCP 3142| zabbix02
     ansiblectr01 -.->|TCP 22 Ansible Playbook| zabbix02
     zabbix01 -.->|TCP 10051 Active Push| zabbix02
+
+   
 
 ```
 
