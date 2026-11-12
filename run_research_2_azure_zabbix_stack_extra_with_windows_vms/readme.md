@@ -6,6 +6,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 ## Table of content
 - [Ansible stack in Azure](#ansible-stack-in-azure)
   - [Table of content](#table-of-content)
+- [Introduction](#introduction)
   - [Scenario](#scenario)
   - [Team 1](#team-1)
   - [Team 2 starts with ansiblectr01](#team-2-starts-with-ansiblectr01)
@@ -20,7 +21,9 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
       - [Introduction to Ansible Guide: Ansible Introduction \& Use Cases](#introduction-to-ansible-guide-ansible-introduction--use-cases)
       - [Red Hat Ansible Automation Platform Overview:](#red-hat-ansible-automation-platform-overview)
       - [This module is able to configure a FortiGate or FortiOS (FOS) device](#this-module-is-able-to-configure-a-fortigate-or-fortios-fos-device)
-- [Firewal and practical information](#firewal-and-practical-information)
+      - [Ansible Network Examples](#ansible-network-examples)
+- [Back to scenario](#back-to-scenario)
+  - [Firewal and practical information](#firewal-and-practical-information)
   - [Whitelisted repo for ansiblectr01](#whitelisted-repo-for-ansiblectr01)
   - [Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#firewall-rule-matrix-purdue--isa-95-architecture)
   - [Vnet and subnet](#vnet-and-subnet)
@@ -73,6 +76,8 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 - [Create a Windows host](#create-a-windows-host)
   - [Playbook windows tbd](#playbook-windows-tbd)
 
+
+# Introduction
 
 ## Scenario
 
@@ -156,7 +161,15 @@ This module is able to configure a FortiGate or FortiOS (FOS) device by allowing
 
 https://docs.ansible.com/projects/ansible/latest/collections/fortinet/fortios/fortios_system_interface_module.html
 
-# Firewal and practical information
+
+#### Ansible Network Examples
+
+https://docs.ansible.com/projects/ansible/latest/network/user_guide/network_best_practices_2.5.html
+
+
+# Back to scenario
+
+## Firewal and practical information
 
 ## Whitelisted repo for ansiblectr01
 
