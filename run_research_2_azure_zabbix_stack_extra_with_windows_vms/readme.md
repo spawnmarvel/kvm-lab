@@ -1212,6 +1212,13 @@ Verification: Launching this template automatically applies the limit without re
 
 # Playbooks with Ansible (Now we can really start)
 
+Now all the configuration and setup is done
+
+* ssh works
+* Ping works
+* Linux updates with apt cacher ng works
+* All nodes are isolated with no internet access
+
 ## Playbook linux mount_datadrive_check.yml --check --limit
 
 ```bash
