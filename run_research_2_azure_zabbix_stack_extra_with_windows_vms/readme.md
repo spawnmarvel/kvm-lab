@@ -1156,6 +1156,11 @@ Now update all servers with the apt playbook.
 ![one_click_update](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/one_click_update.png)
 
 
+All Playbooks are success and ready
+
+![first_4_play](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/first_4_play.png)
+
+
 
 ## Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore
 
