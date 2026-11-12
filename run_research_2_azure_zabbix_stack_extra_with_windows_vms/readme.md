@@ -20,12 +20,12 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Create zabbix01 Subnet 1 (iDMZ / Management)](#create-zabbix01-subnet-1-idmz--management)
   - [Populate folder structure and verify ssh](#populate-folder-structure-and-verify-ssh)
     - [Enable passwordless, secure SSH authentication](#enable-passwordless-secure-ssh-authentication)
-  - [Playbook ping\_hosts.yml](#playbook-ping_hostsyml)
+  - [Playbook linux ping\_hosts.yml](#playbook-linux-ping_hostsyml)
   - [Set up apt-cacher-ng and Apache on ansiblectr01](#set-up-apt-cacher-ng-and-apache-on-ansiblectr01)
     - [Allowed remote repositories](#allowed-remote-repositories)
-  - [Playbook configure\_apt\_proxy.yml](#playbook-configure_apt_proxyyml)
+  - [Playbook linux configure\_apt\_proxy.yml](#playbook-linux-configure_apt_proxyyml)
     - [Veriy manual update on zabbix01](#veriy-manual-update-on-zabbix01)
-  - [Playbook update\_apt.yml with callbacks\_enabled = profile\_tasks, timer](#playbook-update_aptyml-with-callbacks_enabled--profile_tasks-timer)
+  - [Playbook linux update\_apt.yml with callbacks\_enabled = profile\_tasks, timer](#playbook-linux-update_aptyml-with-callbacks_enabled--profile_tasks-timer)
   - [Current vms](#current-vms)
   - [Install Semaphore UI on ansiblectr01](#install-semaphore-ui-on-ansiblectr01)
     - [We could do it with Ansible playbook also/ this is manual install to get to know it](#we-could-do-it-with-ansible-playbook-also-this-is-manual-install-to-get-to-know-it)
@@ -33,18 +33,20 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [SSL/TLS Certificates](#ssltls-certificates)
     - [Apache in front of Semaphore for secure HTTPS access](#apache-in-front-of-semaphore-for-secure-https-access)
   - [Setup Ansible ansiblectr01 with Semaphore](#setup-ansible-ansiblectr01-with-semaphore)
-  - [Playbooks Semaphore run](#playbooks-semaphore-run)
-    - [ping\_hosts.yml](#ping_hostsyml)
-    - [update\_apt.yml](#update_aptyml)
+  - [Playbooks linux Semaphore run](#playbooks-linux-semaphore-run)
+    - [linux ping\_hosts.yml](#linux-ping_hostsyml)
+    - [linux update\_apt.yml](#linux-update_aptyml)
   - [Topology at this stage](#topology-at-this-stage)
 - [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
   - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
   - [Structure inventory/hosts.ini and align all configurations](#structure-inventoryhostsini-and-align-all-configurations)
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
 - [Playbooks with Ansible](#playbooks-with-ansible)
-  - [Playbook verify\_isolation.yml only ansiblectr01 has outbound internet](#playbook-verify_isolationyml-only-ansiblectr01-has-outbound-internet)
-  - [Playbook mount\_datadrive\_check.yml --check --limit](#playbook-mount_datadrive_checkyml---check---limit)
-  - [Playbook mount\_datadrive.yml](#playbook-mount_datadriveyml)
+  - [Playbook linux verify\_isolation.yml only ansiblectr01 has outbound internet](#playbook-linux-verify_isolationyml-only-ansiblectr01-has-outbound-internet)
+  - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
+  - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
+- [Create a Windows host](#create-a-windows-host)
+  - [Playbook windows tbd](#playbook-windows-tbd)
 
 
 ## Scenario
@@ -318,7 +320,7 @@ become_user = root
 become_ask_pass = False
 ```
 
-## Playbook ping_hosts.yml
+## Playbook linux ping_hosts.yml
 
 
 ```bash
@@ -415,7 +417,7 @@ sudo systemctl status apt-cacher-ng
 ```
 
 
-## Playbook configure_apt_proxy.yml
+## Playbook linux configure_apt_proxy.yml
 
 
 ```bash
@@ -542,7 +544,7 @@ Yes, exactly. The connection refusal error when the proxy service was stopped—
 ![zabbix01 update fail](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/zabbix01_update_fail.png)
 
 
-## Playbook update_apt.yml with callbacks_enabled = profile_tasks, timer
+## Playbook linux update_apt.yml with callbacks_enabled = profile_tasks, timer
 
 ```bash
 azureuser@ansiblectr01:~/io_ot_lab
@@ -917,7 +919,8 @@ Verification: You are redirected to the new project dashboard view.
 
 ![setup sema2](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/setup_sema2.png)
 
-## Playbooks Semaphore run
+
+## Playbooks linux Semaphore run
 
 What to Do Next
 
@@ -928,7 +931,7 @@ To start running your automation tasks, you can proceed with creating your execu
 * Run and Test: Trigger a run directly from the dashboard to verify that Semaphore successfully executes your playbooks against your lab nodes over SSH.
 
 
-### ping_hosts.yml
+### linux ping_hosts.yml
 
 ![play ping](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/play_ping.png)
 
@@ -940,7 +943,7 @@ Verify in Semaphore
 
 ![run sema ping verify](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/run_sema_ping_verify.png)
 
-### update_apt.yml
+### linux update_apt.yml
 
 ![run sema apt](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/run_sema_apt.png)
 
@@ -1043,13 +1046,9 @@ Verification: Launching this template automatically applies the limit without re
 
 
 
-
-
-
-  
 # Playbooks with Ansible
 
-## Playbook verify_isolation.yml only ansiblectr01 has outbound internet
+## Playbook linux verify_isolation.yml only ansiblectr01 has outbound internet
 
 ```bash
 azureuser@ansiblectr01:~/io_ot_lab
@@ -1096,9 +1095,40 @@ Success
 
 ![4_playbooks](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/4_playbooks.png)
 
-## Playbook mount_datadrive_check.yml --check --limit
+## Playbook linux mount_datadrive_check.yml --check --limit
 
-## Playbook mount_datadrive.yml
+```bash
+azureuser@ansiblectr01:~/io_ot_lab
+
+cd io_ot_lab/
+
+# if the play is ok, remove --check with --diff and or --limit
+
+# Version: 1.2.0
+# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
+ansible-playbook -i inventory/hosts.ini playbooks/verify_isolation.ym
+
+```
+
+## Playbook linux mount_datadrive.yml
+
+
+```bash
+azureuser@ansiblectr01:~/io_ot_lab
+
+cd io_ot_lab/
+
+# if the play is ok, remove --check with --diff and or --limit
+
+# Version: 1.2.0
+# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
+ansible-playbook -i inventory/hosts.ini playbooks/verify_isolation.ym
+
+```
+
+# Create a Windows host
+
+## Playbook windows tbd
 
 
 
