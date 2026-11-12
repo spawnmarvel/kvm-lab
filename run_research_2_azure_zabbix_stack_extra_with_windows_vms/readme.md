@@ -51,6 +51,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [Playbook Linux configure\_apt\_proxy.yml](#playbook-linux-configure_apt_proxyyml-1)
     - [Playbook Linux update\_apt.yml patch all hosts with one click](#playbook-linux-update_aptyml-patch-all-hosts-with-one-click)
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
+  - [Semaphore statistic](#semaphore-statistic)
 - [Playbooks with Ansible (Now we can really start)](#playbooks-with-ansible-now-we-can-really-start)
   - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
@@ -1208,7 +1209,12 @@ In Semaphore, templates are designed to be reusable workflows. Rather than manua
 
 Verification: Launching this template automatically applies the limit without requiring manual command-line flags.
 
+## Semaphore statistic
 
+
+![stats](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/stats.png)
+
+![stats2](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/stats2.png)
 
 # Playbooks with Ansible (Now we can really start)
 
