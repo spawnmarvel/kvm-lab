@@ -51,8 +51,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [Playbook Linux configure\_apt\_proxy.yml](#playbook-linux-configure_apt_proxyyml-1)
     - [Playbook Linux update\_apt.yml patch all hosts with one click](#playbook-linux-update_aptyml-patch-all-hosts-with-one-click)
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
-- [Playbooks with Ansible](#playbooks-with-ansible)
-  - [Playbook linux verify\_isolation.yml only ansiblectr01 has outbound internet](#playbook-linux-verify_isolationyml-only-ansiblectr01-has-outbound-internet)
+- [Playbooks with Ansible (Now we can really start)](#playbooks-with-ansible-now-we-can-really-start)
   - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
 - [Create a Windows host](#create-a-windows-host)
@@ -1211,54 +1210,7 @@ Verification: Launching this template automatically applies the limit without re
 
 
 
-# Playbooks with Ansible
-
-## Playbook linux verify_isolation.yml only ansiblectr01 has outbound internet
-
-```bash
-azureuser@ansiblectr01:~/io_ot_lab
-
-cd io_ot_lab/
-
-# if the play is ok, remove --check with --diff and or --limit
-
-# Version: 1.2.0
-# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
-ansible-playbook -i inventory/hosts.ini playbooks/verify_isolation.ym
-
-```
-
-log
-```console
-PLAY [Verify Internet Isolation on Managed Nodes] **********************************************************************
-
-TASK [Attempt connection to public internet destination] ***************************************************************
-Thursday 12 November 2026  07:32:04 +0000 (0:00:00.045)       0:00:00.045 *****
-ok: [zabbix01]
-
-TASK [Assert that external internet connection failed] *****************************************************************
-Thursday 12 November 2026  07:32:47 +0000 (0:00:42.245)       0:00:42.291 *****
-ok: [zabbix01] => {
-    "changed": false,
-    "msg": "Isolation verified: Host cannot reach the public internet directly."
-}
-
-PLAY RECAP *************************************************************************************************************
-zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-
-
-TASKS RECAP ************************************************************************************************************
-Thursday 12 November 2026  07:32:47 +0000 (0:00:00.064)       0:00:42.355 *****
-===============================================================================
-Attempt connection to public internet destination -------------------------------------------------------------- 42.25s
-Assert that external internet connection failed ----------------------------------------------------------------- 0.06s
-
-PLAYBOOK RECAP *********************************************************************************************************
-```
-
-Success
-
-![4_playbooks](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/4_playbooks.png)
+# Playbooks with Ansible (Now we can really start)
 
 ## Playbook linux mount_datadrive_check.yml --check --limit
 
