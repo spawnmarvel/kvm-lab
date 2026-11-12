@@ -36,8 +36,8 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online
   - [Topology at this stage](#topology-at-this-stage)
 - [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
-- [Structure inventory/hosts.ini](#structure-inventoryhostsini)
-  - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
+- [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
+- [Structure inventory/hosts.ini and align all configurations](#structure-inventoryhostsini-and-align-all-configurations)
 - [Playbooks with Ansible / do the rest with cli](#playbooks-with-ansible--do-the-rest-with-cli)
   - [Playbook verify\_isolation.yml](#playbook-verify_isolationyml)
   - [Playbook mount\_datadrive\_check.yml --check --limit](#playbook-mount_datadrive_checkyml---check---limit)
@@ -1011,13 +1011,17 @@ In Semaphore, templates are designed to be reusable workflows. Rather than manua
 
 Verification: Launching this template automatically applies the limit without requiring manual command-line flags.
 
-# Structure inventory/hosts.ini
-
-
-## Create mysql01 and zabbix02
+# Create mysql01 and zabbix02
 
 * Create mysql01 and add a extra datadisk with 20 GB
 * Create zabbix02
+
+# Structure inventory/hosts.ini and align all configurations
+
+
+
+
+
   
 # Playbooks with Ansible / do the rest with cli
 
@@ -1063,6 +1067,8 @@ Assert that external internet connection failed --------------------------------
 
 PLAYBOOK RECAP *********************************************************************************************************
 ```
+
+![4_playbooks](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/4_playbooks.png)
 
 ## Playbook mount_datadrive_check.yml --check --limit
 
