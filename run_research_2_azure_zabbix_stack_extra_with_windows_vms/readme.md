@@ -73,7 +73,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 - [3. Topology at this stage](#3-topology-at-this-stage)
   - [Update inventory/host.ini](#update-inventoryhostini)
   - [Playbook get\_linux\_version.yml](#playbook-get_linux_versionyml)
-  - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
+  - [Playbook linux mount\_datadrive\_check.yml --check NA](#playbook-linux-mount_datadrive_checkyml---check-na)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
   - [Playbook linux tbd.yml](#playbook-linux-tbdyml)
 - [Create a Windows host](#create-a-windows-host)
@@ -1521,7 +1521,7 @@ ansible-playbook -i inventory/hosts.ini playbooks/get_linux_version.yml
 ```
 
 
-## Playbook linux mount_datadrive_check.yml --check --limit
+## Playbook linux mount_datadrive_check.yml --check NA 
 
 
 Now we can use the mapping in hosts.ini to only target our host in the playbook.
