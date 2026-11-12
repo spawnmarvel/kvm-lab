@@ -21,6 +21,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [VM's Azure Retirement of default outbound access: scope and impact](#vms-azure-retirement-of-default-outbound-access-scope-and-impact)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
   - [Virtual machines in Rg-swc-vms-01](#virtual-machines-in-rg-swc-vms-01)
+- [Ansible configuration](#ansible-configuration)
   - [Create ansiblectr01 Subnet 1 (iDMZ / Management)](#create-ansiblectr01-subnet-1-idmz--management)
   - [Install Ansible on ansiblectr01](#install-ansible-on-ansiblectr01)
     - [Create folder structure](#create-folder-structure)
@@ -189,6 +190,9 @@ https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outb
 * zabbix01, 10.68.68.5, (with public ip also, but no outbund internet, deny with NSG) later
 * mysql01, 10.68.68.52, no outbund internet by default
 * zabbix02, 10.68.20.15, no outbund internet by default
+
+
+# Ansible configuration
 
 ## Create ansiblectr01 Subnet 1 (iDMZ / Management)
 
