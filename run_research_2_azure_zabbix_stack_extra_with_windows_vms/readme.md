@@ -23,7 +23,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [Create folder structure](#create-folder-structure)
   - [Create zabbix01 Subnet 1 (iDMZ / Management)](#create-zabbix01-subnet-1-idmz--management)
   - [Populate folder structure and verify ssh](#populate-folder-structure-and-verify-ssh)
-    - [Enable passwordless, secure SSH authentication](#enable-passwordless-secure-ssh-authentication)
+    - [Enable passwordless, secure SSH authentication and log on ansiblectr01 in /opt/ansible](#enable-passwordless-secure-ssh-authentication-and-log-on-ansiblectr01-in-optansible)
   - [Playbook linux ping\_hosts.yml](#playbook-linux-ping_hostsyml)
   - [Set up apt-cacher-ng and Apache on ansiblectr01](#set-up-apt-cacher-ng-and-apache-on-ansiblectr01)
     - [Allowed remote repositories](#allowed-remote-repositories)
@@ -311,7 +311,7 @@ ansible-config view
 
 ```
 
-### Enable passwordless, secure SSH authentication
+### Enable passwordless, secure SSH authentication and log on ansiblectr01 in /opt/ansible
 
 To enable passwordless, secure SSH authentication from your Ansible controller node (ansiblectr01, 10.68.68.4) to your target host (10.68.68.5), you need to generate an SSH key pair on the controller and copy the public key to the remote host.
 
