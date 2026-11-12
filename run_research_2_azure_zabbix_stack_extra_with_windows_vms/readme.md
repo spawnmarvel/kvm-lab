@@ -43,6 +43,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Topology at this stage](#topology-at-this-stage)
 - [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
   - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
+  - [No outbound to internet](#no-outbound-to-internet)
   - [Structure inventory/hosts.ini and align all configurations](#structure-inventoryhostsini-and-align-all-configurations)
     - [Add ssh keys for new hosts](#add-ssh-keys-for-new-hosts)
     - [Playbook linux yml update hosts and verify current templates](#playbook-linux-yml-update-hosts-and-verify-current-templates)
@@ -1065,6 +1066,16 @@ Vm mysql01 created 10.68.68.6
 Azure vms
 
 ![azure_vms](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/azure_vms.png)
+
+## No outbound to internet
+
+Vms
+
+![vms_nsg](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/vms_nsg.png)
+
+Ansible
+
+![vms_nsg_ansible](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/vms_nsg_ansible.png)
 
 ## Structure inventory/hosts.ini and align all configurations
 
