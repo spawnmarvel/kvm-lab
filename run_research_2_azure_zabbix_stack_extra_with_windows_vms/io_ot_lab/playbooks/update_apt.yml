@@ -1,5 +1,6 @@
 ---
 # Version: 1.1.0
+# Author: aspen
 # Description: Updates package cache, safely upgrades system packages, and displays upgrade counts and details.
 
 - name: Update and Upgrade System Packages

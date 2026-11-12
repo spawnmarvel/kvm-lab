@@ -21,6 +21,7 @@
     - [Verify yaml](#verify-yaml)
   - [Playbooks --check with --diff and or --limit and or --syntax-check and or --vvv](#playbooks---check-with---diff-and-or---limit-and-or---syntax-check-and-or---vvv)
   - [Semaphore UI](#semaphore-ui)
+  - [10 habits of great Ansible users](#10-habits-of-great-ansible-users)
 
 ## azure-ansibel quickguide back in 2023
 
@@ -175,3 +176,21 @@ Use Semaphore UI with Ansible, Terraform, OpenTofu, Terragrunt, Bash, PowerShell
 
 * https://semaphoreui.com/
 
+
+## 10 habits of great Ansible users
+
+Whether you're writing playbooks, maintaining inventory, or executing tasks, here are 10 things to keep in mind as you implement enterprise-wide automation:
+
+1. Use version control
+2. Use whitespace and comments
+3. Give variables unique and meaningful names
+4. Use roles to keep playbooks well-organized
+5. Troubleshoot on execution
+6. Use block syntax
+7. Use a separate inventory file for staging and production
+8. Understand the serial keyword for rolling updates
+9. Use native modules when possible
+10. Keep debugging messages clean
+
+
+https://www.redhat.com/en/blog/10-great-ansible-practices

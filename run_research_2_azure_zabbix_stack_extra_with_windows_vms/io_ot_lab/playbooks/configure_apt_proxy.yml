@@ -1,5 +1,6 @@
 ---
 # Version: 1.0.3
+# Author: aspen
 # Description: Configures APT HTTP and HTTPS proxy settings for internal caching across nodes.
 
 - name: Configure Internal APT Caching Proxy

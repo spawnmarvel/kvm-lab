@@ -1,5 +1,6 @@
 ---
 # Version: 1.0.1
+# Author: aspen
 # Description: Ping validation playbook with privilege escalation explicitly disabled
 
 - name: Verify Connectivity Across Purdue Lab Nodes

@@ -1,5 +1,6 @@
 ---
 # Version: 1.2.0
+# Author: aspen
 # Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
 
 - name: Verify Internet Isolation on Managed Nodes

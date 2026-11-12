@@ -71,6 +71,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Semaphore statistic](#semaphore-statistic)
 - [Playbooks with Ansible (Now we can really start)](#playbooks-with-ansible-now-we-can-really-start)
 - [3. Topology at this stage](#3-topology-at-this-stage)
+  - [Update inventory/host.ini](#update-inventoryhostini)
   - [Playbook get\_linux\_version.yml](#playbook-get_linux_versionyml)
   - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
@@ -1451,18 +1452,83 @@ graph TD
     zabbix01 -.->|TCP 10051 Active Push| zabbix02
 ```
 
+
+## Update inventory/host.ini
+
+
+```ini
+# Version: 2.0.0
+# Description: Multi-zone Ansible static inventory defining topological zones, functional roles, and connection parameters.
+
+[control_node]
+ansiblectr01 ansible_host=10.68.68.4 ansible_user=azureuser ansible_python_interpreter=/usr/bin/python3.14 ansible_connection=local
+
+[idmz_nodes]
+zabbix01 ansible_host=10.68.68.5 ansible_user=azureuser ansible_python_interpreter=/usr/bin/python3.14
+mysql01 ansible_host=10.68.68.6 ansible_user=azureuser ansible_python_interpreter=/usr/bin/python3.14
+
+[ot_nodes]
+zabbix02 ansible_host=10.68.20.4 ansible_user=azureuser
+
+[db_servers]
+mysql01 ansible_host=10.68.68.6 ansible_user=azureuser ansible_python_interpreter=/usr/bin/python3.14
+
+[zabbix_servers]
+zabbix01 ansible_host=10.68.68.5 ansible_user=azureuser ansible_python_interpreter=/usr/bin/python3.14
+
+[zabbix_proxies]
+zabbix02 ansible_host=10.68.20.4 ansible_user=azureuser ansible_python_interpreter=/usr/bin/python3.14
+
+[idmz_nodes:vars]
+ansible_connection=ssh
+
+[ot_nodes:vars]
+ansible_connection=ssh
+
+[all:vars]
+ansible_python_interpreter=auto_silent
+
+[io_ot_lab:children]
+idmz_nodes
+ot_nodes
+```
+
+🔵 [control_node]: Groups the local Ansible controller node so that playbooks can execute locally via loopback connections without unnecessary network overhead.
+
+🔵 [idmz_nodes]: Groups all internal Demilitarized Zone management servers together to manage shared security policies and local software repositories cleanly.
+
+🔵 [ot_nodes]: Groups all Operational Technology network targets together to isolate industrial systems from management traffic boundaries.
+
+🔵 [db_servers]: Groups database instances like MySQL so database-specific deployment and tuning playbooks target only relational storage hosts.
+
+🔵 [zabbix_servers]: Groups core Zabbix monitoring servers together to target application-specific updates and configuration management tasks.
+
+🔵 [zabbix_proxies]: Groups Zabbix proxy nodes to streamline data collection routing across segregated network boundaries.
+
+🔵 [idmz_nodes:vars]: Assigns shared SSH connection parameters specifically to management zone hosts to guarantee correct remote transport behavior.
+
+🔵 [ot_nodes:vars]: Applies specific OT network connection settings to target nodes to enforce appropriate transport rules across firewalls.
+
+🔵 [all:vars]: Defines global variables inherited across every inventory host to ensure uniform Python interpreter settings without redundant configuration.
+
+🔵[io_ot_lab:children]: Combines multiple sub-groups into a unified parent group to let you run playbooks across the entire laboratory infrastructure with a single target reference.
+
 ## Playbook get_linux_version.yml
 
 ```bash
----
-# Version: 1.1.1
-# Description: Gathers and displays Linux distribution, release version, and kernel details using modern ansible_facts syntax.
 
 ansible-playbook -i inventory/hosts.ini playbooks/get_linux_version.yml
 ```
 
 
 ## Playbook linux mount_datadrive_check.yml --check --limit
+
+
+Now we can use the mapping in hosts.ini to only target our host in the playbook.
+
+🔵 [db_servers]: Groups database instances like MySQL so database-specific deployment and tuning playbooks target only relational storage hosts.
+
+🔵 you can target the group db_servers directly (since mysql01 is already a member of that group
 
 ```bash
 azureuser@ansiblectr01:~/io_ot_lab
@@ -1471,11 +1537,56 @@ cd io_ot_lab/
 
 # if the play is ok, remove --check with --diff and or --limit
 
-# Version: 1.2.0
-# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
-ansible-playbook -i inventory/hosts.ini playbooks/
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive_check.yml
 
 ```
+
+log
+
+```console
+PLAY [Check mount secondary data drive] ********************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+Thursday 12 November 2026  20:38:41 +0000 (0:00:00.016)       0:00:00.016 *****
+ok: [mysql01]
+
+TASK [Gather block device information] *********************************************************************************
+Thursday 12 November 2026  20:38:43 +0000 (0:00:01.997)       0:00:02.013 *****
+ok: [mysql01]
+
+TASK [Display available block devices] *********************************************************************************
+Thursday 12 November 2026  20:38:43 +0000 (0:00:00.525)       0:00:02.539 *****
+ok: [mysql01] => {
+    "msg": [
+        "NAME     SIZE FSTYPE MOUNTPOINTS",
+        "sda       32G        ",
+        "sdb       30G        ",
+        "├─sdb1  28.9G ext4   /",
+        "├─sdb13 1023M ext4   /boot",
+        "├─sdb14    4M        ",
+        "└─sdb15  106M vfat   /boot/efi",
+        "sdc        8G        ",
+        "└─sdc1     8G ext4   /mnt"
+    ]
+}
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+TASKS RECAP ************************************************************************************************************
+Thursday 12 November 2026  20:38:43 +0000 (0:00:00.022)       0:00:02.562 *****
+===============================================================================
+Gathering Facts ------------------------------------------------------------------------------------------------- 2.00s
+Gather block device information --------------------------------------------------------------------------------- 0.53s
+Display available block devices --------------------------------------------------------------------------------- 0.02s
+
+PLAYBOOK RECAP *********************************************************************************************************
+Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
+
+```
+
+
 
 ## Playbook linux mount_datadrive.yml
 
@@ -1487,9 +1598,7 @@ cd io_ot_lab/
 
 # if the play is ok, remove --check with --diff and or --limit
 
-# Version: 1.2.0
-# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
-ansible-playbook -i inventory/hosts.ini playbooks/
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --check
 
 ```
 

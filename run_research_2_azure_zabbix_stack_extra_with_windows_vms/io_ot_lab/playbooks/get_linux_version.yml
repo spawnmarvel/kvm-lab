@@ -1,5 +1,6 @@
 ---
 # Version: 1.1.1
+# Author: aspen
 # Description: Gathers and displays Linux distribution, release version, and kernel details using modern ansible_facts syntax.
 
 - name: Gather and Display Linux Version and Kernel Information

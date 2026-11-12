@@ -1,0 +1,17 @@
+---
+# Version: 1.0.1
+# Author: aspen
+# Description: This playbook checks the mount of a secondary data drive on VMs in the db_servers group.
+
+- name: Check mount secondary data drive
+  hosts: db_servers
+  gather_facts: true
+  tasks:
+    - name: Gather block device information
+      ansible.builtin.shell: lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS
+      register: block_devices
+      changed_when: false
+
+    - name: Display available block devices
+      ansible.builtin.debug:
+        msg: "{{ block_devices.stdout_lines }}"
