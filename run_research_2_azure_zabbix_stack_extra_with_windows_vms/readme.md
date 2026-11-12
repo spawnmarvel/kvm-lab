@@ -164,6 +164,8 @@ https://docs.ansible.com/projects/ansible/latest/collections/fortinet/fortios/fo
 
 #### Ansible Network Examples
 
+This document describes some examples of using Ansible to manage your network infrastructure.
+
 https://docs.ansible.com/projects/ansible/latest/network/user_guide/network_best_practices_2.5.html
 
 
