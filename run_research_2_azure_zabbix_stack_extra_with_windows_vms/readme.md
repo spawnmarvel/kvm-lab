@@ -16,6 +16,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [Ansible quick guide](#ansible-quick-guide)
     - [Ansible and Red Hat](#ansible-and-red-hat)
       - [Official Ansible Documentation Portal](#official-ansible-documentation-portal)
+      - [Ansible provides open-source automation that reduces complexity and runs everywhere.](#ansible-provides-open-source-automation-that-reduces-complexity-and-runs-everywhere)
       - [Introduction to Ansible Guide: Ansible Introduction \& Use Cases](#introduction-to-ansible-guide-ansible-introduction--use-cases)
       - [Red Hat Ansible Automation Platform Overview:](#red-hat-ansible-automation-platform-overview)
 - [Firewal and practical information](#firewal-and-practical-information)
@@ -128,6 +129,11 @@ https://github.com/spawnmarvel/kvm-lab/blob/main/ansible_quickguide.md
 The primary hub for getting started, understanding core concepts (inventories, playbooks, modules), and managing managed nodes.
 
 https://docs.ansible.com/
+
+
+#### Ansible provides open-source automation that reduces complexity and runs everywhere.
+
+https://docs.ansible.com/projects/ansible/latest/getting_started/introduction.html
 
 #### Introduction to Ansible Guide: Ansible Introduction & Use Cases
 
