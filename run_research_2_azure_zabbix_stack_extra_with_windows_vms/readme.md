@@ -14,6 +14,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [Ansible idempotent](#ansible-idempotent)
     - [Ansible cheat sheet](#ansible-cheat-sheet)
     - [Ansible quick guide](#ansible-quick-guide)
+    - [Ansible](#ansible-1)
 - [Firewal and practical information](#firewal-and-practical-information)
   - [Whitelisted repo for ansiblectr01](#whitelisted-repo-for-ansiblectr01)
   - [Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#firewall-rule-matrix-purdue--isa-95-architecture)
@@ -111,6 +112,13 @@ https://github.com/spawnmarvel/kvm-lab/blob/main/ansible_cheat_sheet.pdf
 The quick guide will also be updated as we go.
 
 https://github.com/spawnmarvel/kvm-lab/blob/main/ansible_quickguide.md
+
+
+### Ansible
+
+
+![ansible_circle](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ansible_circle.png)
+
 
 # Firewal and practical information
 
