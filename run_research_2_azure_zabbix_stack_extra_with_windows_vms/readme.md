@@ -10,7 +10,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Team 1](#team-1)
   - [Team 2 starts with ansiblectr01](#team-2-starts-with-ansiblectr01)
 - [1. Topology](#1-topology)
-  - [Ansible](#ansible)
+- [Ansible](#ansible)
     - [Ansible idempotent](#ansible-idempotent)
     - [Ansible cheat sheet](#ansible-cheat-sheet)
     - [Ansible quick guide](#ansible-quick-guide)
@@ -89,7 +89,7 @@ This is the final set up (ip may change but the concept is the same)
 
 ![topology](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/topology.png)
 
-## Ansible
+# Ansible
 
 ![ansible1](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ansible1.png)
 
