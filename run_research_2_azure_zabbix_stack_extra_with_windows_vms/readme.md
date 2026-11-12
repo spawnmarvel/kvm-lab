@@ -929,6 +929,12 @@ now that Apache is handling SSL termination on port 443 and securely proxying tr
 
 ![nsg remove](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/nsg_remove.png)
 
+https://www.sslshopper.com/ssl-checker.html
+
+Yes we use a self signed cert.
+
+![ssl](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ssl.png)
+
 
 
 
