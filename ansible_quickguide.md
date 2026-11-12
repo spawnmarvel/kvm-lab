@@ -26,7 +26,7 @@
 
 Testing and learning Ansibel with Azure
 
-* Create vms linyc and windows
+* Create vms linux and windows
 * Playbook roles, When to turn a playbook into a role
 * Semaphore UI
 * mariadb, wordpress, apache, grafana etc

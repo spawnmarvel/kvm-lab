@@ -11,6 +11,9 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Team 2 starts with ansiblectr01](#team-2-starts-with-ansiblectr01)
   - [Topology](#topology)
   - [Ansible](#ansible)
+    - [Ansible idempotent](#ansible-idempotent)
+    - [Ansible cheat sheet](#ansible-cheat-sheet)
+    - [Ansible quick guide](#ansible-quick-guide)
   - [Vnet and subnet](#vnet-and-subnet)
   - [VM's Azure Retirement of default outbound access: scope and impact](#vms-azure-retirement-of-default-outbound-access-scope-and-impact)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
@@ -85,6 +88,22 @@ This is the final set up (ip may change but the concept is the same)
 ![ansible1](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ansible1.png)
 
 https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
+
+### Ansible idempotent
+
+Yes, Ansible is idempotent by design when using its built-in modules, meaning you can run a playbook multiple times without changing the system after the first run unless the desired state change
+
+### Ansible cheat sheet
+
+https://github.com/spawnmarvel/kvm-lab/blob/main/ansible_cheat_sheet.pdf
+
+### Ansible quick guide
+
+The quick guide will also be updated as we go.
+
+https://github.com/spawnmarvel/kvm-lab/blob/main/ansible_quickguide.md
+
+
 
 
 ## Vnet and subnet
