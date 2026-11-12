@@ -1124,7 +1124,7 @@ Playbook run took 0 days, 0 hours, 0 minutes, 1 seconds
 
 It automatically picks up all our new hosts.
 
-![ping_sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ping_sema.png)
+![sema ping](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/sema_ping.png)
 
 ## Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore
 
