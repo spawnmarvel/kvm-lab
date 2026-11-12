@@ -56,6 +56,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
   - [Semaphore statistic](#semaphore-statistic)
 - [Playbooks with Ansible (Now we can really start)](#playbooks-with-ansible-now-we-can-really-start)
+  - [Topology at this stage](#topology-at-this-stage-1)
   - [Playbook get\_linux\_version.yml](#playbook-get_linux_versionyml)
   - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
@@ -1285,6 +1286,49 @@ Now all the configuration and setup is done
 * Ping works
 * Linux updates with apt cacher ng works
 * All nodes are isolated with no internet access
+
+## Topology at this stage
+
+```mermaid
+graph TD
+    subgraph Zone1 ["External Access public ip"]
+        Internet["INTERNET<br/>(EXTERNAL REPOSITORIES)"]
+    end
+
+    subgraph Zone2 ["Zone 2.5: Controller Node (ansiblectr01 / Azure VM)"]
+        subgraph Subnet1 ["Subnet 1 (iDMZ / Management) - zone 2.5<br/>Address range: 10.68.68.0/24"]
+            direction TB
+            ansiblectr01["ansiblectr01<br/>10.68.68.4<br/>Ansible Control Node & Semaphore<br/>Ubuntu 22.04, Apache, APT Cacher NG Proxy"]
+            zabbix01["zabbix01<br/>IP: 10.68.68.5"]
+            mysql01["mysql01<br/>IP: 10.68.68.6<br/>---"]
+        end
+    end
+
+    subgraph Zone2OT ["Subnet 2 (OT / Target) - zone 2.0"]
+        direction TB
+        subgraph Subnet2 ["Address range: 10.68.20.0/24"]
+            zabbix02["zabbix02 Active proxy<br/>IP: 10.68.20.4"]
+            winVMs["20-30 WINDOWS VMs<br/>10.68.20.100+"]
+        end
+    end
+
+    subgraph AdminNet ["Admin / IT Network Zone 3"]
+        AdminPC["Admin PC/ Jump Server (SSH to Azure ansiblectr01 via public IP)"]
+    end
+
+    Internet -->|HTTP HTTPS Port 80, 443| ansiblectr01
+    AdminPC -->|TCP 80/443 Zabbix Web UI| zabbix01
+    AdminPC -->|TCP 443 Semaphore Web UI| ansiblectr01
+    AdminPC -->|TCP 22 SSH| ansiblectr01
+    
+    ansiblectr01 -->|APT Cache TCP 3142| zabbix01
+    ansiblectr01 -->|TCP 22 Ansible Playbook| zabbix01
+    ansiblectr01 -->|TCP 22 Ansible Playbook| mysql01
+    
+    ansiblectr01 -.->|TCP 22 Ansible Playbook| zabbix02
+    zabbix01 -.->|TCP 10051 Active Push| zabbix02
+
+```
 
 ## Playbook get_linux_version.yml
 
