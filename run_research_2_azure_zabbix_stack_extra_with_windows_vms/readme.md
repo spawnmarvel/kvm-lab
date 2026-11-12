@@ -933,7 +933,7 @@ https://www.sslshopper.com/ssl-checker.html
 
 Yes we use a self signed cert.
 
-![ssl](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ssl.png)
+![cert](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/cert.png)
 
 
 
