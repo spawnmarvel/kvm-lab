@@ -1602,6 +1602,111 @@ ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --check
 
 ```
 
+The error occurred because you ran the playbook with the --check (dry run) flag. When running in check mode, Ansible simulates the partitioning task (parted), but it does not actually create /dev/sda1 on the system.
+
+Run without check mode (Live Execution): Since partition creation and formatting are idempotent or intended to apply changes, run the playbook normally without --check.
+
+
+```bash
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml
+```
+
+log
+```console
+PLAY [Inspect, configure, and mount secondary data drive] **************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+Thursday 12 November 2026  20:50:52 +0000 (0:00:00.012)       0:00:00.012 *****
+ok: [mysql01]
+
+TASK [Gather block device information with size] ***********************************************************************
+Thursday 12 November 2026  20:50:54 +0000 (0:00:01.841)       0:00:01.853 *****
+ok: [mysql01]
+
+TASK [Display available block devices] *********************************************************************************
+Thursday 12 November 2026  20:50:55 +0000 (0:00:00.484)       0:00:02.338 *****
+ok: [mysql01] => {
+    "msg": [
+        "NAME     SIZE FSTYPE MOUNTPOINTS",
+        "sda       32G        ",
+        "sdb       30G        ",
+        "├─sdb1  28.9G ext4   /",
+        "├─sdb13 1023M ext4   /boot",
+        "├─sdb14    4M        ",
+        "└─sdb15  106M vfat   /boot/efi",
+        "sdc        8G        ",
+        "└─sdc1     8G ext4   /mnt"
+    ]
+}
+
+TASK [Create primary partition on sda] *********************************************************************************
+Thursday 12 November 2026  20:50:55 +0000 (0:00:00.025)       0:00:02.363 *****
+changed: [mysql01]
+
+TASK [Create ext4 filesystem on sda1] **********************************************************************************
+Thursday 12 November 2026  20:50:55 +0000 (0:00:00.819)       0:00:03.183 *****
+changed: [mysql01]
+
+TASK [Ensure mount point directory exists] *****************************************************************************
+Thursday 12 November 2026  20:50:57 +0000 (0:00:01.721)       0:00:04.904 *****
+changed: [mysql01]
+
+TASK [Mount secondary drive persistently] ******************************************************************************
+Thursday 12 November 2026  20:50:58 +0000 (0:00:00.490)       0:00:05.395 *****
+changed: [mysql01]
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=7    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+TASKS RECAP ************************************************************************************************************
+Thursday 12 November 2026  20:50:59 +0000 (0:00:01.323)       0:00:06.718 *****
+===============================================================================
+Gathering Facts ------------------------------------------------------------------------------------------------- 1.84s
+Create ext4 filesystem on sda1 ---------------------------------------------------------------------------------- 1.72s
+Mount secondary drive persistently ------------------------------------------------------------------------------ 1.32s
+Create primary partition on sda --------------------------------------------------------------------------------- 0.82s
+Ensure mount point directory exists ----------------------------------------------------------------------------- 0.49s
+Gather block device information with size ----------------------------------------------------------------------- 0.48s
+Display available block devices --------------------------------------------------------------------------------- 0.03s
+
+PLAYBOOK RECAP *********************************************************************************************************
+```
+
+Lets inspect the disk
+
+```bash
+# we use our check playbook
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive_check.yml
+```
+
+log
+
+```console
+TASK [Display available block devices] *********************************************************************************
+Thursday 12 November 2026  20:52:43 +0000 (0:00:00.501)       0:00:02.364 *****
+ok: [mysql01] => {
+    "msg": [
+        "NAME     SIZE FSTYPE MOUNTPOINTS",
+        "sda       32G        ",
+        "└─sda1    32G        /var/lib/mysql",
+        "sdb       30G        ",
+        "├─sdb1  28.9G ext4   /",
+        "├─sdb13 1023M ext4   /boot",
+        "├─sdb14    4M        ",
+        "└─sdb15  106M vfat   /boot/efi",
+        "sdc        8G        ",
+        "└─sdc1     8G ext4   /mnt"
+    ]
+}
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+
+The playbook ran cleanly with zero failures (ok=7 changed=4 failed=0), successfully partitioning /dev/sda, creating the ext4 filesystem, provisioning the /var/lib/mysql mount point, and configuring persistent mounting.
+
 ## Playbook linux tbd.yml
 
 
