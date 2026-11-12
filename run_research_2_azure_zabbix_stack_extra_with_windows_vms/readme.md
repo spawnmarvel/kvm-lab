@@ -73,9 +73,10 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 - [3. Topology at this stage](#3-topology-at-this-stage)
   - [Update inventory/host.ini](#update-inventoryhostini)
   - [Playbook get\_linux\_version.yml](#playbook-get_linux_versionyml)
-  - [Playbook linux mount\_datadrive\_check.yml --check NA](#playbook-linux-mount_datadrive_checkyml---check-na)
+  - [Playbook linux mount\_datadrive\_check.yml](#playbook-linux-mount_datadrive_checkyml)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
-  - [Playbook linux tbd.yml](#playbook-linux-tbdyml)
+  - [Playbook linux tbd.yml --check or limit or hosts:groups](#playbook-linux-tbdyml---check-or-limit-or-hostsgroups)
+  - [Playbook linux tbd.yml --check or limit or hosts:groups](#playbook-linux-tbdyml---check-or-limit-or-hostsgroups-1)
 - [Create a Windows host](#create-a-windows-host)
   - [Playbook windows tbd](#playbook-windows-tbd)
 
@@ -1521,14 +1522,14 @@ ansible-playbook -i inventory/hosts.ini playbooks/get_linux_version.yml
 ```
 
 
-## Playbook linux mount_datadrive_check.yml --check NA 
+## Playbook linux mount_datadrive_check.yml
 
 
 Now we can use the mapping in hosts.ini to only target our host in the playbook.
 
 🔵 [db_servers]: Groups database instances like MySQL so database-specific deployment and tuning playbooks target only relational storage hosts.
 
-🔵 you can target the group db_servers directly (since mysql01 is already a member of that group
+🔵 you can target the group db_servers directly since mysql01 is already a member of that group
 
 ```bash
 azureuser@ansiblectr01:~/io_ot_lab
@@ -1598,7 +1599,7 @@ cd io_ot_lab/
 
 # if the play is ok, remove --check with --diff and or --limit
 
-ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --check
+ansible-playbook -i inventory/hosts.ini playbooks/mount_datadrive.yml --check NA
 
 ```
 
@@ -1707,7 +1708,23 @@ mysql01                    : ok=3    changed=0    unreachable=0    failed=0    s
 
 The playbook ran cleanly with zero failures (ok=7 changed=4 failed=0), successfully partitioning /dev/sda, creating the ext4 filesystem, provisioning the /var/lib/mysql mount point, and configuring persistent mounting.
 
-## Playbook linux tbd.yml
+## Playbook linux tbd.yml --check or limit or hosts:groups
+
+
+```bash
+azureuser@ansiblectr01:~/io_ot_lab
+
+cd io_ot_lab/
+
+# if the play is ok, remove --check with --diff and or --limit
+
+# Version: 1.2.0
+# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
+ansible-playbook -i inventory/hosts.ini playbooks/
+
+```
+
+## Playbook linux tbd.yml --check or limit or hosts:groups
 
 
 ```bash
