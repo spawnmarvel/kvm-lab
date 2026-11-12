@@ -39,7 +39,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online
 - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
 - [Structure inventory/hosts.ini and align all configurations](#structure-inventoryhostsini-and-align-all-configurations)
 - [Playbooks with Ansible / do the rest with cli](#playbooks-with-ansible--do-the-rest-with-cli)
-  - [Playbook verify\_isolation.yml](#playbook-verify_isolationyml)
+  - [Playbook verify\_isolation.yml only ansiblectr01 has outbound internet](#playbook-verify_isolationyml-only-ansiblectr01-has-outbound-internet)
   - [Playbook mount\_datadrive\_check.yml --check --limit](#playbook-mount_datadrive_checkyml---check---limit)
   - [Playbook mount\_datadrive.yml](#playbook-mount_datadriveyml)
 
@@ -1025,7 +1025,7 @@ Verification: Launching this template automatically applies the limit without re
   
 # Playbooks with Ansible / do the rest with cli
 
-## Playbook verify_isolation.yml
+## Playbook verify_isolation.yml only ansiblectr01 has outbound internet
 
 ```bash
 azureuser@ansiblectr01:~/io_ot_lab
