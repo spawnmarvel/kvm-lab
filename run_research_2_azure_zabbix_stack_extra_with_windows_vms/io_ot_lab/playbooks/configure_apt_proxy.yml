@@ -3,7 +3,7 @@
 # Description: Configures APT HTTP and HTTPS proxy settings for internal caching across nodes.
 
 - name: Configure Internal APT Caching Proxy
-  hosts: ot_nodes
+  hosts: ot_nodes:idmz_nodes
   become: true
   tasks:
     - name: Set APT Proxy configuration file
