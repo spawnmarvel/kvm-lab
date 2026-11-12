@@ -175,36 +175,19 @@ https://docs.ansible.com/projects/ansible/latest/network/user_guide/network_best
 
 Major Supported Switch Platforms
 
-Cisco:
-
-* Cisco IOS / IOS-XE (cisco.ios) – Standard Catalyst and classic switches.
-* Cisco NX-OS (cisco.nxos) – Nexus data center switches.
-* Cisco IOS-XR (cisco.iosxr) – Carrier-grade/edge switches.
-* Cisco Meraki (cisco.meraki) – Cloud-managed switches.
-
-Arista:
-
-* Arista EOS (arista.eos) – Extensible Operating System switches.
-
-Juniper:
-
-* Juniper Junos OS (junipernetworks.junos) – Enterprise and data center switches.
-
-Dell:
-
-* Dell OS6, OS9, OS10 / PowerSwitch (dell.os6, dell.os9, dell.os10).
-
-Aruba / HP:
-* Aruba / ProCurve / Comware (via community and vendor modules).
-
-Other Vendors & Operating Systems:
-
-* VyOS (vyos.vyos)
-* Nokia SR OS (nokia.sros)
-* Extreme Networks (EXOS, VOSS, IronWare)
-* Huawei CloudEngine (CE)
-* MikroTik RouterOS
-* Pluribus Netvisor, SLX-OS, FRR, WeOS
+| Vendor / Platform Family | Operating System & Edition               | Ansible Collection / Module Namespace |
+| :----------------------- | :--------------------------------------- | :------------------------------------ |
+| **Cisco**                | Cisco IOS / IOS-XE                       | `cisco.ios`                           |
+| **Cisco**                | Cisco NX-OS (Nexus)                      | `cisco.nxos`                          |
+| **Cisco**                | Cisco IOS-XR                             | `cisco.iosxr`                         |
+| **Cisco**                | Cisco Meraki                             | `cisco.meraki`                        |
+| **Arista**               | Arista EOS                               | `arista.eos`                          |
+| **Juniper**              | Juniper Junos OS                         | `junipernetworks.junos`               |
+| **Dell**                 | Dell OS6, OS9, OS10 (PowerSwitch)        | `dell.os6`, `dell.os9`, `dell.os10`   |
+| **Aruba / HP**           | Aruba, ProCurve, Comware                 | Community and vendor modules          |
+| **Other Vendors**        | VyOS                                     | `vyos.vyos`                           |
+| **Other Vendors**        | Nokia SR OS                              | `nokia.sros`                          |
+| **Other Vendors**        | Extreme Networks, Huawei, MikroTik, etc. | EXOS, VOSS, CloudEngine, RouterOS     |
 
 
 https://docs.ansible.com/projects/ansible/latest/collections/index.html
@@ -217,30 +200,13 @@ Ansible can configure, provision, and manage several major hypervisors and virtu
 
 Supported and Configurable Hypervisors
 
-VMware (vSphere / ESXi / vCenter)
-
-* Collection: community.vmware (or certified vmware.vmware / vmware.ansible_vcenter_plugin suites)
-* Capabilities: Provision, clone, power on/off, reconfigure VMs, manage datastores, networks, and dynamic inventories.
-
-Proxmox VE (Virtual Environment)
-
-* Collection: community.proxmox
-* Capabilities: Create, start, stop, delete, and configure KVM virtual machines and LXC containers.
-
-Microsoft Hyper-V & SCVMM
-
-* Collection: microsoft.hyperv and microsoft.scvmm
-* Capabilities: Provision VMs, manage virtual processors, memory, network adapters, and Windows-specific guest configurations via PowerShell Direct.
-
-KVM / Libvirt (Linux Kernel-based Virtual Machine)
-
-* Collection: community.libvirt (e.g., community.libvirt.virt_install)
-* Capabilities: Declare and provision virtual machines via libvirt and qemu.
-
-Amazon EC2 / Cloud Hypervisors (AWS, Azure, GCP, etc.)
-
-* Collection: amazon.aws, azure.azcollection, google.cloud
-* Capabilities: Manage cloud-native instances running on underlying hypervisor fleets.
+| Hypervisor / Cloud Platform                          | Ansible Collection                                                                         | Core Capabilities & Management Features                                                                                             |
+| :--------------------------------------------------- | :----------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| **VMware (vSphere / ESXi / vCenter)**                | `community.vmware` (or certified `vmware.vmware` / `vmware.ansible_vcenter_plugin` suites) | Provision, clone, power on/off, reconfigure VMs, manage datastores, networks, and dynamic inventories                               |
+| **Proxmox VE (Virtual Environment)**                 | `community.proxmox`                                                                        | Create, start, stop, delete, and configure KVM virtual machines and LXC containers                                                  |
+| **Microsoft Hyper-V & SCVMM**                        | `microsoft.hyperv` and `microsoft.scvmm`                                                   | Provision VMs, manage virtual processors, memory, network adapters, and Windows-specific guest configurations via PowerShell Direct |
+| **KVM / Libvirt (Linux Kernel-based VM)**            | `community.libvirt` (e.g., `community.libvirt.virt_install`)                               | Declare and provision virtual machines via libvirt and qemu                                                                         |
+| **Amazon EC2 / Cloud Hypervisors (AWS, Azure, GCP)** | `amazon.aws`, `azure.azcollection`, `google.cloud`                                         | Manage cloud-native instances running on underlying hypervisor fleets                                                               |
 
 You can browse and install these modules via the Ansible Community Documentation Index or Ansible Galaxy.
 
