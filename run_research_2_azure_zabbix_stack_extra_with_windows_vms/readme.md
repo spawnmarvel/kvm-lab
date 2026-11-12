@@ -57,6 +57,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Playbook get\_linux\_version.yml](#playbook-get_linux_versionyml)
   - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
+  - [Playbook linux tbd.yml](#playbook-linux-tbdyml)
 - [Create a Windows host](#create-a-windows-host)
   - [Playbook windows tbd](#playbook-windows-tbd)
 
@@ -1276,7 +1277,7 @@ cd io_ot_lab/
 
 # Version: 1.2.0
 # Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
-ansible-playbook -i inventory/hosts.ini playbooks/verify_isolation.ym
+ansible-playbook -i inventory/hosts.ini playbooks/
 
 ```
 
@@ -1292,7 +1293,23 @@ cd io_ot_lab/
 
 # Version: 1.2.0
 # Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
-ansible-playbook -i inventory/hosts.ini playbooks/verify_isolation.ym
+ansible-playbook -i inventory/hosts.ini playbooks/
+
+```
+
+## Playbook linux tbd.yml
+
+
+```bash
+azureuser@ansiblectr01:~/io_ot_lab
+
+cd io_ot_lab/
+
+# if the play is ok, remove --check with --diff and or --limit
+
+# Version: 1.2.0
+# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
+ansible-playbook -i inventory/hosts.ini playbooks/
 
 ```
 
