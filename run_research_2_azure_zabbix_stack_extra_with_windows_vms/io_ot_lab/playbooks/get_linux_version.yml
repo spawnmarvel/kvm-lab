@@ -1,0 +1,17 @@
+---
+# Version: 1.1.1
+# Description: Gathers and displays Linux distribution, release version, and kernel details using modern ansible_facts syntax.
+
+- name: Gather and Display Linux Version and Kernel Information
+  hosts: ot_nodes:idmz_nodes
+  gather_facts: true
+  become: false
+  tasks:
+    - name: Get kernel architecture details via uname
+      ansible.builtin.command: uname -a
+      register: uname_output
+      changed_when: false
+
+    - name: Display distribution, release version, and kernel info
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }} is running {{ ansible_facts.distribution }} {{ ansible_facts.distribution_version }} (Codename: {{ ansible_facts.distribution_release }}) | Kernel: {{ uname_output.stdout }}"

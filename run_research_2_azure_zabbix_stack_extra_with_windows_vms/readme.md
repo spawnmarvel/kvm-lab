@@ -53,6 +53,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
   - [Semaphore statistic](#semaphore-statistic)
 - [Playbooks with Ansible (Now we can really start)](#playbooks-with-ansible-now-we-can-really-start)
+  - [Playbook get\_linux\_version.yml](#playbook-get_linux_versionyml)
   - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
 - [Create a Windows host](#create-a-windows-host)
@@ -1235,6 +1236,17 @@ Now all the configuration and setup is done
 * Ping works
 * Linux updates with apt cacher ng works
 * All nodes are isolated with no internet access
+
+## Playbook get_linux_version.yml
+
+```bash
+---
+# Version: 1.1.1
+# Description: Gathers and displays Linux distribution, release version, and kernel details using modern ansible_facts syntax.
+
+ansible-playbook -i inventory/hosts.ini playbooks/get_linux_version.yml
+```
+
 
 ## Playbook linux mount_datadrive_check.yml --check --limit
 
