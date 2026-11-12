@@ -3,7 +3,7 @@
 # Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
 
 - name: Verify Internet Isolation on Managed Nodes
-  hosts:  ot_nodes
+  hosts:  ot_nodes:idmz_nodes
   become: true
   gather_facts: false
   tasks:

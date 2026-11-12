@@ -3,7 +3,7 @@
 # Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
 
 - name: Update and Upgrade System Packages
-  hosts: ot_nodes
+  hosts: ot_nodes:idmz_nodes
   become: true
   tasks:
     - name: Update apt repository cache

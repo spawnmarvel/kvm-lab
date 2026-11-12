@@ -3,7 +3,7 @@
 # Description: Ping validation playbook with privilege escalation explicitly disabled
 
 - name: Verify Connectivity Across Purdue Lab Nodes
-  hosts: ot_nodes
+  hosts: ot_nodes:idmz_nodes
   gather_facts: false
   become: false
   tasks:
