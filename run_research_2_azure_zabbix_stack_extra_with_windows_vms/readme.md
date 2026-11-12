@@ -23,6 +23,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
       - [This module is able to configure a FortiGate or FortiOS (FOS) device](#this-module-is-able-to-configure-a-fortigate-or-fortios-fos-device)
       - [Ansible Network Examples](#ansible-network-examples)
       - [Ansible can configure and manage network switches from a wide variety of hardware vendors using specialized](#ansible-can-configure-and-manage-network-switches-from-a-wide-variety-of-hardware-vendors-using-specialized)
+      - [Ansible can configure, provision, and manage several major hypervisors and virtualization platforms](#ansible-can-configure-provision-and-manage-several-major-hypervisors-and-virtualization-platforms)
 - [Back to scenario](#back-to-scenario)
   - [Firewal and practical information](#firewal-and-practical-information)
   - [Whitelisted repo for ansiblectr01](#whitelisted-repo-for-ansiblectr01)
@@ -174,29 +175,85 @@ https://docs.ansible.com/projects/ansible/latest/network/user_guide/network_best
 
 Major Supported Switch Platforms
 
-• Cisco:
-	• Cisco IOS / IOS-XE (cisco.ios) – Standard Catalyst and classic switches.
-	• Cisco NX-OS (cisco.nxos) – Nexus data center switches.
-	• Cisco IOS-XR (cisco.iosxr) – Carrier-grade/edge switches.
-	• Cisco Meraki (cisco.meraki) – Cloud-managed switches.
-• Arista:
-	• Arista EOS (arista.eos) – Extensible Operating System switches.
-• Juniper:
-	• Juniper Junos OS (junipernetworks.junos) – Enterprise and data center switches.
-• Dell:
-	• Dell OS6, OS9, OS10 / PowerSwitch (dell.os6, dell.os9, dell.os10).
-• Aruba / HP:
-	• Aruba / ProCurve / Comware (via community and vendor modules).
-• Other Vendors & Operating Systems:
-	• VyOS (vyos.vyos)
-	• Nokia SR OS (nokia.sros)
-	• Extreme Networks (EXOS, VOSS, IronWare)
-	• Huawei CloudEngine (CE)
-	• MikroTik RouterOS
-	• Pluribus Netvisor, SLX-OS, FRR, WeOS
+Cisco:
+
+* Cisco IOS / IOS-XE (cisco.ios) – Standard Catalyst and classic switches.
+* Cisco NX-OS (cisco.nxos) – Nexus data center switches.
+* Cisco IOS-XR (cisco.iosxr) – Carrier-grade/edge switches.
+* Cisco Meraki (cisco.meraki) – Cloud-managed switches.
+
+Arista:
+
+* Arista EOS (arista.eos) – Extensible Operating System switches.
+
+Juniper:
+
+* Juniper Junos OS (junipernetworks.junos) – Enterprise and data center switches.
+
+Dell:
+
+* Dell OS6, OS9, OS10 / PowerSwitch (dell.os6, dell.os9, dell.os10).
+
+Aruba / HP:
+* Aruba / ProCurve / Comware (via community and vendor modules).
+
+Other Vendors & Operating Systems:
+
+* VyOS (vyos.vyos)
+* Nokia SR OS (nokia.sros)
+* Extreme Networks (EXOS, VOSS, IronWare)
+* Huawei CloudEngine (CE)
+* MikroTik RouterOS
+* Pluribus Netvisor, SLX-OS, FRR, WeOS
 
 
 https://docs.ansible.com/projects/ansible/latest/collections/index.html
+
+
+#### Ansible can configure, provision, and manage several major hypervisors and virtualization platforms
+
+Ansible can configure, provision, and manage several major hypervisors and virtualization platforms using official or community-supported Ansible collections.
+
+
+Supported and Configurable Hypervisors
+
+VMware (vSphere / ESXi / vCenter)
+
+* Collection: community.vmware (or certified vmware.vmware / vmware.ansible_vcenter_plugin suites)
+* Capabilities: Provision, clone, power on/off, reconfigure VMs, manage datastores, networks, and dynamic inventories.
+
+Proxmox VE (Virtual Environment)
+
+* Collection: community.proxmox
+* Capabilities: Create, start, stop, delete, and configure KVM virtual machines and LXC containers.
+
+Microsoft Hyper-V & SCVMM
+
+* Collection: microsoft.hyperv and microsoft.scvmm
+* Capabilities: Provision VMs, manage virtual processors, memory, network adapters, and Windows-specific guest configurations via PowerShell Direct.
+
+KVM / Libvirt (Linux Kernel-based Virtual Machine)
+
+* Collection: community.libvirt (e.g., community.libvirt.virt_install)
+* Capabilities: Declare and provision virtual machines via libvirt and qemu.
+
+Amazon EC2 / Cloud Hypervisors (AWS, Azure, GCP, etc.)
+
+* Collection: amazon.aws, azure.azcollection, google.cloud
+* Capabilities: Manage cloud-native instances running on underlying hypervisor fleets.
+
+You can browse and install these modules via the Ansible Community Documentation Index or Ansible Galaxy.
+
+Ansible Community Documentation
+
+https://docs.ansible.com/projects/ansible/latest/collections/index.html
+
+Ansible Galaxy
+
+https://galaxy.ansible.com/ui/
+
+
+
 
 
 # Back to scenario
