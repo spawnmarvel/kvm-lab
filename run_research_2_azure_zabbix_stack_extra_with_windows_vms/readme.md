@@ -1028,6 +1028,8 @@ Vm mysql01 created 10.68.68.6
 
 * Create zabbix02
 
+![vms all](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/vms_all.png)
+
 ## Structure inventory/hosts.ini and align all configurations
 
 ## Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore
