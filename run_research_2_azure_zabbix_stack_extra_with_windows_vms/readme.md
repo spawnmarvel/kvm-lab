@@ -22,6 +22,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
       - [Red Hat Ansible Automation Platform Overview:](#red-hat-ansible-automation-platform-overview)
       - [This module is able to configure a FortiGate or FortiOS (FOS) device](#this-module-is-able-to-configure-a-fortigate-or-fortios-fos-device)
       - [Ansible Network Examples](#ansible-network-examples)
+      - [Ansible can configure and manage network switches from a wide variety of hardware vendors using specialized](#ansible-can-configure-and-manage-network-switches-from-a-wide-variety-of-hardware-vendors-using-specialized)
 - [Back to scenario](#back-to-scenario)
   - [Firewal and practical information](#firewal-and-practical-information)
   - [Whitelisted repo for ansiblectr01](#whitelisted-repo-for-ansiblectr01)
@@ -167,6 +168,35 @@ https://docs.ansible.com/projects/ansible/latest/collections/fortinet/fortios/fo
 This document describes some examples of using Ansible to manage your network infrastructure.
 
 https://docs.ansible.com/projects/ansible/latest/network/user_guide/network_best_practices_2.5.html
+
+#### Ansible can configure and manage network switches from a wide variety of hardware vendors using specialized
+
+
+Major Supported Switch Platforms
+
+• Cisco:
+	• Cisco IOS / IOS-XE (cisco.ios) – Standard Catalyst and classic switches.
+	• Cisco NX-OS (cisco.nxos) – Nexus data center switches.
+	• Cisco IOS-XR (cisco.iosxr) – Carrier-grade/edge switches.
+	• Cisco Meraki (cisco.meraki) – Cloud-managed switches.
+• Arista:
+	• Arista EOS (arista.eos) – Extensible Operating System switches.
+• Juniper:
+	• Juniper Junos OS (junipernetworks.junos) – Enterprise and data center switches.
+• Dell:
+	• Dell OS6, OS9, OS10 / PowerSwitch (dell.os6, dell.os9, dell.os10).
+• Aruba / HP:
+	• Aruba / ProCurve / Comware (via community and vendor modules).
+• Other Vendors & Operating Systems:
+	• VyOS (vyos.vyos)
+	• Nokia SR OS (nokia.sros)
+	• Extreme Networks (EXOS, VOSS, IronWare)
+	• Huawei CloudEngine (CE)
+	• MikroTik RouterOS
+	• Pluribus Netvisor, SLX-OS, FRR, WeOS
+
+
+https://docs.ansible.com/projects/ansible/latest/collections/index.html
 
 
 # Back to scenario
