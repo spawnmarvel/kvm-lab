@@ -43,6 +43,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Structure inventory/hosts.ini and align all configurations](#structure-inventoryhostsini-and-align-all-configurations)
     - [Add ssh keys for new hosts](#add-ssh-keys-for-new-hosts)
   - [Playbook linux ping\_hosts.yml update hosts](#playbook-linux-ping_hostsyml-update-hosts)
+  - [Run linux ping\_hosts.yml Semaphore](#run-linux-ping_hostsyml-semaphore)
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
 - [Playbooks with Ansible](#playbooks-with-ansible)
   - [Playbook linux verify\_isolation.yml only ansiblectr01 has outbound internet](#playbook-linux-verify_isolationyml-only-ansiblectr01-has-outbound-internet)
@@ -1118,6 +1119,12 @@ Ping all inventory hosts -------------------------------------------------------
 PLAYBOOK RECAP *********************************************************************************************************
 Playbook run took 0 days, 0 hours, 0 minutes, 1 seconds
 ```
+
+## Run linux ping_hosts.yml Semaphore
+
+It automatically picks up all our new hosts.
+
+![ping_sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ping_sema.png)
 
 ## Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore
 
