@@ -10,6 +10,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Team 1](#team-1)
   - [Team 2 starts with ansiblectr01](#team-2-starts-with-ansiblectr01)
   - [Topology](#topology)
+  - [Ansible](#ansible)
   - [Vnet and subnet](#vnet-and-subnet)
   - [VM's Azure Retirement of default outbound access: scope and impact](#vms-azure-retirement-of-default-outbound-access-scope-and-impact)
   - [Virtual machines in Rg-swc-ansiblestack-01](#virtual-machines-in-rg-swc-ansiblestack-01)
@@ -57,7 +58,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 
 Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. 
 
-Day-2 automation begins immediately after IP and credential handover.
+Day-2 automation begins immediately after IP and credential handover, set up stack with Ansible.
 
 ## Team 1
 
@@ -72,6 +73,12 @@ Day-2 automation begins immediately after IP and credential handover.
 This is the final set up (ip may change but the concept is the same)
 
 ![topology](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/topology.png)
+
+## Ansible
+
+![ansible1](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ansible1.png)
+
+https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
 
 
 ## Vnet and subnet
