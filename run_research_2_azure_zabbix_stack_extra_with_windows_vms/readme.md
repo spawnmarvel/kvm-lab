@@ -15,6 +15,9 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [Ansible cheat sheet](#ansible-cheat-sheet)
     - [Ansible quick guide](#ansible-quick-guide)
     - [Ansible and Red Hat](#ansible-and-red-hat)
+      - [Official Ansible Documentation Portal](#official-ansible-documentation-portal)
+      - [Introduction to Ansible Guide: Ansible Introduction \& Use Cases](#introduction-to-ansible-guide-ansible-introduction--use-cases)
+      - [Red Hat Ansible Automation Platform Overview:](#red-hat-ansible-automation-platform-overview)
 - [Firewal and practical information](#firewal-and-practical-information)
   - [Whitelisted repo for ansiblectr01](#whitelisted-repo-for-ansiblectr01)
   - [Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#firewall-rule-matrix-purdue--isa-95-architecture)
@@ -118,6 +121,27 @@ https://github.com/spawnmarvel/kvm-lab/blob/main/ansible_quickguide.md
 
 
 ![ansible_circle](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/ansible_circle.png)
+
+
+#### Official Ansible Documentation Portal
+
+The primary hub for getting started, understanding core concepts (inventories, playbooks, modules), and managing managed nodes.
+
+https://docs.ansible.com/
+
+#### Introduction to Ansible Guide: Ansible Introduction & Use Cases
+
+Covers the foundational design principles (agentless architecture, idempotency, and supported workflows).
+
+https://docs.ansible.com/projects/ansible/latest/getting_started/introduction.html
+
+
+#### Red Hat Ansible Automation Platform Overview:
+
+
+Details enterprise-grade execution, multi-vendor network automation, cloud provisioning, and orchestration features.
+
+https://www.redhat.com/en/technologies/management/ansible
 
 
 # Firewal and practical information
