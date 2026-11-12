@@ -54,7 +54,7 @@ Learning kvm linux and ansible
   - [research\_1\_IT-OT\_zabbix\_stack and why use ansible = 100%](#research_1_it-ot_zabbix_stack-and-why-use-ansible--100)
   - [lab\_3\_ansible/tutorial\_ansible install and recap = 50%](#lab_3_ansibletutorial_ansible-install-and-recap--50)
   - [run\_research\_1\_IT-OT\_zabbix\_stack= 60 %](#run_research_1_it-ot_zabbix_stack-60-)
-  - [Other researches may be added](#other-researches-may-be-added)
+  - [run\_research\_2\_azure\_zabbix\_stack\_extra\_with\_windows\_vms 🏃 fast track](#run_research_2_azure_zabbix_stack_extra_with_windows_vms--fast-track)
 
 ## Kernel Virtual Machine
 
@@ -1456,16 +1456,10 @@ Scenario:
 2. Automate day 2 and all other days = 
 
 
-## Other researches may be added
+## run_research_2_azure_zabbix_stack_extra_with_windows_vms 🏃 fast track
 
-Other researches may be added like.
+For a fast track to the same scenario but instead of Linux kernel virtal machines in KVM we use Azure and build the same lab.
 
-* Azure and Ansible
-* Zabbix appliance provides a way to instantly deploy Zabbix server and frontend, instead of setting them up manually or reusing an existing server for Zabbix.
-* .etc
-
-
-View folders that start with run_
 
 
 

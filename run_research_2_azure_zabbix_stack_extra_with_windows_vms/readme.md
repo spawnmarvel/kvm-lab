@@ -1,11 +1,12 @@
 # Ansible stack in Azure
 
-Do the same as with KVM, Kernel Virtual Machine for repetions and demo online
+Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 
 
 ## Table of content
 - [Ansible stack in Azure](#ansible-stack-in-azure)
   - [Table of content](#table-of-content)
+  - [Scenario](#scenario)
   - [Topology](#topology)
   - [Vnet and subnet](#vnet-and-subnet)
   - [VM's Azure Retirement of default outbound access: scope and impact](#vms-azure-retirement-of-default-outbound-access-scope-and-impact)
@@ -43,6 +44,16 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online
   - [Playbook mount\_datadrive\_check.yml --check --limit](#playbook-mount_datadrive_checkyml---check---limit)
   - [Playbook mount\_datadrive.yml](#playbook-mount_datadriveyml)
 
+
+## Scenario
+
+1. Day 1: Team 1 build infrastucture and data center.
+2. Day 2 to day 3: Team 2 install monitoring stack with Ansible
+3. Day 3 to day n: Team 2 automate install, update and support operations with ansible.
+
+Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. 
+
+Day-2 automation begins immediately after IP and credential handover.
 
 ## Topology
 
