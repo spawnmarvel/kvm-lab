@@ -39,7 +39,9 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online
   - [Structure inventory/hosts.ini](#structure-inventoryhostsini)
   - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
 - [Playbooks with Ansible / do the rest with cli](#playbooks-with-ansible--do-the-rest-with-cli)
-  - [](#)
+  - [Playbook verify\_isolation.yml](#playbook-verify_isolationyml)
+  - [Playbook mount\_datadrive\_check.yml --check --limit](#playbook-mount_datadrive_checkyml---check---limit)
+  - [Playbook mount\_datadrive.yml](#playbook-mount_datadriveyml)
 
 
 ## Topology
@@ -1019,7 +1021,53 @@ Verification: Launching this template automatically applies the limit without re
   
 # Playbooks with Ansible / do the rest with cli
 
-## 
+## Playbook verify_isolation.yml
+
+```bash
+azureuser@ansiblectr01:~/io_ot_lab
+
+cd io_ot_lab/
+
+# if the play is ok, remove --check with --diff and or --limit
+
+# Version: 1.2.0
+# Description: Verifies network isolation by checking if managed nodes can reach www.google.com.
+ansible-playbook -i inventory/hosts.ini playbooks/verify_isolation.ym
+
+```
+
+log
+```console
+PLAY [Verify Internet Isolation on Managed Nodes] **********************************************************************
+
+TASK [Attempt connection to public internet destination] ***************************************************************
+Thursday 12 November 2026  07:32:04 +0000 (0:00:00.045)       0:00:00.045 *****
+ok: [zabbix01]
+
+TASK [Assert that external internet connection failed] *****************************************************************
+Thursday 12 November 2026  07:32:47 +0000 (0:00:42.245)       0:00:42.291 *****
+ok: [zabbix01] => {
+    "changed": false,
+    "msg": "Isolation verified: Host cannot reach the public internet directly."
+}
+
+PLAY RECAP *************************************************************************************************************
+zabbix01                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+TASKS RECAP ************************************************************************************************************
+Thursday 12 November 2026  07:32:47 +0000 (0:00:00.064)       0:00:42.355 *****
+===============================================================================
+Attempt connection to public internet destination -------------------------------------------------------------- 42.25s
+Assert that external internet connection failed ----------------------------------------------------------------- 0.06s
+
+PLAYBOOK RECAP *********************************************************************************************************
+```
+
+## Playbook mount_datadrive_check.yml --check --limit
+
+## Playbook mount_datadrive.yml
+
 
 
 
