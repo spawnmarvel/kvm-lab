@@ -1216,6 +1216,17 @@ Verification: Launching this template automatically applies the limit without re
 
 ![stats2](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/stats2.png)
 
+
+Semaphore does not include a real-time monitoring dashboard or continuous health-status tracking for hosts. Because Semaphore is an automation and orchestration platform rather than a monitoring system, it evaluates host status based on playbook execution results.
+
+Host statuses and health are tracked and viewed in Semaphore through specific mechanisms:
+
+* Task Execution Recaps: Every time you run a playbook template (such as ping_hosts.yml or update_apt.yml), Semaphore captures the standard Ansible output. In the task log, you can view the PLAY RECAP for every run, which explicitly reports whether each host returned ok, changed, unreachable, or failed.
+
+* Inventory Inspection: You can view your configured static inventory (hosts.ini) and check which hosts are mapped under your projects, but this displays configuration definitions rather than live operational metrics.
+
+For continuous real-time host status, performance metrics, and alerting in your lab architecture, that role is handled by your Zabbix infrastructure (zabbix01 and zabbix02), while Semaphore handles running on-demand or scheduled automation playbooks.
+
 # Playbooks with Ansible (Now we can really start)
 
 Now all the configuration and setup is done
