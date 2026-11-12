@@ -14,6 +14,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [Ansible idempotent](#ansible-idempotent)
     - [Ansible cheat sheet](#ansible-cheat-sheet)
     - [Ansible quick guide](#ansible-quick-guide)
+- [Firewal and practical information](#firewal-and-practical-information)
   - [Whitelisted repo for ansiblectr01](#whitelisted-repo-for-ansiblectr01)
   - [Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#firewall-rule-matrix-purdue--isa-95-architecture)
   - [Vnet and subnet](#vnet-and-subnet)
@@ -109,6 +110,7 @@ The quick guide will also be updated as we go.
 
 https://github.com/spawnmarvel/kvm-lab/blob/main/ansible_quickguide.md
 
+# Firewal and practical information
 
 ## Whitelisted repo for ansiblectr01
 
