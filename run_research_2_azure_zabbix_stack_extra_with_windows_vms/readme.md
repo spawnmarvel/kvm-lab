@@ -1068,6 +1068,8 @@ Assert that external internet connection failed --------------------------------
 PLAYBOOK RECAP *********************************************************************************************************
 ```
 
+Success
+
 ![4_playbooks](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/4_playbooks.png)
 
 ## Playbook mount_datadrive_check.yml --check --limit
