@@ -1,6 +1,6 @@
 ---
-# Version: 1.0.0
-# Description: Updates package cache and safely upgrades system packages across managed nodes using the APT proxy.
+# Version: 1.1.0
+# Description: Updates package cache, safely upgrades system packages, and displays upgrade counts and details.
 
 - name: Update and Upgrade System Packages
   hosts: ot_nodes:idmz_nodes
@@ -14,3 +14,12 @@
     - name: Perform a safe upgrade of installed packages
       ansible.builtin.apt:
         upgrade: safe
+      register: apt_upgrade_result
+
+    - name: Display upgrade results summary
+      ansible.builtin.debug:
+        msg: >
+          Host {{ inventory_hostname }} upgrade status:
+          Changed: {{ apt_upgrade_result.changed }}
+          Upgraded packages count: {{ apt_upgrade_result.get('upgraded', []) | length }}
+          Upgraded packages list: {{ apt_upgrade_result.get('upgraded', []) | join(', ') if apt_upgrade_result.get('upgraded', []) | length > 0 else 'None' }}
