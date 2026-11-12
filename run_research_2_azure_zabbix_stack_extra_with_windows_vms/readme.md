@@ -42,8 +42,11 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
   - [Structure inventory/hosts.ini and align all configurations](#structure-inventoryhostsini-and-align-all-configurations)
     - [Add ssh keys for new hosts](#add-ssh-keys-for-new-hosts)
-  - [Playbook linux ping\_hosts.yml update hosts](#playbook-linux-ping_hostsyml-update-hosts)
+    - [Playbook linux yml update hosts and verify current templates](#playbook-linux-yml-update-hosts-and-verify-current-templates)
   - [Run linux ping\_hosts.yml Semaphore](#run-linux-ping_hostsyml-semaphore)
+    - [Playbook Linux verify\_isolation.yml](#playbook-linux-verify_isolationyml)
+    - [Playbook Linux configure\_apt\_proxy.yml](#playbook-linux-configure_apt_proxyyml-1)
+    - [Playbook Linux update\_apt.yml patch all hosts with one click](#playbook-linux-update_aptyml-patch-all-hosts-with-one-click)
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
 - [Playbooks with Ansible](#playbooks-with-ansible)
   - [Playbook linux verify\_isolation.yml only ansiblectr01 has outbound internet](#playbook-linux-verify_isolationyml-only-ansiblectr01-has-outbound-internet)
@@ -1074,7 +1077,9 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub azureuser@10.68.20.4
 ssh azureuser@10.68.20.4
 ```
 
-## Playbook linux ping_hosts.yml update hosts
+### Playbook linux yml update hosts and verify current templates
+
+Update all templates with more hosts since we have added.
 
 hosts: ot_nodes
 
@@ -1129,6 +1134,28 @@ Playbook run took 0 days, 0 hours, 0 minutes, 1 seconds
 It automatically picks up all our new hosts.
 
 ![sema ping](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/sema_ping.png)
+
+### Playbook Linux verify_isolation.yml
+
+verify isolation no internet for linux
+
+![verify_iso](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/verify_iso.png)
+
+
+### Playbook Linux configure_apt_proxy.yml
+
+Now run cofigure proxy to apply to new nodes
+
+![conf_proxy_new](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/conf_proxy_new.png)
+
+
+### Playbook Linux update_apt.yml patch all hosts with one click
+
+Now update all servers with the apt playbook.
+
+![one_click_update](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/one_click_update.png)
+
+
 
 ## Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore
 
