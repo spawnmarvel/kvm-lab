@@ -1291,7 +1291,6 @@ Now all the configuration and setup is done
 
 ```mermaid
 graph TD
-   graph TD
     subgraph Zone1 ["External Access public ip"]
         Internet["INTERNET<br/>(EXTERNAL REPOSITORIES)"]
     end
@@ -1330,9 +1329,6 @@ graph TD
     ansiblectr01 -.->|APT Cache TCP 3142| zabbix02
     ansiblectr01 -.->|TCP 22 Ansible Playbook| zabbix02
     zabbix01 -.->|TCP 10051 Active Push| zabbix02
-
-   
-
 ```
 
 ## Playbook get_linux_version.yml
