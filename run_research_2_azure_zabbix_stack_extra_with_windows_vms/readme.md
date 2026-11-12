@@ -38,9 +38,9 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
     - [update\_apt.yml](#update_aptyml)
   - [Topology at this stage](#topology-at-this-stage)
 - [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
-  - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
   - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
   - [Structure inventory/hosts.ini and align all configurations](#structure-inventoryhostsini-and-align-all-configurations)
+  - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
 - [Playbooks with Ansible](#playbooks-with-ansible)
   - [Playbook verify\_isolation.yml only ansiblectr01 has outbound internet](#playbook-verify_isolationyml-only-ansiblectr01-has-outbound-internet)
   - [Playbook mount\_datadrive\_check.yml --check --limit](#playbook-mount_datadrive_checkyml---check---limit)
@@ -1006,6 +1006,13 @@ This is the final set up (ip may change but the concept is the same)
 
 # Set up the rest of the stack
 
+## Create mysql01 and zabbix02
+
+* Create mysql01 and add a extra datadisk with 20 GB
+* Create zabbix02
+
+## Structure inventory/hosts.ini and align all configurations
+
 ## Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore
 
 ```bash
@@ -1034,12 +1041,6 @@ In Semaphore, templates are designed to be reusable workflows. Rather than manua
 
 Verification: Launching this template automatically applies the limit without requiring manual command-line flags.
 
-## Create mysql01 and zabbix02
-
-* Create mysql01 and add a extra datadisk with 20 GB
-* Create zabbix02
-
-## Structure inventory/hosts.ini and align all configurations
 
 
 
