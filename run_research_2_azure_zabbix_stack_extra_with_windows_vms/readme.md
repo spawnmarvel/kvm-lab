@@ -878,6 +878,8 @@ now that Apache is handling SSL termination on port 443 and securely proxying tr
 
 ## Setup Ansible ansiblectr01 with Semaphore
 
+* Playbooks live locally: You write, edit, and store your .yml playbook files directly in your local directory on the controller node (/home/azureuser/io_ot_lab/playbooks/).
+* Semaphore links to them: Semaphore reads those local files (or your connected Git repository) and provides the buttons, access keys, inventory mappings, and web triggers to execute them.
 
 Next Steps in the Web Interface
 
