@@ -7,6 +7,8 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 - [Ansible stack in Azure](#ansible-stack-in-azure)
   - [Table of content](#table-of-content)
   - [Scenario](#scenario)
+  - [Team 1](#team-1)
+  - [Team 2 starts with ansiblectr01](#team-2-starts-with-ansiblectr01)
   - [Topology](#topology)
   - [Vnet and subnet](#vnet-and-subnet)
   - [VM's Azure Retirement of default outbound access: scope and impact](#vms-azure-retirement-of-default-outbound-access-scope-and-impact)
@@ -54,6 +56,14 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 Datacenter Handover: The datacenter build team manually provisions clean Ubuntu 26.04 and Windows Server VMs via GUI. 
 
 Day-2 automation begins immediately after IP and credential handover.
+
+## Team 1
+
+![haha_2](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha_2.png)
+
+## Team 2 starts with ansiblectr01
+
+![haha](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha.png)
 
 ## Topology
 

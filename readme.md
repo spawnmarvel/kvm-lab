@@ -1464,3 +1464,4 @@ For a fast track to the same scenario but instead of Linux kernel virtal machine
 
 
 
+https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/readme.md
