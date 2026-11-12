@@ -19,6 +19,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
       - [Ansible provides open-source automation that reduces complexity and runs everywhere.](#ansible-provides-open-source-automation-that-reduces-complexity-and-runs-everywhere)
       - [Introduction to Ansible Guide: Ansible Introduction \& Use Cases](#introduction-to-ansible-guide-ansible-introduction--use-cases)
       - [Red Hat Ansible Automation Platform Overview:](#red-hat-ansible-automation-platform-overview)
+      - [This module is able to configure a FortiGate or FortiOS (FOS) device](#this-module-is-able-to-configure-a-fortigate-or-fortios-fos-device)
 - [Firewal and practical information](#firewal-and-practical-information)
   - [Whitelisted repo for ansiblectr01](#whitelisted-repo-for-ansiblectr01)
   - [Firewall Rule Matrix (Purdue / ISA-95 Architecture)](#firewall-rule-matrix-purdue--isa-95-architecture)
@@ -149,6 +150,11 @@ Details enterprise-grade execution, multi-vendor network automation, cloud provi
 
 https://www.redhat.com/en/technologies/management/ansible
 
+#### This module is able to configure a FortiGate or FortiOS (FOS) device
+
+This module is able to configure a FortiGate or FortiOS (FOS) device by allowing the user to set and modify system feature and interface category. Examples include all parameters and values need to be adjusted to datasources before usage. Tested with FOS v6.0.0
+
+https://docs.ansible.com/projects/ansible/latest/collections/fortinet/fortios/fortios_system_interface_module.html
 
 # Firewal and practical information
 
