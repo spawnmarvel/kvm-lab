@@ -9,7 +9,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Scenario](#scenario)
   - [Team 1](#team-1)
   - [Team 2 starts with ansiblectr01](#team-2-starts-with-ansiblectr01)
-  - [Topology](#topology)
+- [1. Topology](#1-topology)
   - [Ansible](#ansible)
     - [Ansible idempotent](#ansible-idempotent)
     - [Ansible cheat sheet](#ansible-cheat-sheet)
@@ -42,7 +42,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Playbooks linux Semaphore run](#playbooks-linux-semaphore-run)
     - [linux ping\_hosts.yml](#linux-ping_hostsyml)
     - [linux update\_apt.yml](#linux-update_aptyml)
-  - [Topology at this stage](#topology-at-this-stage)
+- [2. Topology at this stage](#2-topology-at-this-stage)
 - [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
   - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
   - [No outbound to internet](#no-outbound-to-internet)
@@ -56,7 +56,7 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
   - [Semaphore statistic](#semaphore-statistic)
 - [Playbooks with Ansible (Now we can really start)](#playbooks-with-ansible-now-we-can-really-start)
-  - [Topology at this stage](#topology-at-this-stage-1)
+  - [3. Topology at this stage](#3-topology-at-this-stage)
   - [Playbook get\_linux\_version.yml](#playbook-get_linux_versionyml)
   - [Playbook linux mount\_datadrive\_check.yml --check --limit](#playbook-linux-mount_datadrive_checkyml---check---limit)
   - [Playbook linux mount\_datadrive.yml](#playbook-linux-mount_datadriveyml)
@@ -83,7 +83,7 @@ Day-2 automation begins immediately after IP and credential handover, set up sta
 
 ![haha](https://github.com/spawnmarvel/kvm-lab/blob/main/images/haha.png)
 
-## Topology
+# 1. Topology
 
 This is the final set up (ip may change but the concept is the same)
 
@@ -1034,7 +1034,7 @@ Status for playbooks
 ![status sema](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/status_sema.png)
 
 
-## Topology at this stage
+# 2. Topology at this stage
 
 ```mermaid
 graph TD
@@ -1287,7 +1287,7 @@ Now all the configuration and setup is done
 * Linux updates with apt cacher ng works
 * All nodes are isolated with no internet access
 
-## Topology at this stage
+## 3. Topology at this stage
 
 ```mermaid
 graph TD
