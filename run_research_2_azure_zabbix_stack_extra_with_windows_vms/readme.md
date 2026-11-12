@@ -41,6 +41,8 @@ Do the same as with KVM, Kernel Virtual Machine for repetions and demo online.
 - [Set up the rest of the stack](#set-up-the-rest-of-the-stack)
   - [Create mysql01 and zabbix02](#create-mysql01-and-zabbix02)
   - [Structure inventory/hosts.ini and align all configurations](#structure-inventoryhostsini-and-align-all-configurations)
+    - [Add ssh keys for new hosts](#add-ssh-keys-for-new-hosts)
+  - [Playbook linux ping\_hosts.yml update hosts](#playbook-linux-ping_hostsyml-update-hosts)
   - [Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore](#playbook-configure-a-dedicated-template-per-hostgroup-recommended-in-semaphore)
 - [Playbooks with Ansible](#playbooks-with-ansible)
   - [Playbook linux verify\_isolation.yml only ansiblectr01 has outbound internet](#playbook-linux-verify_isolationyml-only-ansiblectr01-has-outbound-internet)
@@ -1031,6 +1033,91 @@ Vm mysql01 created 10.68.68.6
 ![vms all](https://github.com/spawnmarvel/kvm-lab/blob/main/run_research_2_azure_zabbix_stack_extra_with_windows_vms/images/vms_all.png)
 
 ## Structure inventory/hosts.ini and align all configurations
+
+```ini
+[idmz_nodes]
+zabbix01 ansible_host=10.68.68.5 ansible_user=azureuser  ansible_python_interpreter=/usr/bin/python3.14
+mysql01 ansible_host=10.68.68.6 ansible_user=azureuser  ansible_python_interpreter=/usr/bin/python3.14
+
+[ot_nodes]
+zabbix02 ansible_host=10.68.20.4 ansible_user=azureuser
+
+[idmz_nodes:vars]
+ansible_connection=ssh
+
+[ot_nodes:vars]
+ansible_connection=ssh
+
+[all:vars]
+ansible_python_interpreter=auto_silent
+
+
+```
+
+### Add ssh keys for new hosts
+
+```bash
+
+# Copy SSH Public Key to mysql01
+ssh-copy-id -i ~/.ssh/id_rsa.pub azureuser@10.68.68.6
+
+ssh azureuser@10.68.68.6
+
+# Copy SSH Public Key to zabbix02
+ssh-copy-id -i ~/.ssh/id_rsa.pub azureuser@10.68.20.4
+
+ssh azureuser@10.68.20.4
+```
+
+## Playbook linux ping_hosts.yml update hosts
+
+hosts: ot_nodes
+
+Update
+
+hosts: ot_nodes:idmz_nodes
+```yml
+---
+# Version: 1.0.1
+# Description: Ping validation playbook with privilege escalation explicitly disabled
+
+- name: Verify Connectivity Across Purdue Lab Nodes
+  hosts: ot_nodes:idmz_nodes
+```
+
+Run it
+
+```bash
+azureuser@ansiblectr01:~/io_ot_lab
+
+ansible-playbook -i inventory/hosts.ini playbooks/ping_hosts.yml
+```
+
+log
+
+```console
+PLAY [Verify Connectivity Across Purdue Lab Nodes] *********************************************************************
+
+TASK [Ping all inventory hosts] ****************************************************************************************
+Thursday 12 November 2026  08:51:31 +0000 (0:00:00.011)       0:00:00.011 *****
+ok: [mysql01]
+ok: [zabbix01]
+ok: [zabbix02]
+
+PLAY RECAP *************************************************************************************************************
+mysql01                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix01                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+zabbix02                   : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+TASKS RECAP ************************************************************************************************************
+Thursday 12 November 2026  08:51:32 +0000 (0:00:01.167)       0:00:01.178 *****
+===============================================================================
+Ping all inventory hosts ---------------------------------------------------------------------------------------- 1.17s
+
+PLAYBOOK RECAP *********************************************************************************************************
+Playbook run took 0 days, 0 hours, 0 minutes, 1 seconds
+```
 
 ## Playbook Configure a Dedicated Template per Host/Group (Recommended) in Semaphore
 
