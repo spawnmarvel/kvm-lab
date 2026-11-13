@@ -1,13 +1,19 @@
 ---
-# Version: 3.4.1
-# Author: aspen
-# Description: Inspects block devices, creates a primary partition on sda, formats as ext4, and persistently mounts to /var/lib/mysql on db_servers.
+# Version: 3.6.1
+# Description: Dynamically inspects, partitions, formats, and persistently mounts a secondary storage device to a configurable directory for database servers.
 
-- name: Inspect, configure, and mount secondary data drive
+- name: Inspect, configure, and mount dynamic data drive
   hosts: db_servers
   gather_facts: true
   become: true
   tasks:
+    - name: Ensure required variables are defined
+      ansible.builtin.assert:
+        that:
+          - data_device is defined
+          - data_dir is defined
+        fail_msg: "Both 'data_device' and 'data_dir' must be defined for this host in the inventory."
+
     - name: Gather block device information with size
       ansible.builtin.command: lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS
       register: block_devices
@@ -18,28 +24,28 @@
       ansible.builtin.debug:
         msg: "{{ block_devices.stdout_lines }}"
 
-    - name: Create primary partition on sda
+    - name: Create primary partition on target device
       community.general.parted:
-        device: /dev/sda
+        device: "{{ data_device }}"
         number: 1
         state: present
         fs_type: ext4
 
-    - name: Create ext4 filesystem on sda1
+    - name: Create ext4 filesystem on target partition
       ansible.builtin.filesystem:
         fstype: ext4
-        dev: /dev/sda1
+        dev: "{{ data_device }}1"
 
     - name: Ensure mount point directory exists
       ansible.builtin.file:
-        path: /var/lib/mysql
+        path: "{{ data_dir }}"
         state: directory
         mode: '0755'
 
     - name: Mount secondary drive persistently
       ansible.builtin.mount:
-        path: /var/lib/mysql
-        src: /dev/sda1
+        path: "{{ data_dir }}"
+        src: "{{ data_device }}1"
         fstype: ext4
         opts: defaults
         state: mounted

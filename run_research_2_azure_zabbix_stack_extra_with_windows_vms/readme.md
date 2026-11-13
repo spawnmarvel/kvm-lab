@@ -1592,6 +1592,18 @@ Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
 ## Playbook linux mount_datadrive.yml
 
 
+To make the playbook generic we update hosts.ini after we have run the mount_datadrive_check.yml, then we get the drive name, it may vary.
+
+We need 2 new vars in hosts.ini:
+
+* data_device=/dev/sda
+* data_dir=/var/lib/mysql
+
+```ini
+[db_servers]
+mysql01 ansible_host=10.68.68.6 ansible_user=azureuser ansible_python_interpreter=/usr/bin/python3.14 data_device=/dev/sda data_dir=/var/lib/mysql
+```
+
 ```bash
 azureuser@ansiblectr01:~/io_ot_lab
 
