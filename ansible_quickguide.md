@@ -22,6 +22,7 @@
   - [Playbooks --check with --diff and or --limit and or --syntax-check and or --vvv](#playbooks---check-with---diff-and-or---limit-and-or---syntax-check-and-or---vvv)
   - [Semaphore UI](#semaphore-ui)
   - [10 habits of great Ansible users](#10-habits-of-great-ansible-users)
+    - [8. Understand the serial keyword for rolling updates](#8-understand-the-serial-keyword-for-rolling-updates)
 
 ## azure-ansibel quickguide back in 2023
 
@@ -188,7 +189,7 @@ Whether you're writing playbooks, maintaining inventory, or executing tasks, her
 5. Troubleshoot on execution
 6. Use block syntax
 7. Use a separate inventory file for staging and production
-8. Understand the serial keyword for rolling updates
+### 8. Understand the serial keyword for rolling updates
 9. Use native modules when possible
 10. Keep debugging messages clean
 
